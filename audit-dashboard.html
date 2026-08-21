@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Audit AI · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: {
+      border: "hsl(var(--border))", background: "hsl(var(--background))", foreground: "hsl(var(--foreground))",
+      primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+      muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+      accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+      card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+    },
+    fontFamily: { display: ["Sora","sans-serif"], body: ["Inter","sans-serif"] },
+  } } }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* ── Audit console — spec 07, motion locked Round 13 ── */
+  .console {
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transition: height var(--dur-slow) var(--ease-spring),
+                box-shadow var(--dur-slow) var(--ease-spring);
+    height: 208px;
+  }
+  @media (min-width: 640px) { .console { height: 172px; } }
+  .console.is-expanded { height: calc(100vh - 64px - 48px); box-shadow: var(--shadow-lg); }
+  .console-rest { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .console-full { display: none; flex-direction: column; height: 100%; min-height: 0; }
+  .console.is-expanded .console-rest { display: none; }
+  .console.is-expanded .console-full { display: flex; }
+
+  .console-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px; border-bottom: 1px solid #E9EFF3; flex-shrink: 0;
+  }
+  .thread { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+  .composer { border-top: 1px solid #E9EFF3; padding: 14px 20px; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+  .msg { max-width: 780px; }
+  .msg-user { align-self: flex-end; background: hsl(var(--sidebar-accent)); color: hsl(205 100% 27%); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; }
+  .msg-ai { align-self: flex-start; width: 100%; }
+
+  /* analytics wrapper — leads out, follows back in */
+  .analytics {
+    transition: opacity var(--dur-base) var(--ease-out),
+                transform var(--dur-base) var(--ease-out);
+  }
+  .analytics.is-hidden { opacity: 0; transform: translateY(16px); pointer-events: none; overflow: hidden; }
+
+  .tab { font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: var(--radius); color: hsl(var(--muted-foreground)); cursor: pointer; transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+  .tab:hover { background: #F0F6F9; }
+  .tab.active { background: hsl(var(--sidebar-accent)); color: hsl(205 100% 27%); font-weight: 600; }
+
+  .src { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 11px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid #DFE7EC; background: #fff; color: hsl(var(--muted-foreground)); transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+  .src:hover { border-color: #93CCE9; }
+  .src.on { background: hsl(var(--sidebar-accent)); border-color: #93CCE9; color: hsl(205 100% 27%); font-weight: 600; }
+  .src.off-conn { opacity: .55; }
+  .src .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+
+  .computed-pill { display: inline-flex; align-items: center; gap: 5px; background: hsl(var(--sidebar-accent)); color: hsl(205 100% 27%); border-radius: 999px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+  .chip-suggest { cursor: pointer; transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+  .chip-suggest:hover { background: hsl(var(--sidebar-accent)); border-color: #93CCE9; }
+  .spinner { width: 12px; height: 12px; border: 2px solid #C7E5F4; border-top-color: #0077B5; border-radius: 999px; animation: btn-spin .8s linear infinite; display: inline-block; }
+</style>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-6">
+
+      <!-- ══════════ AUDIT CONSOLE ══════════ -->
+      <section id="console" class="console">
+
+        <!-- resting -->
+        <div class="console-rest">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="font-display text-[15px] font-semibold" style="color:hsl(var(--ink))">What should I look at today?</p>
+              <p class="text-[12px] mt-0.5" style="color:hsl(var(--muted-foreground))">Audit AI reads your connected sources and answers in plain language.</p>
+            </div>
+            <a href="#" class="hidden sm:flex items-center gap-2 rounded-[10px] px-3 py-2" style="background:hsl(var(--sidebar-accent))">
+              <span class="font-display text-[17px] font-bold" style="color:hsl(205 100% 27%)">B+</span>
+              <span class="text-[11px] leading-tight" style="color:hsl(205 100% 27%)">Last audit<br>78 · 12 days ago</span>
+            </a>
+          </div>
+          <div class="flex gap-2">
+            <input id="rest-input" class="eb-input flex-1" placeholder="Ask about your business, or paste a website to audit">
+            <button class="btn btn-primary" onclick="expand()">Ask</button>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <span class="chip chip-suggest" onclick="ask('Compare my Instagram and Google Ads performance')">Compare Instagram and Google Ads</span>
+            <span class="chip chip-suggest" onclick="ask('Which clients are overdue and why?')">Which clients are overdue?</span>
+            <span class="chip chip-suggest" onclick="ask('Audit my website')">Audit my website</span>
+            <span class="chip chip-suggest" onclick="ask('Where am I losing money this month?')">Where am I losing money?</span>
+          </div>
+        </div>
+
+        <!-- expanded -->
+        <div class="console-full">
+          <div class="console-head">
+            <span class="font-display text-[15px] font-semibold" style="color:hsl(var(--ink))">Audit AI</span>
+            <span id="status-pill" class="pill pill-blue"><span class="pill-dot"></span>Ready</span>
+            <span id="head-sources" class="text-[11px] hidden sm:inline" style="color:hsl(var(--muted-foreground))"></span>
+            <span class="flex-1"></span>
+            <span class="text-[11px] hidden sm:inline" style="color:hsl(var(--muted-foreground))">2 credits per question</span>
+            <button class="btn btn-ghost" style="padding:6px 12px" onclick="collapse()">Collapse <span class="text-[10px] ml-1 opacity-60">Esc</span></button>
+          </div>
+
+          <div id="thread" class="thread"></div>
+
+          <div class="composer">
+            <button class="btn btn-secondary" style="padding:9px 12px" onclick="toggleSourcePanel()">+ Sources</button>
+            <input id="full-input" class="eb-input flex-1" placeholder="Ask a follow-up…" onkeydown="if(event.key==='Enter')send()">
+            <button class="btn btn-primary" onclick="send()">Ask</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ ANALYTICS ══════════ -->
+      <section id="analytics" class="analytics space-y-4">
+
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-1 flex-wrap">
+            <span class="tab active" onclick="setTab(this,'Overview')">Overview</span>
+            <span class="tab" onclick="setTab(this,'Sales')">Sales</span>
+            <span class="tab" onclick="setTab(this,'Marketing')">Marketing</span>
+            <span class="tab" onclick="setTab(this,'Social')">Social</span>
+            <span class="tab" onclick="setTab(this,'Finance')">Finance</span>
+          </div>
+          <span class="text-[12px]" style="color:hsl(var(--muted-foreground))">Last 30 days</span>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-[11px] font-medium mr-1" style="color:hsl(var(--muted-foreground))">Sources</span>
+          <span id="srcs" class="flex gap-2 flex-wrap"></span>
+          <span class="text-[11px] cursor-pointer ml-1" style="color:hsl(var(--primary))" onclick="allSources()">Select all</span>
+        </div>
+
+        <div id="kpis" class="grid gap-[10px] sm:grid-cols-2 lg:grid-cols-4"></div>
+
+        <div class="eb-card p-5">
+          <div class="flex items-start justify-between flex-wrap gap-2 mb-4">
+            <div>
+              <p class="font-display text-[15px] font-semibold" style="color:hsl(var(--ink))">Leads by source</p>
+              <p id="chart-mode-note" class="text-[11px] mt-0.5" style="color:hsl(var(--muted-foreground))"></p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="combine-toggle" class="chip chip-suggest" onclick="toggleCombine()">Combine sources</span>
+            </div>
+          </div>
+          <div id="legend" class="flex gap-4 flex-wrap mb-3"></div>
+          <div id="chart" class="flex items-end gap-2 sm:gap-3" style="height:180px"></div>
+          <div class="flex justify-between mt-2 text-[10px]" style="color:hsl(var(--muted-foreground))">
+            <span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span>Wk 4</span><span>Wk 5</span><span>Wk 6</span>
+          </div>
+          <div id="math" class="hidden mt-4 pt-4" style="border-top:1px solid #E9EFF3">
+            <p class="text-[11px] font-semibold mb-2" style="color:hsl(var(--ink))">How this was computed</p>
+            <div id="math-rows" class="space-y-1"></div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/components.js"></script>
+<script src="assets/js/shell.js" data-active="overview" data-title="Dashboard" data-action="Run audit" data-action-href="#"></script>
+<script>
+/* ══════════ state ══════════ */
+var SOURCES = [
+  { key:'instagram', name:'Instagram', connected:true,  on:true,  color:'#0077B5', data:[42,55,48,63,71,68] },
+  { key:'googleads', name:'Google Ads', connected:true, on:true,  color:'#FFA500', data:[30,28,41,38,52,60] },
+  { key:'forms',     name:'Forms',      connected:true, on:true,  color:'#4FB3E8', data:[18,22,19,27,24,31] },
+  { key:'invoices',  name:'Invoices',   connected:true, on:false, color:'#0FA36B', data:[12,15,11,19,22,20] },
+  { key:'linkedin',  name:'LinkedIn',   connected:true, on:false, color:'#E6A50F', data:[8,11,9,14,12,17] },
+  { key:'tiktok',    name:'TikTok',     connected:false, on:false, color:'#64757F', data:[0,0,0,0,0,0] },
+];
+var combined = false;
+
+function selected(){ return SOURCES.filter(function(s){ return s.on && s.connected; }); }
+
+/* ══════════ sources ══════════ */
+function renderSources(){
+  document.getElementById('srcs').innerHTML = SOURCES.map(function(s){
+    if(!s.connected) return '<span class="src off-conn" onclick="window.location=\'integrations.html\'">'+s.name+' · Connect</span>';
+    return '<span class="src '+(s.on?'on':'')+'" onclick="toggleSource(\''+s.key+'\')"><span class="dot" style="background:'+(s.on?s.color:'#B9C6CE')+'"></span>'+s.name+'</span>';
+  }).join('');
+  var names = selected().map(function(s){ return s.name; });
+  document.getElementById('head-sources').textContent = names.length ? 'Using ' + names.join(' · ') : 'No sources selected';
+}
+function toggleSource(k){ var s=SOURCES.find(function(x){return x.key===k;}); if(s.connected){ s.on=!s.on; renderAll(); } }
+function allSources(){ SOURCES.forEach(function(s){ if(s.connected) s.on=true; }); renderAll(); }
+
+/* ══════════ KPIs ══════════ */
+function renderKpis(){
+  var sel = selected();
+  var total = sel.reduce(function(a,s){ return a + s.data.reduce(function(x,y){return x+y;},0); },0);
+  ebKpi('kpis', [
+    { label:'Leads captured', value: total.toLocaleString(), delta:'+18.2% vs prior', deltaTone:'up' },
+    { label:'Cost per lead', value:'₦2,140', delta:'-6.4% vs prior', deltaTone:'up' },
+    { label:'Unpaid invoices', value:'18', delta:'3 overdue', deltaTone:'down' },
+    { label:'Blended CAC', value:'₦9,860', delta:'Computed by Audit AI', hero:true },
+  ]);
+}
+
+/* ══════════ chart ══════════ */
+function renderChart(){
+  var sel = selected(), chart = document.getElementById('chart'), legend = document.getElementById('legend');
+  var note = document.getElementById('chart-mode-note'), math = document.getElementById('math');
+  if(!sel.length){ chart.innerHTML='<p class="text-[12px] self-center mx-auto" style="color:hsl(var(--muted-foreground))">Select a source to see data</p>'; legend.innerHTML=''; note.textContent=''; math.classList.add('hidden'); return; }
+
+  var weeks = 6, html = '', max;
+  if(combined){
+    var series = [];
+    for(var w=0; w<weeks; w++){ series.push(sel.reduce(function(a,s){ return a + s.data[w]; }, 0)); }
+    max = Math.max.apply(null, series) * 1.15;
+    for(var w=0; w<weeks; w++){
+      html += '<div class="flex-1 flex flex-col items-center justify-end h-full gap-1">'
+            + '<span class="text-[10px] font-semibold" style="color:hsl(var(--ink))">'+series[w]+'</span>'
+            + '<div style="width:100%;background:#0077B5;border-radius:6px 6px 0 0;height:'+Math.round(series[w]/max*100)+'%;transition:height var(--dur-fast) var(--ease-out)"></div></div>';
+    }
+    legend.innerHTML = '<span class="computed-pill">Computed by Audit AI</span>';
+    note.textContent = 'Combined: sum of ' + sel.map(function(s){return s.name;}).join(', ') + ', deduped by email';
+    document.getElementById('math-rows').innerHTML = sel.map(function(s){
+      var t = s.data.reduce(function(a,b){return a+b;},0);
+      return '<div class="flex justify-between text-[11px]"><span style="color:hsl(var(--muted-foreground))">'+s.name+'</span><span style="color:hsl(var(--ink));font-weight:600">'+t+' leads</span></div>';
+    }).join('') + '<div class="flex justify-between text-[11px] pt-1 mt-1" style="border-top:1px solid #E9EFF3"><span style="color:hsl(var(--muted-foreground))">Less duplicates</span><span style="color:hsl(var(--ink));font-weight:600">−34</span></div>';
+    math.classList.remove('hidden');
+    document.getElementById('combine-toggle').textContent = 'Show separately';
+  } else {
+    max = Math.max.apply(null, sel.map(function(s){ return Math.max.apply(null, s.data); })) * 1.15;
+    for(var w=0; w<weeks; w++){
+      var group = '<div class="flex-1 flex items-end justify-center gap-[3px] h-full">';
+      sel.forEach(function(s){
+        group += '<div title="'+s.name+': '+s.data[w]+'" style="width:'+(100/sel.length)+'%;max-width:22px;background:'+s.color+';border-radius:5px 5px 0 0;height:'+Math.round(s.data[w]/max*100)+'%;transition:height var(--dur-fast) var(--ease-out)"></div>';
+      });
+      html += group + '</div>';
+    }
+    legend.innerHTML = sel.map(function(s){
+      return '<span class="flex items-center gap-1.5 text-[11px]" style="color:hsl(var(--muted-foreground))"><span style="width:8px;height:8px;border-radius:2px;background:'+s.color+'"></span>'+s.name+'</span>';
+    }).join('');
+    note.textContent = sel.length > 1 ? 'Compare mode · one series per source' : 'Single source';
+    math.classList.add('hidden');
+    document.getElementById('combine-toggle').textContent = 'Combine sources';
+  }
+  chart.innerHTML = html;
+}
+function toggleCombine(){ combined = !combined; renderChart(); }
+function setTab(el, name){
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+function renderAll(){ renderSources(); renderKpis(); renderChart(); }
+
+/* ══════════ console expand / collapse ══════════ */
+function expand(q){
+  var c = document.getElementById('console'), a = document.getElementById('analytics');
+  if(c.classList.contains('is-expanded')) return;
+  c.classList.add('is-expanded');
+  a.classList.add('is-hidden');
+  a.setAttribute('aria-hidden','true');
+  setTimeout(function(){ if(a.classList.contains('is-hidden')) a.style.height = '0px'; }, 300);
+  setTimeout(function(){ document.getElementById('full-input').focus(); }, 200);
+  var pending = q || document.getElementById('rest-input').value.trim();
+  if(pending) setTimeout(function(){ post(pending); }, 260);
+}
+function collapse(){
+  var c = document.getElementById('console'), a = document.getElementById('analytics');
+  c.classList.remove('is-expanded');
+  a.style.height = '';
+  a.classList.remove('is-hidden');
+  a.removeAttribute('aria-hidden');
+  a.classList.add('eb-enter-stagger');
+  Array.prototype.forEach.call(a.children, function(el,i){ el.style.setProperty('--i', i); });
+  setTimeout(function(){ a.classList.remove('eb-enter-stagger'); }, 900);
+}
+function ask(q){ document.getElementById('rest-input').value = q; expand(q); }
+function send(){
+  var i = document.getElementById('full-input'), v = i.value.trim();
+  if(!v) return; i.value = ''; post(v);
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') collapse(); });
+document.getElementById('rest-input').addEventListener('input', function(){ if(this.value.length === 1) expand(); });
+
+/* ══════════ thread ══════════ */
+function post(text){
+  var t = document.getElementById('thread');
+  t.insertAdjacentHTML('beforeend', '<div class="msg msg-user eb-enter">'+text+'</div>');
+  t.scrollTop = t.scrollHeight;
+  var pill = document.getElementById('status-pill');
+  pill.className = 'pill pill-orange'; pill.innerHTML = '<span class="pill-dot"></span>Analyzing';
+
+  var names = selected().map(function(s){ return s.name; });
+  var steps = names.map(function(n){ return 'Reading ' + n; }).concat(['Comparing sources']);
+  var id = 'ai' + Date.now();
+  t.insertAdjacentHTML('beforeend',
+    '<div class="msg msg-ai eb-enter" id="'+id+'">' +
+      '<div class="eb-card p-4">' +
+        '<div id="'+id+'-steps" class="space-y-2">' +
+          steps.map(function(s,i){ return '<div class="flex items-center gap-2 text-[12px]" id="'+id+'-s'+i+'" style="color:hsl(var(--muted-foreground))"><span class="spinner"></span>'+s+'</div>'; }).join('') +
+        '</div>' +
+      '</div>' +
+    '</div>');
+  t.scrollTop = t.scrollHeight;
+
+  steps.forEach(function(s, i){
+    setTimeout(function(){
+      var el = document.getElementById(id+'-s'+i);
+      if(el) el.innerHTML = '<span style="color:#0FA36B">&#10003;</span>' + s;
+    }, 500 + i * 450);
+  });
+
+  setTimeout(function(){ answer(id, text); }, 600 + steps.length * 450);
+}
+
+function answer(id, q){
+  var sel = selected(), t = document.getElementById('thread');
+  var el = document.getElementById(id);
+  var totals = sel.map(function(s){ return { n:s.name, c:s.color, v:s.data.reduce(function(a,b){return a+b;},0) }; })
+                  .sort(function(a,b){ return b.v - a.v; });
+  var best = totals[0] || { n:'—', v:0 }, worst = totals[totals.length-1] || { n:'—', v:0 };
+
+  el.innerHTML =
+  '<div class="eb-card p-5 space-y-4">' +
+    '<p class="text-[13px]" style="color:hsl(var(--foreground))"><strong>'+best.n+' is your strongest source</strong> with '+best.v+' leads in the last 30 days — '+(best.v && worst.v ? Math.round((best.v/worst.v)*10)/10 : 1)+'× '+worst.n+'. Cost per lead fell 6.4%, but 3 invoices tied to these leads are overdue, so acquisition is outpacing collection.</p>' +
+
+    '<div class="grid gap-[10px] sm:grid-cols-3">' +
+      totals.slice(0,3).map(function(x){
+        return '<div class="stat-card"><p class="stat-label">'+x.n+'</p><p class="stat-value">'+x.v+'</p><p class="stat-delta" style="color:'+x.c+'">leads · 30d</p></div>';
+      }).join('') +
+    '</div>' +
+
+    '<div>' +
+      '<span class="computed-pill">Computed by Audit AI</span>' +
+      '<p class="text-[11px] mt-2" style="color:hsl(var(--muted-foreground))">Blended cost per acquired client · ad spend ÷ invoiced clients, across '+sel.map(function(s){return s.name;}).join(' + ')+'</p>' +
+      '<p class="font-display text-[24px] font-bold mt-1" style="color:hsl(var(--ink))">₦9,860</p>' +
+    '</div>' +
+
+    '<div class="space-y-2">' +
+      '<p class="font-display text-[13px] font-semibold" style="color:hsl(var(--ink))">Findings</p>' +
+      finding('warning','Google Ads spend rising faster than conversions','Spend up 22% while conversions rose 9% over the same period.','Google Ads · last 30 days') +
+      finding('good','Instagram engagement is compounding','Saves and shares up 31%; your top 3 posts were all carousels.','Instagram · last 30 days') +
+      finding('critical','₦1.2M invoiced to leads from this channel is overdue','Three clients acquired via Forms are 15+ days past due.','Invoices · unpaid') +
+    '</div>' +
+
+    '<div class="space-y-2">' +
+      '<p class="font-display text-[13px] font-semibold" style="color:hsl(var(--ink))">Opportunities</p>' +
+      opp('Shift 20% of Google Ads budget to Instagram carousels','Instagram converts at 1.7× the cost efficiency and your carousel format is already proven.','Low effort','High impact','Create content plan') +
+      opp('Chase the three overdue invoices this week','₦1.2M outstanding, all past 15 days. A reminder sequence recovers most of this.','Low effort','High impact','Create task') +
+    '</div>' +
+
+    '<div class="flex gap-2 flex-wrap pt-1">' +
+      '<span class="chip chip-suggest" onclick="post(\'Why did Google Ads conversions drop?\')">Why did conversions drop?</span>' +
+      '<span class="chip chip-suggest" onclick="post(\'Compare this to last quarter\')">Compare to last quarter</span>' +
+      '<span class="chip chip-suggest" onclick="post(\'Run a full audit on my website\')">Run a full audit</span>' +
+    '</div>' +
+  '</div>';
+
+  var pill = document.getElementById('status-pill');
+  pill.className = 'pill pill-blue'; pill.innerHTML = '<span class="pill-dot"></span>Ready';
+  t.scrollTop = t.scrollHeight;
+  if(window.lucide) lucide.createIcons();
+}
+
+function finding(sev, title, detail, evidence){
+  var tone = sev === 'critical' ? 'red' : sev === 'warning' ? 'orange' : 'green';
+  var label = sev === 'critical' ? 'Critical' : sev === 'warning' ? 'Warning' : 'Good';
+  return '<div class="rounded-[10px] p-3" style="background:#F4F7F9">' +
+    '<div class="flex items-start gap-2">' +
+      '<span class="pill pill-'+tone+'"><span class="pill-dot"></span>'+label+'</span>' +
+      '<div class="flex-1">' +
+        '<p class="text-[12.5px] font-medium" style="color:hsl(var(--ink))">'+title+'</p>' +
+        '<p class="text-[11.5px] mt-0.5" style="color:hsl(var(--muted-foreground))">'+detail+'</p>' +
+        '<p class="text-[10.5px] mt-1" style="color:hsl(var(--primary))">'+evidence+'</p>' +
+      '</div>' +
+    '</div></div>';
+}
+
+function opp(title, why, effort, impact, cta){
+  return '<div class="rounded-[10px] p-3 flex items-start justify-between gap-3 flex-wrap" style="background:hsl(var(--sidebar-accent))">' +
+    '<div class="flex-1 min-w-[220px]">' +
+      '<p class="text-[12.5px] font-semibold" style="color:hsl(var(--ink))">'+title+'</p>' +
+      '<p class="text-[11.5px] mt-0.5" style="color:hsl(205 40% 32%)">'+why+'</p>' +
+      '<div class="flex gap-2 mt-2"><span class="pill pill-gray">'+effort+'</span><span class="pill pill-green"><span class="pill-dot"></span>'+impact+'</span></div>' +
+    '</div>' +
+    '<button class="btn btn-primary" style="padding:7px 13px;font-size:12px">'+cta+'</button>' +
+  '</div>';
+}
+
+function toggleSourcePanel(){
+  var names = SOURCES.filter(function(s){return s.connected;}).map(function(s){ return (s.on?'✓ ':'○ ')+s.name; }).join('   ');
+  alert('Sources (shared with analytics chips below):\n\n' + names + '\n\nIn production this opens an inline picker.');
+}
+
+renderAll();
+if(window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

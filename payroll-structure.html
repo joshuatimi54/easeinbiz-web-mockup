@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Org Structure · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1400px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="depts"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="payroll-structure" data-title="Org Structure"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Org Structure', subtitle: 'Departments and reporting lines across the company.', actions: [{ label: 'Add Department', icon: 'plus', primary: true }] });
+var depts = [
+  { name:'Marketing', lead:'Maya Okoye', count:7, color:'#0077B5' },
+  { name:'Operations', lead:'Rita Nwosu', count:5, color:'#0FA36B' },
+  { name:'Design', lead:'Tunde Eze', count:3, color:'#7A4E00' },
+  { name:'Finance & Admin', lead:'Josh Adesoba', count:3, color:'#1A6E9E' },
+];
+document.getElementById('depts').innerHTML = depts.map(function (d) {
+  return '<div class="eb-card eb-shadow-sm p-5">' +
+    '<div class="h-9 w-9 rounded-lg flex items-center justify-center mb-3" style="background:' + d.color + '18"><i data-lucide="building-2" class="h-4 w-4" style="color:' + d.color + '"></i></div>' +
+    '<p class="font-display font-semibold text-sm mb-1">' + d.name + '</p>' +
+    '<p class="text-xs text-muted-foreground mb-3">Led by ' + d.lead + '</p>' +
+    '<div class="flex items-center justify-between text-xs border-t pt-3" style="border-color:hsl(var(--border))"><span class="text-muted-foreground">' + d.count + ' members</span><span class="font-medium" style="color:hsl(var(--primary))">View →</span></div></div>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

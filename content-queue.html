@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publishing Queue · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center border rounded-md overflow-hidden text-xs" style="border-color:hsl(var(--border))">
+          <button class="px-3 py-1.5" style="background:hsl(var(--sidebar-accent));color:hsl(var(--primary))">Upcoming</button>
+          <button class="px-3 py-1.5 text-muted-foreground">Published</button>
+          <button class="px-3 py-1.5 text-muted-foreground">Failed</button>
+        </div>
+      </div>
+      <div class="eb-card eb-shadow-sm p-0">
+        <div id="queue-table"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="content-queue" data-title="Publishing Queue"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Publishing Queue', subtitle: 'Everything scheduled to auto-publish to connected channels.' });
+ebTable('queue-table', {
+  columns: ['Content','Platform','Company','Scheduled','Status',''],
+  rows: [
+    ['<span class="font-medium">Product teaser reel</span>', ebPill('blue','Instagram'), 'Acme Retail Co.', 'Aug 4, 9:00 AM', ebPill('green','Queued'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Weekend sale post</span>', ebPill('orange','Facebook'), 'Bluewave Logistics', 'Aug 6, 10:30 AM', ebPill('green','Queued'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Launch carousel</span>', ebPill('blue','Instagram'), 'Acme Retail Co.', 'Aug 8, 8:00 AM', ebPill('red','Needs approval'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Founder spotlight</span>', ebPill('green','LinkedIn'), 'Northgate Realty', 'Aug 6, 2:00 PM', ebPill('green','Queued'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Retry: Flash promo story</span>', ebPill('orange','Instagram'), 'Acme Retail Co.', 'Aug 1, 4:00 PM', ebPill('gray','Draft'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+  ]
+});
+</script>
+</body>
+</html>

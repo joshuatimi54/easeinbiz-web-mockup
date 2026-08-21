@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rate your experience · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+  <div class="min-h-screen flex flex-col items-center justify-center px-6">
+    <div class="w-full max-w-sm space-y-6 text-center">
+      <div class="flex items-center gap-2 justify-center mb-2"><div class="h-8 w-8 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-sm">E</span></div><span class="font-display font-extrabold text-base">Easeinbiz</span></div>
+      <div class="eb-card eb-shadow p-8 space-y-5">
+        <div><h1 class="font-display text-xl font-bold">How was your support experience?</h1><p class="text-sm text-muted-foreground mt-1">Ticket #4821 — resolved by Tunde Eze</p></div>
+        <div class="flex items-center justify-center gap-2">
+          <i data-lucide="star" class="h-8 w-8" style="color:#FFA500;fill:#FFA500"></i>
+          <i data-lucide="star" class="h-8 w-8" style="color:#FFA500;fill:#FFA500"></i>
+          <i data-lucide="star" class="h-8 w-8" style="color:#FFA500;fill:#FFA500"></i>
+          <i data-lucide="star" class="h-8 w-8" style="color:#FFA500;fill:#FFA500"></i>
+          <i data-lucide="star" class="h-8 w-8 text-muted-foreground"></i>
+        </div>
+        <textarea rows="3" class="w-full text-sm border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))" placeholder="Any additional feedback? (optional)"></textarea>
+        <button class="w-full text-sm font-medium rounded-md text-white py-2.5" style="background:hsl(var(--primary))">Submit Rating</button>
+      </div>
+    </div>
+  </div>
+  <script>if (window.lucide) lucide.createIcons();</script>
+</body>
+</html>

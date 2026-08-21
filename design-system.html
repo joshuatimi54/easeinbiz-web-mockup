@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easeinbiz Design System</title>
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  body { margin: 0; padding: 40px; max-width: 960px; margin-inline: auto; }
+  @media (max-width: 640px) { body { padding: 20px 16px; } .demo { padding: 14px; } }
+  section { margin-bottom: 56px; }
+  h1 { font-size: 30px; font-weight: 800; margin: 0 0 4px; color: hsl(var(--ink)); }
+  h2 { font-size: 18px; font-weight: 700; margin: 0 0 4px; }
+  .lede { color: hsl(var(--muted-foreground)); margin: 0 0 40px; }
+  .rule { font-size: 13px; color: hsl(var(--muted-foreground)); margin: 4px 0 16px; max-width: 640px; }
+  .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .swatch { flex: 1; min-width: 72px; border-radius: 8px; padding: 10px 8px 6px; font-size: 11px; font-weight: 600; height: 52px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .swatch small { font-weight: 400; opacity: .85; }
+  .demo { background: hsl(var(--background)); border: 1px solid hsl(var(--border)); border-radius: 12px; padding: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .type-specimen p { margin: 0 0 10px; }
+</style>
+</head>
+<body>
+
+<h1>Easeinbiz design system</h1>
+<p class="lede">Bold Momentum · Pure Ocean palette (Round 11) · decisions logged in DESIGN-JOURNAL.md</p>
+
+<section>
+  <h2>1. Color — ocean scale (primary)</h2>
+  <p class="rule">Ocean #0077B5 is the logo blue — product and logo share one color. It carries every primary action and brand moment.</p>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#E8F4FA;color:#005793;">50<br><small>#E8F4FA</small></div>
+    <div class="swatch" style="background:#C7E5F4;color:#005793;">100<br><small>#C7E5F4</small></div>
+    <div class="swatch" style="background:#93CCE9;color:#004A7C;">200<br><small>#93CCE9</small></div>
+    <div class="swatch" style="background:#2E9AD2;color:#fff;">400<br><small>#2E9AD2</small></div>
+    <div class="swatch" style="background:#0077B5;color:#fff;">600 ★<br><small>#0077B5</small></div>
+    <div class="swatch" style="background:#005793;color:#fff;">700<br><small>#005793</small></div>
+    <div class="swatch" style="background:#0B2C3D;color:#fff;">900 ink<br><small>#0B2C3D</small></div>
+  </div>
+</section>
+
+<section>
+  <h2>2. Color — orange (attention only)</h2>
+  <p class="rule">Rule: orange never fills large surfaces or competes with ocean. It marks things that need attention — pending states, alerts, promos, highlights.</p>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#FFF6E5;color:#7A4E00;">50<br><small>#FFF6E5</small></div>
+    <div class="swatch" style="background:#FFE3B3;color:#7A4E00;">100<br><small>#FFE3B3</small></div>
+    <div class="swatch" style="background:#FFA500;color:#4A3200;">500 ★<br><small>#FFA500</small></div>
+    <div class="swatch" style="background:#B87700;color:#fff;">700<br><small>#B87700</small></div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Color — neutrals and semantic</h2>
+  <p class="rule">Neutrals are cool (ocean-tinted). Semantic colors are reserved for meaning: money in, caution, money out / errors.</p>
+  <div class="swatch-row">
+    <div class="swatch" style="background:#F4F7F9;color:#3E4358;border:1px solid hsl(var(--border));">bg<br><small>#F4F7F9</small></div>
+    <div class="swatch" style="background:#DFE7EC;color:#3E4358;">border<br><small>#DFE7EC</small></div>
+    <div class="swatch" style="background:#64757F;color:#fff;">muted<br><small>#64757F</small></div>
+    <div class="swatch" style="background:#1A2830;color:#fff;">text<br><small>#1A2830</small></div>
+    <div class="swatch" style="background:#0FA36B;color:#fff;">success<br><small>#0FA36B</small></div>
+    <div class="swatch" style="background:#E6A50F;color:#413002;">warning<br><small>#E6A50F</small></div>
+    <div class="swatch" style="background:#E23D3D;color:#fff;">danger<br><small>#E23D3D</small></div>
+  </div>
+</section>
+
+<section>
+  <h2>4. Typography</h2>
+  <p class="rule">Sora for headlines, section titles, and big numbers only. Inter for body, tables, forms, metadata. Never Sora below 15px.</p>
+  <div class="demo" style="display:block;">
+    <div class="type-specimen">
+      <p style="font-family:var(--font-display);font-size:28px;font-weight:800;color:hsl(var(--ink));">Display / Sora 800 · 28px</p>
+      <p style="font-family:var(--font-display);font-size:20px;font-weight:700;">Page title / Sora 700 · 20px</p>
+      <p style="font-family:var(--font-display);font-size:15px;font-weight:600;">Card header / Sora 600 · 15px</p>
+      <p style="font-size:14px;">Body / Inter 400 · 14px — the workhorse for paragraphs, tables, and forms.</p>
+      <p style="font-size:13px;font-weight:500;">UI label / Inter 500 · 13px</p>
+      <p style="font-size:12px;color:hsl(var(--muted-foreground));">Metadata / Inter 400 · 12px, muted</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>5. Foundations — locked Round 2 ("Soft blend")</h2>
+  <p class="rule">Soft physics: 10px radius on controls and cards, generous padding, shadows instead of borders. Inputs are soft filled fields (#F9FCFE on #E9EFF3). Pills stay fully round — buttons never do.</p>
+  <div class="demo" style="align-items:stretch;">
+    <div style="flex:1;min-width:180px;">
+      <p style="font-size:12px;color:hsl(var(--muted-foreground));margin:0 0 8px;">Radius: 10px controls/cards · 14px modals · 999px pills only</p>
+      <p style="font-size:12px;color:hsl(var(--muted-foreground));margin:0 0 8px;">Spacing: 4 · 8 · 12 · 16 · 20 · 24 · 32</p>
+      <p style="font-size:12px;color:hsl(var(--muted-foreground));margin:0;">Shadows: --shadow-sm (controls) · --shadow-md (cards) · --shadow-lg (modals/popovers)</p>
+    </div>
+    <div class="eb-card" style="flex:1;min-width:200px;padding:16px;">
+      <p style="font-family:var(--font-display);font-size:14px;font-weight:600;margin:0 0 10px;color:hsl(var(--ink));">Card on shadow, no border</p>
+      <input class="eb-input" placeholder="Soft filled field" style="width:100%;box-sizing:border-box;">
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>6. Buttons — locked Round 3</h2>
+  <p class="rule">Secondary is a ocean tinted ghost. Destructive rests tinted, turns solid red on hover. Attention (orange) is rationed to upgrade/alert moments. Pressed = scale(.97). Hover any button below.</p>
+  <div class="demo">
+    <button class="btn btn-primary">Save</button>
+    <button class="btn btn-secondary">Export</button>
+    <button class="btn btn-ghost">Skip</button>
+    <button class="btn btn-destructive">Delete</button>
+    <button class="btn btn-attention">Upgrade</button>
+    <button class="btn btn-primary" disabled>Save</button>
+    <button class="btn btn-primary"><span class="btn-spinner"></span>Saving</button>
+    <button class="btn btn-secondary"><span class="btn-spinner"></span>Exporting</button>
+  </div>
+</section>
+
+<section>
+  <h2>7. Forms — locked Round 4</h2>
+  <p class="rule">Top labels (12px/500) over soft filled fields. Errors: red border, #FEF7F7 tint, 11px message under the field — no icons, no shouting. 16px stack gap between fields.</p>
+  <div class="demo" style="display:block;max-width:380px;">
+    <div class="eb-field">
+      <label class="eb-label">Client name</label>
+      <input class="eb-input" style="width:100%;box-sizing:border-box;" value="Dangote Distribution Ltd">
+    </div>
+    <div class="eb-field">
+      <label class="eb-label">Email</label>
+      <input class="eb-input eb-input-error" style="width:100%;box-sizing:border-box;" value="accounts@dangote">
+      <p class="eb-error">Enter a valid email address</p>
+    </div>
+    <div class="eb-field" style="margin-bottom:0;">
+      <label class="eb-label">Amount</label>
+      <input class="eb-input" style="width:100%;box-sizing:border-box;" placeholder="0.00">
+      <p class="eb-help">Amounts are in naira by default.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>8. Metric cards — locked Round 5</h2>
+  <p class="rule">Minimal: label, Sora number, delta. Rule: max one hero (solid ocean) card per screen — it marks the number that matters most.</p>
+  <div class="demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
+    <div class="stat-card">
+      <p class="stat-label">Revenue</p>
+      <p class="stat-value">₦4.2M</p>
+      <p class="stat-delta stat-delta-up">+12.4%</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">Expenses</p>
+      <p class="stat-value">₦1.8M</p>
+      <p class="stat-delta stat-delta-down">+3.1%</p>
+    </div>
+    <div class="stat-card stat-card-hero">
+      <p class="stat-label">Net profit</p>
+      <p class="stat-value">₦2.4M</p>
+      <p class="stat-delta">+18.9%</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>9. Tables — locked Round 6</h2>
+  <p class="rule">Airy lines: roomy rows, hairline dividers, hover tint, money right-aligned. Add .eb-table-compact for opt-in dense mode.</p>
+  <div class="eb-table-card">
+    <table class="eb-table" style="min-width:520px">
+      <thead><tr><th>Invoice</th><th>Client</th><th>Status</th><th style="text-align:right;">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>INV-0142</td><td>Dangote Distribution</td><td><span class="pill pill-orange"><span class="pill-dot"></span>Pending</span></td><td style="text-align:right;font-weight:600;">₦840,000</td></tr>
+        <tr><td>INV-0141</td><td>Zenith Retail</td><td><span class="pill pill-green"><span class="pill-dot"></span>Paid</span></td><td style="text-align:right;font-weight:600;">₦312,500</td></tr>
+        <tr><td>INV-0140</td><td>Kobo Logistics</td><td><span class="pill pill-red"><span class="pill-dot"></span>Overdue</span></td><td style="text-align:right;font-weight:600;">₦95,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>10. Sidebar — locked Round 7</h2>
+  <p class="rule">Clean white, hairline right border. Active item: ocean-50 pill, ocean-700 text. Inactive: muted, hover tint. Logo wordmark Sora 800 ink.</p>
+  <div class="demo" style="padding:0;overflow:hidden;">
+    <div style="background:#fff;border-right:1px solid #E9EFF3;width:200px;padding:14px 0;">
+      <p style="margin:0 14px 12px;font-family:var(--font-display);font-size:15px;font-weight:800;color:hsl(var(--ink));">easeinbiz</p>
+      <div style="padding:0 8px;">
+        <a class="nav-link active" href="#">Dashboard</a>
+        <a class="nav-link" href="#">Clients</a>
+        <a class="nav-link" href="#">Finance</a>
+        <a class="nav-link" href="#">Payroll</a>
+        <a class="nav-link" href="#">Forms</a>
+      </div>
+    </div>
+    <div style="flex:1;background:hsl(var(--background));min-height:180px;"></div>
+  </div>
+</section>
+
+<section>
+  <h2>11. Modals — locked Round 8</h2>
+  <p class="rule">Modals for everything. Sizes: sm 400px confirmations · md 560px forms · lg 760px detail views. 14px radius, shadow-lg, ink scrim at 45%.</p>
+  <div class="demo" style="background:rgb(11 44 61 / .45);justify-content:center;padding:32px 20px;">
+    <div class="eb-modal eb-modal-sm" style="box-shadow:var(--shadow-lg);">
+      <p class="eb-modal-title">Delete invoice?</p>
+      <p class="eb-modal-sub">INV-0140 will be permanently removed. This can't be undone.</p>
+      <div class="eb-modal-footer" style="margin-top:0;">
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-destructive">Delete</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>12. Motion — locked Round 13 ("springy")</h2>
+  <p class="rule">Default: --ease-spring at --dur-base (300ms) — things overshoot into place. Buttons lift 2px on hover, press to 94%. Cards lift 4px. Restraint rule: dense data (table rows, chips, validation) uses --ease-out at --dur-fast so scanning stays calm. Reduced motion respected globally.</p>
+  <div class="demo">
+    <button class="btn btn-primary">Hover and press me</button>
+    <div class="eb-card eb-card-interactive" style="padding:14px;min-width:170px;">
+      <p class="stat-label">Revenue</p>
+      <p class="stat-value">₦4.2M</p>
+    </div>
+    <button class="btn btn-secondary" onclick="document.querySelectorAll('.replay').forEach(function(e,i){e.style.animation='none';void e.offsetWidth;e.style.animation='';});">Replay entrance</button>
+    <div class="eb-enter-stagger" style="display:flex;gap:8px;">
+      <span class="replay chip" style="--i:0">One</span>
+      <span class="replay chip" style="--i:1">Two</span>
+      <span class="replay chip" style="--i:2">Three</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>13. Empty states + toasts — locked Round 9</h2>
+  <p class="rule">Quiet minimal empties: ocean icon tile, Sora title, one CTA. Soft white toasts, bottom-right, tinted icon circle.</p>
+  <div class="demo" style="align-items:stretch;">
+    <div class="eb-card empty-state" style="flex:1;min-width:230px;">
+      <span class="empty-state-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+      <p class="empty-state-title">Create your first invoice</p>
+      <p class="empty-state-sub">Invoices you send will show up here.</p>
+      <button class="btn btn-primary">New invoice</button>
+    </div>
+    <div style="flex:1;min-width:230px;display:flex;flex-direction:column;gap:10px;justify-content:center;">
+      <div class="eb-toast eb-toast-success" style="position:static;">
+        <span class="eb-toast-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        Invoice sent to Dangote Distribution
+      </div>
+      <div class="eb-toast eb-toast-error" style="position:static;">
+        <span class="eb-toast-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+        Couldn't send invoice. Retry
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>14. Pills, badges, misc</h2>
+  <p class="rule">Approved components keep landing here round by round.</p>
+  <div class="demo">
+    <span class="pill pill-blue"><span class="pill-dot"></span>Active</span>
+    <span class="pill pill-orange"><span class="pill-dot"></span>Awaiting payment</span>
+    <span class="pill pill-green"><span class="pill-dot"></span>Paid</span>
+    <span class="pill pill-red"><span class="pill-dot"></span>Overdue</span>
+    <span class="avatar" style="width:32px;height:32px;">JT</span>
+  </div>
+</section>
+
+</body>
+</html>

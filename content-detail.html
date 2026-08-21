@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Detail · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-5xl mx-auto space-y-5">
+      <a href="content-calendar.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Back to Calendar</a>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <!-- media + caption -->
+        <div class="lg:col-span-2 space-y-5">
+          <div class="eb-card eb-shadow-sm overflow-hidden">
+            <div class="aspect-video flex items-center justify-center" style="background:linear-gradient(135deg,#E8F4FA,#FFF3DD)">
+              <i data-lucide="image" class="h-10 w-10 text-muted-foreground/50"></i>
+            </div>
+          </div>
+          <div class="eb-card eb-shadow-sm p-5 space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="pill pill-blue"><span class="pill-dot"></span>Instagram</span>
+              <span class="pill pill-orange"><span class="pill-dot"></span>Facebook</span>
+              <span class="pill pill-gray"><span class="pill-dot"></span>Reel</span>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1.5">Caption</p>
+              <p class="text-sm leading-relaxed">Introducing the Aria collection ✨ Handcrafted, sustainably sourced, and made to last. Swipe to see the full lineup and shop the drop before it's gone.</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1.5">Call to action</p>
+              <p class="text-sm">Shop the collection → link in bio</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1.5">Hashtags</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="chip">#ariacollection</span><span class="chip">#sustainablefashion</span><span class="chip">#newdrop</span><span class="chip">#shoplocal</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="eb-card eb-shadow-sm p-5">
+            <h3 class="font-display font-semibold text-sm mb-3">Comments</h3>
+            <div class="space-y-3">
+              <div class="flex gap-2.5">
+                <span class="avatar h-7 w-7 text-[10px]">TE</span>
+                <div class="flex-1">
+                  <p class="text-xs"><span class="font-medium">Tunde Eze</span> <span class="text-muted-foreground">· 2h ago</span></p>
+                  <p class="text-sm mt-0.5">Can we swap the second image for the studio shot instead?</p>
+                </div>
+              </div>
+              <div class="flex gap-2.5">
+                <span class="avatar h-7 w-7 text-[10px]">JA</span>
+                <div class="flex-1">
+                  <p class="text-xs"><span class="font-medium">Josh Adesoba</span> <span class="text-muted-foreground">· 1h ago</span></p>
+                  <p class="text-sm mt-0.5">Good catch, swapped. Ready for approval.</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 mt-4 pt-3 border-t" style="border-color:hsl(var(--border))">
+              <input class="flex-1 text-sm border rounded-md px-3 py-2" style="border-color:hsl(var(--border))" placeholder="Add a comment...">
+              <button class="h-9 w-9 rounded-md text-white flex items-center justify-center" style="background:hsl(var(--primary))"><i data-lucide="send" class="h-4 w-4"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- sidebar -->
+        <div class="space-y-5">
+          <div class="eb-card eb-shadow-sm p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="pill pill-red"><span class="pill-dot"></span>Pending approval</span>
+              <button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1">Company</p>
+              <p class="text-sm font-medium">Acme Retail Co.</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1">Campaign</p>
+              <p class="text-sm">Q3 Brand Awareness</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1">Scheduled for</p>
+              <p class="text-sm">Aug 8, 2026 · 8:00 AM</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-muted-foreground mb-1">Created by</p>
+              <div class="flex items-center gap-2 mt-1"><span class="avatar h-6 w-6 text-[10px]">JA</span><span class="text-sm">Josh Adesoba</span></div>
+            </div>
+            <div class="pt-3 border-t space-y-2" style="border-color:hsl(var(--border))">
+              <button class="w-full text-sm font-medium rounded-md text-white py-2" style="background:hsl(160 60% 40%)">Approve</button>
+              <button class="w-full text-sm font-medium rounded-md border py-2" style="border-color:hsl(var(--border))">Request changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="content-calendar" data-title="Content"></script>
+</body>
+</html>

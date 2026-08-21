@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Intake Questionnaire</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+  <div class="min-h-screen flex flex-col items-center py-12 px-4">
+    <div class="flex items-center gap-2 mb-8">
+      <div class="h-8 w-8 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-sm">E</span></div>
+      <span class="font-display font-extrabold text-base">Easeinbiz</span>
+    </div>
+    <div class="eb-card eb-shadow p-5 sm:p-8 max-w-lg w-full space-y-6">
+      <div>
+        <h1 class="font-display text-xl font-bold">Client Intake Questionnaire</h1>
+        <p class="text-sm text-muted-foreground mt-1">Help us understand your business before our first call. Takes about 3 minutes.</p>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium">What's your company name? <span style="color:hsl(var(--destructive))">*</span></label>
+        <input class="w-full text-sm border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))" placeholder="Your answer">
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium">What services are you interested in? <span style="color:hsl(var(--destructive))">*</span></label>
+        <div class="space-y-2 text-sm">
+          <label class="flex items-center gap-2 border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))"><input type="radio" name="q2">Social media management</label>
+          <label class="flex items-center gap-2 border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))"><input type="radio" name="q2">Paid advertising</label>
+          <label class="flex items-center gap-2 border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))"><input type="radio" name="q2">Content creation</label>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium">Anything else we should know?</label>
+        <textarea rows="3" class="w-full text-sm border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))" placeholder="Your answer"></textarea>
+      </div>
+      <button class="w-full text-sm font-medium rounded-md text-white py-2.5" style="background:hsl(var(--primary))">Submit</button>
+    </div>
+    <p class="text-xs text-muted-foreground mt-6">Powered by <span class="font-medium">Easeinbiz</span></p>
+  </div>
+</body>
+</html>

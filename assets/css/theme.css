@@ -1,0 +1,337 @@
+/* ==========================================================================
+   Easeinbiz — "Bold Momentum" theme
+   Brand locked 2026-08-02 (see DESIGN-JOURNAL.md, Round 1).
+   Ocean #0077B5 primary · Orange #FFA500 attention-only · Ink #0B2C3D
+   Sora (display) + Inter (body)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Surfaces */
+  --background: 204 29% 97%;        /* #F4F7F9 */
+  --foreground: 202 30% 15%;        /* #1A2830 */
+  --card: 0 0% 100%;
+  --card-foreground: 202 30% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 202 30% 15%;
+
+  /* Brand */
+  --primary: 199 100% 35.5%;           /* ocean #0077B5 */
+  --primary-foreground: 0 0% 100%;
+  --ink: 200 70% 14%;               /* deep #0B2C3D */
+  --secondary: 204 29% 94%;
+  --secondary-foreground: 202 30% 15%;
+  --muted: 204 29% 95%;
+  --muted-foreground: 202 12% 45%;  /* #64757F */
+  --accent: 39 100% 50%;            /* orange #FFA500 — attention only, never large surfaces */
+  --accent-foreground: 40 100% 12%; /* dark text — white fails contrast on #FFA500 */
+  --destructive: 0 74% 56%;         /* #E23D3D */
+  --destructive-foreground: 0 0% 100%;
+  --success: 157 83% 35%;           /* #0FA36B */
+  --success-foreground: 0 0% 100%;
+  --warning: 42 88% 48%;            /* #E6A50F */
+  --warning-foreground: 45 93% 13%;
+
+  --border: 203 26% 90%;            /* #DFE7EC */
+  --input: 204 29% 93%;              /* #E9EFF3 — soft filled fields */
+  --ring: 199 100% 35.5%;
+  --radius: 0.625rem;               /* 10px — locked Round 2 ("Soft blend") */
+
+  /* Foundations — locked Round 2: soft physics, shadows instead of borders */
+  --shadow-sm: 0 1px 4px rgb(11 44 61 / 0.08);
+  --shadow-md: 0 2px 8px rgb(11 44 61 / 0.07);
+  --shadow-lg: 0 8px 24px rgb(11 44 61 / 0.10), 0 2px 8px rgb(11 44 61 / 0.06);
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px;
+
+  /* Motion — locked Round 13: "springy" */
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);   /* default: overshoots into place */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);          /* for exits and dense data views */
+  --dur-fast: 180ms;    /* color/opacity only */
+  --dur-base: 300ms;    /* the springy default */
+  --dur-slow: 420ms;    /* modals, page-level entrances */
+
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 202 30% 15%;
+  --sidebar-primary: 199 100% 35.5%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 200 64% 95%;    /* ocean 50 #E8F4FA */
+  --sidebar-accent-foreground: 205 100% 29%;
+  --sidebar-border: 203 26% 91%;
+
+  --chart-1: 199 100% 35.5%;   /* ocean */
+  --chart-2: 39 100% 50%;   /* orange */
+  --chart-3: 157 83% 35%;   /* green */
+  --chart-4: 203 70% 60%;   /* periwinkle #4FB3E8 */
+  --chart-5: 42 88% 48%;    /* amber */
+
+  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+* { border-color: hsl(var(--border)); }
+html { scroll-behavior: smooth; }
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5, h6, .font-display { font-family: var(--font-display); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(204 15% 85%); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(204 15% 75%); }
+
+/* ── status pills (tone-on-tone) ── */
+.pill { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 2px 9px; font-size: 11px; font-weight: 600; line-height: 18px; white-space: nowrap; }
+.pill-dot { width: 6px; height: 6px; border-radius: 999px; }
+.pill-blue    { background: hsl(200 64% 95%); color: hsl(205 100% 27%); }
+.pill-blue .pill-dot { background: hsl(199 100% 35.5%); }
+.pill-orange  { background: hsl(40 100% 95%); color: hsl(38 100% 26%); }
+.pill-orange .pill-dot { background: hsl(39 100% 50%); }
+.pill-green   { background: hsl(157 55% 93%); color: hsl(157 80% 20%); }
+.pill-green .pill-dot { background: hsl(157 83% 35%); }
+.pill-red     { background: hsl(0 80% 96%); color: hsl(0 60% 42%); }
+.pill-red .pill-dot { background: hsl(0 74% 56%); }
+.pill-gray    { background: hsl(204 25% 95%); color: hsl(202 12% 40%); }
+.pill-gray .pill-dot { background: hsl(202 12% 60%); }
+.pill-purple  { background: hsl(203 70% 95%); color: hsl(203 60% 40%); }
+.pill-purple .pill-dot { background: hsl(203 70% 60%); }
+
+/* ── cards / shadows — soft physics: shadow instead of border ── */
+.eb-card { background: hsl(var(--card)); border: none; border-radius: var(--radius); box-shadow: var(--shadow-md); transition: box-shadow var(--dur-base) var(--ease-spring), transform var(--dur-base) var(--ease-spring); }
+.eb-card-interactive:hover { box-shadow: 0 8px 20px rgb(11 44 61 / .14); transform: translateY(-4px); }
+
+/* Entrances — springy fade-up; stagger lists with --i */
+@keyframes eb-enter { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+.eb-enter { animation: eb-enter var(--dur-base) var(--ease-spring) both; }
+.eb-enter-stagger > * { animation: eb-enter var(--dur-base) var(--ease-spring) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+.eb-shadow-sm { box-shadow: var(--shadow-sm); }
+.eb-shadow { box-shadow: var(--shadow-md); }
+.eb-input { background: #F9FCFE; border: 1px solid hsl(var(--input)); border-radius: var(--radius); padding: 9px 12px; font-family: var(--font-body); font-size: 13px; color: hsl(var(--foreground)); }
+.eb-input:focus { outline: none; border-color: hsl(var(--ring)); box-shadow: 0 0 0 3px hsl(var(--ring) / .15); }
+
+/* ── forms — locked Round 4: top labels ── */
+.eb-label { display: block; font-size: 12px; font-weight: 500; color: hsl(var(--foreground)); margin: 0 0 5px; }
+.eb-help { font-size: 11px; color: hsl(var(--muted-foreground)); margin: 5px 0 0; }
+.eb-input-error, .eb-input-error:focus { border-color: hsl(var(--destructive)); background: #FEF7F7; box-shadow: none; }
+.eb-error { font-size: 11px; color: #B02A2A; margin: 5px 0 0; }
+.eb-field { margin-bottom: var(--space-4); }
+
+/* ── stat/metric cards — locked Round 5: minimal ── */
+.stat-card { background: hsl(var(--card)); border-radius: var(--radius); padding: var(--space-4); box-shadow: var(--shadow-md); }
+.stat-label { font-size: 11px; color: hsl(var(--muted-foreground)); margin: 0; }
+.stat-value { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: hsl(var(--ink)); margin: 3px 0 0; }
+.stat-delta { font-size: 11px; margin: 3px 0 0; }
+.stat-delta-up { color: hsl(var(--success)); }
+.stat-delta-down { color: hsl(var(--destructive)); }
+/* Hero variant — max ONE per screen, marks the number that matters most */
+.stat-card-hero { background: hsl(var(--primary)); box-shadow: none; }
+.stat-card-hero .stat-label { color: #C7E5F4; }
+.stat-card-hero .stat-value { color: #fff; }
+.stat-card-hero .stat-delta { color: #93CCE9; }
+
+/* ── buttons — locked Round 3 ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--font-body); font-size: 13px; font-weight: 600; border-radius: var(--radius); padding: 9px 16px; border: none; cursor: pointer; transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-spring); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(.94); }
+.btn:disabled { pointer-events: none; }
+.btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.btn-primary:hover { background: #005793; }
+.btn-primary:disabled { background: #93CCE9; color: #E8F4FA; }
+.btn-secondary { background: #E8F4FA; color: #005793; }
+.btn-secondary:hover { background: #C7E5F4; }
+.btn-secondary:disabled { background: #F0F6F9; color: #B9C6CE; }
+.btn-ghost { background: transparent; color: hsl(var(--muted-foreground)); }
+.btn-ghost:hover { background: #E9EFF3; color: hsl(var(--foreground)); }
+.btn-ghost:disabled { color: #C3CFD6; }
+.btn-destructive { background: #FDECEC; color: #B02A2A; }
+.btn-destructive:hover { background: hsl(var(--destructive)); color: #fff; }
+.btn-destructive:disabled { background: #FBF3F3; color: #E3B6B6; }
+.btn-attention { background: hsl(var(--accent)); color: #3D2B00; }     /* orange — upgrade/alert moments only; dark text for contrast */
+.btn-attention:hover { background: #E89400; }
+.btn-spinner { width: 11px; height: 11px; border: 2px solid rgb(255 255 255 / .4); border-top-color: #fff; border-radius: 999px; animation: btn-spin 1s linear infinite; }
+.btn-secondary .btn-spinner, .btn-ghost .btn-spinner { border-color: rgb(0 87 147 / .25); border-top-color: #005793; }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+
+/* ── modals — locked Round 8: modals for everything (sm confirm / md form / lg detail) ── */
+.eb-overlay { position: fixed; inset: 0; background: rgb(11 44 61 / .45); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 50; }
+.eb-modal { background: hsl(var(--card)); border-radius: 14px; box-shadow: var(--shadow-lg); padding: var(--space-6); width: 100%; max-height: 85vh; overflow-y: auto; animation: eb-enter var(--dur-slow) var(--ease-spring) both; }
+.eb-modal-sm { max-width: 400px; }   /* confirmations */
+.eb-modal-md { max-width: 560px; }   /* create/edit forms */
+.eb-modal-lg { max-width: 760px; }   /* detail views (invoice, client, lead) */
+.eb-modal-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: hsl(var(--ink)); margin: 0 0 4px; }
+.eb-modal-sub { font-size: 12px; color: hsl(var(--muted-foreground)); margin: 0 0 16px; }
+.eb-modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: var(--space-5); }
+
+/* ── kanban ── */
+.kanban-col { background: hsl(204 30% 96%); border: 1px dashed hsl(203 20% 84%); border-radius: 12px; }
+.kanban-card { background: hsl(var(--card)); border: none; border-radius: var(--radius); box-shadow: var(--shadow-sm); cursor: grab; }
+.kanban-card:hover { box-shadow: var(--shadow-md); }
+
+/* ── topbar — locked Round 10: action forward ── */
+.topbar { background: hsl(var(--card)); border-bottom: 1px solid #E9EFF3; padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+.topbar-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: hsl(var(--ink)); margin: 0; }
+.topbar-spacer { flex: 1; }
+.topbar-icon { color: hsl(var(--muted-foreground)); display: inline-flex; padding: 6px; border-radius: 8px; cursor: pointer; transition: background .15s, color .15s; }
+.topbar-icon:hover { background: #E9EFF3; color: hsl(var(--foreground)); }
+
+/* ── nav ── */
+.nav-link { display: flex; align-items: center; gap: 9px; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: hsl(var(--muted-foreground)); transition: background .15s, color .15s; }
+.nav-link:hover { background: #F0F6F9; color: #29414E; }
+.nav-link.active { background: hsl(var(--sidebar-accent)); color: hsl(var(--primary)); font-weight: 500; }
+.nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ── table — locked Round 6: airy lines ── */
+.eb-table-card { background: hsl(var(--card)); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
+.eb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.eb-table th { text-align: left; font-weight: 500; color: hsl(var(--muted-foreground)); padding: 10px 14px; border-bottom: 1px solid #E9EFF3; white-space: nowrap; font-size: 12px; }
+.eb-table td { padding: 12px 14px; border-bottom: 1px solid #E9EFF3; vertical-align: middle; }
+.eb-table tbody tr:hover { background: #F3F8FB; }
+.eb-table tbody tr:last-child td { border-bottom: none; }
+/* opt-in compact mode for power users */
+.eb-table-compact td { padding: 7px 14px; border-bottom: none; }
+.eb-table-compact tbody tr:nth-child(even) { background: #F3F8FB; }
+
+/* ── calendar grid ── */
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-cell { min-height: 108px; border-right: 1px solid hsl(var(--border)); border-bottom: 1px solid hsl(var(--border)); padding: 6px; }
+.cal-cell:nth-child(7n) { border-right: none; }
+
+/* ── empty states — locked Round 9: quiet minimal ── */
+.empty-state { text-align: center; padding: 48px 24px; }
+.empty-state-icon { width: 44px; height: 44px; border-radius: 12px; background: #E8F4FA; color: #005793; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.empty-state-title { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: hsl(var(--ink)); margin: 0; }
+.empty-state-sub { font-size: 12px; color: hsl(var(--muted-foreground)); margin: 4px 0 14px; }
+
+/* ── toasts — locked Round 9: soft white ── */
+.eb-toast { position: fixed; bottom: 24px; right: 24px; background: hsl(var(--card)); border-radius: var(--radius); padding: 11px 14px; display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow-lg); font-size: 12px; color: hsl(var(--foreground)); z-index: 60; animation: eb-enter var(--dur-base) var(--ease-spring) both; }
+.eb-toast-icon { width: 20px; height: 20px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.eb-toast-success .eb-toast-icon { background: #E1F5EC; color: #0F6E56; }
+.eb-toast-error .eb-toast-icon { background: #FDECEC; color: #B02A2A; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE NAV DRAWER
+   The off-canvas twin of the desktop rail. Same nav markup and styling —
+   this only positions it. Hidden entirely at lg and up.
+   ══════════════════════════════════════════════════════════════════════════ */
+.eb-drawer {
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 70;
+  width: 264px; max-width: 84vw;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-100%);
+  transition: transform var(--dur-base) var(--ease-out);
+  overscroll-behavior: contain;
+}
+.eb-drawer-overlay {
+  position: fixed; inset: 0; z-index: 65;
+  background: rgb(11 44 61 / .45);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.eb-drawer-close {
+  position: absolute; top: 12px; right: 10px; z-index: 1;
+  height: 30px; width: 30px; border: none; background: transparent; cursor: pointer;
+  border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+  color: hsl(var(--muted-foreground));
+}
+.eb-drawer-close:hover { background: #E9EFF3; color: hsl(var(--foreground)); }
+body.eb-drawer-open .eb-drawer { transform: translateX(0); }
+body.eb-drawer-open .eb-drawer-overlay { opacity: 1; pointer-events: auto; }
+body.eb-drawer-open { overflow: hidden; }
+@media (min-width: 1024px) {
+  .eb-drawer, .eb-drawer-overlay { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — layout only, additive. No colours, type scale, radii,
+   shadows or component design change; desktop (>=1024px) is untouched.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Tables never squeeze — they scroll sideways inside their card. */
+.eb-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.eb-table-card { overflow-x: auto; }
+.cal-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Nothing overflows its container just because it is intrinsically wide. */
+img, svg, video, canvas, iframe { max-width: 100%; }
+
+/* ── tablet and below ── */
+@media (max-width: 1023px) {
+  /* The shell is h-screen (100vh); on mobile browsers that sits under the
+     URL bar. dvh tracks the visible viewport — ignored where unsupported. */
+  body > div.h-screen { height: 100dvh; }
+  .cal-cell { min-height: 92px; }
+}
+
+/* ── phones ── */
+@media (max-width: 767px) {
+  /* Topbar: keep every control, just tighten it and let the action collapse. */
+  .topbar { padding-left: 12px; padding-right: 12px; gap: 8px; }
+  .topbar-title { font-size: 15px; }
+  .topbar-action { padding-left: 10px; padding-right: 10px; }
+  .topbar-action .topbar-action-label { display: none; }
+
+  /* Modals become bottom-anchored sheets so long forms stay reachable.
+     Scoped to real overlays — inline .eb-modal specimens keep their look. */
+  .eb-overlay { padding: 0; align-items: flex-end; }
+  .eb-overlay .eb-modal {
+    max-width: 100%;
+    border-radius: 14px 14px 0 0;
+    max-height: 92vh;
+    padding: var(--space-5);
+  }
+  .eb-overlay .eb-modal-footer { flex-direction: column-reverse; }
+  .eb-overlay .eb-modal-footer .btn { width: 100%; }
+
+  /* Toasts span the width instead of hanging off the right edge. */
+  .eb-toast { left: 12px; right: 12px; bottom: 12px; }
+
+  /* Calendar: cells stay tappable; the grid scrolls rather than crushing. */
+  .cal-grid, .cal-headrow { min-width: 640px; }
+  .cal-cell { min-height: 76px; padding: 4px; }
+
+  /* Kanban: swipeable columns rather than 5 slivers. */
+  .kanban-col { min-width: 0; }
+
+  /* Slightly tighter table gutters so more columns fit before scrolling. */
+  .eb-table th, .eb-table td { padding-left: 10px; padding-right: 10px; }
+
+  .empty-state { padding: 32px 16px; }
+
+  /* Stat cards keep their design, just a touch more compact. */
+  .stat-card { padding: var(--space-3); }
+  .stat-value { font-size: 19px; }
+
+  /* Inputs at 16px avoid iOS's zoom-on-focus jump. */
+  .eb-input, input[type="text"], input[type="email"], input[type="password"],
+  input[type="search"], input[type="number"], input[type="tel"], input[type="date"],
+  input[type="url"], select, textarea { font-size: 16px; }
+
+  /* Full-bleed action rows: buttons stack instead of overflowing. */
+  .eb-stack-mobile { flex-direction: column; align-items: stretch; }
+  .eb-stack-mobile > .btn { width: 100%; }
+}
+
+/* Horizontal scrollers used by wide toolbars / tab strips / pipelines. */
+.eb-scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.eb-scroll-x::-webkit-scrollbar { height: 6px; }
+
+/* ── misc ── */
+.avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: hsl(200 64% 95%); color: hsl(205 100% 27%); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.progress-track { background: hsl(204 30% 93%); border-radius: 999px; overflow: hidden; }
+.progress-fill { background: hsl(var(--primary)); height: 100%; border-radius: 999px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid hsl(var(--border)); border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 500; background: hsl(var(--muted)); }
+.skeleton-chart { background: linear-gradient(180deg, hsl(199 100% 35.5% / .12), transparent); }
+[data-lucide] { width: 16px; height: 16px; }

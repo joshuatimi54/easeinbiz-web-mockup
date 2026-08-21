@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice INV-2026-041 · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-4xl mx-auto space-y-5">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <a href="finance-invoices.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Invoices</a>
+        <div class="flex items-center gap-2">
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md border hover:bg-muted flex items-center gap-1.5" style="border-color:hsl(var(--border))"><i data-lucide="download" class="h-4 w-4"></i>Download PDF</button>
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md border hover:bg-muted flex items-center gap-1.5" style="border-color:hsl(var(--border))"><i data-lucide="send" class="h-4 w-4"></i>Send</button>
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md text-white" style="background:hsl(var(--primary))">Mark as Paid</button>
+        </div>
+      </div>
+
+      <div class="eb-card eb-shadow p-5 sm:p-8">
+        <div class="flex items-start justify-between mb-8">
+          <div class="flex items-center gap-2.5">
+            <div class="h-9 w-9 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-sm">E</span></div>
+            <span class="font-display font-extrabold text-lg">Easeinbiz</span>
+          </div>
+          <div class="text-right">
+            <h1 class="font-display text-xl font-bold">Invoice</h1>
+            <p class="text-sm text-muted-foreground">INV-2026-041</p>
+            <div class="mt-2"><span class="pill pill-blue"><span class="pill-dot"></span>Sent</span></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 text-sm">
+          <div>
+            <p class="text-xs font-medium text-muted-foreground mb-1">Billed to</p>
+            <p class="font-medium">Acme Retail Co.</p>
+            <p class="text-muted-foreground">12 Adeola Odeku St, Victoria Island, Lagos</p>
+            <p class="text-muted-foreground">billing@acmeretail.com</p>
+          </div>
+          <div class="sm:text-right">
+            <p class="text-xs font-medium text-muted-foreground mb-1">Issued</p>
+            <p>Jul 28, 2026</p>
+            <p class="text-xs font-medium text-muted-foreground mb-1 mt-2">Due</p>
+            <p>Aug 11, 2026</p>
+          </div>
+        </div>
+
+        <div class="eb-table-wrap mb-6"><table class="w-full text-sm" style="min-width:520px">
+          <thead><tr class="border-b" style="border-color:hsl(var(--border))">
+            <th class="text-left py-2 font-medium text-muted-foreground text-xs">Description</th>
+            <th class="text-right py-2 font-medium text-muted-foreground text-xs">Qty</th>
+            <th class="text-right py-2 font-medium text-muted-foreground text-xs">Unit price</th>
+            <th class="text-right py-2 font-medium text-muted-foreground text-xs">Total</th>
+          </tr></thead>
+          <tbody>
+            <tr class="border-b" style="border-color:hsl(var(--border))"><td class="py-3">Social media management — August retainer</td><td class="text-right">1</td><td class="text-right">₦650,000</td><td class="text-right">₦650,000</td></tr>
+            <tr class="border-b" style="border-color:hsl(var(--border))"><td class="py-3">Paid ads management (Meta + Google)</td><td class="text-right">1</td><td class="text-right">₦150,000</td><td class="text-right">₦150,000</td></tr>
+            <tr><td class="py-3">Content shoot — product photography</td><td class="text-right">1</td><td class="text-right">₦50,000</td><td class="text-right">₦50,000</td></tr>
+          </tbody></table></div>
+
+        <div class="flex justify-end">
+          <div class="w-full sm:w-64 space-y-2 text-sm">
+            <div class="flex justify-between text-muted-foreground"><span>Subtotal</span><span>₦850,000</span></div>
+            <div class="flex justify-between text-muted-foreground"><span>Tax (0%)</span><span>₦0</span></div>
+            <div class="flex justify-between font-semibold text-base pt-2 border-t" style="border-color:hsl(var(--border))"><span>Total</span><span>₦850,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="finance-invoices" data-title="Invoice"></script>
+</body>
+</html>

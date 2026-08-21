@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { border: "hsl(var(--border))", background: "hsl(var(--background))", foreground: "hsl(var(--foreground))",
+      primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+      muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+      card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" } },
+    fontFamily: { display: ["Sora","sans-serif"], body: ["Inter","sans-serif"] } } }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1700px] mx-auto space-y-5">
+
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 class="text-[26px] font-bold tracking-tight font-display">Tasks</h1>
+          <p class="text-sm text-muted-foreground mt-1">Track work across your team, organized by status.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center border rounded-md overflow-hidden text-xs" style="border-color:hsl(var(--border))">
+            <button class="px-3 py-1.5 flex items-center gap-1.5" style="background:hsl(var(--sidebar-accent));color:hsl(var(--primary))"><i data-lucide="kanban" class="h-3.5 w-3.5"></i>Board</button>
+            <button class="px-3 py-1.5 flex items-center gap-1.5 text-muted-foreground"><i data-lucide="list" class="h-3.5 w-3.5"></i>List</button>
+          </div>
+          <a href="task-add.html" class="inline-flex items-center gap-1.5 rounded-md text-white text-sm font-medium px-3.5 py-2" style="background:hsl(var(--primary))"><i data-lucide="plus" class="h-4 w-4"></i>New Task</a>
+        </div>
+      </div>
+
+      <!-- filters -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="relative w-full sm:w-64">
+          <i data-lucide="search" class="h-3.5 w-3.5 absolute left-2.5 top-2.5 text-muted-foreground"></i>
+          <input placeholder="Search tasks..." class="w-full text-sm border rounded-md pl-8 pr-3 py-1.5" style="border-color:hsl(var(--border))">
+        </div>
+        <select class="text-xs border rounded-md px-2.5 py-1.5" style="border-color:hsl(var(--border))"><option>All assignees</option></select>
+        <select class="text-xs border rounded-md px-2.5 py-1.5" style="border-color:hsl(var(--border))"><option>All priorities</option></select>
+      </div>
+
+      <!-- kanban -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+        <!-- To Do -->
+        <div class="kanban-col p-3 space-y-2.5">
+          <div class="flex items-center justify-between px-1 mb-1">
+            <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">To Do</span>
+            <span class="text-xs text-muted-foreground bg-white rounded-full px-1.5 py-0.5 border" style="border-color:hsl(var(--border))">4</span>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Draft Q3 social calendar for Acme Retail</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-blue"><span class="pill-dot"></span>Content</span>
+              <span class="avatar h-6 w-6 text-[10px]">MO</span>
+            </div>
+            <div class="flex items-center gap-1.5 mt-2 text-[11px] text-muted-foreground"><i data-lucide="calendar" class="h-3 w-3"></i>Aug 8</div>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Set up Meta pixel for Bluewave campaign</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-purple"><span class="pill-dot"></span>Ads</span>
+              <span class="avatar h-6 w-6 text-[10px]">JA</span>
+            </div>
+            <div class="flex items-center gap-1.5 mt-2 text-[11px] text-muted-foreground"><i data-lucide="calendar" class="h-3 w-3"></i>Aug 10</div>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Review Northgate landing page copy</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-orange"><span class="pill-dot"></span>Copy</span>
+              <span class="avatar h-6 w-6 text-[10px]">TE</span>
+            </div>
+          </div>
+          <div class="kanban-card p-3 opacity-70">
+            <p class="text-sm font-medium mb-2">Audit competitor ad spend, Q2</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-gray"><span class="pill-dot"></span>Research</span>
+              <span class="avatar h-6 w-6 text-[10px]">MO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="kanban-col p-3 space-y-2.5">
+          <div class="flex items-center justify-between px-1 mb-1">
+            <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">In Progress</span>
+            <span class="text-xs text-muted-foreground bg-white rounded-full px-1.5 py-0.5 border" style="border-color:hsl(var(--border))">3</span>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Design carousel assets for product launch</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-blue"><span class="pill-dot"></span>Design</span>
+              <span class="avatar h-6 w-6 text-[10px]">JA</span>
+            </div>
+            <div class="flex items-center gap-1.5 mt-2 text-[11px]" style="color:#E23D3D"><i data-lucide="clock" class="h-3 w-3"></i>Overdue — Aug 1</div>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Build weekly performance report template</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-green"><span class="pill-dot"></span>Analytics</span>
+              <span class="avatar h-6 w-6 text-[10px]">TE</span>
+            </div>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Coordinate influencer shoot logistics</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-orange"><span class="pill-dot"></span>Ops</span>
+              <span class="avatar h-6 w-6 text-[10px]">MO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- In Review -->
+        <div class="kanban-col p-3 space-y-2.5">
+          <div class="flex items-center justify-between px-1 mb-1">
+            <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">In Review</span>
+            <span class="text-xs text-muted-foreground bg-white rounded-full px-1.5 py-0.5 border" style="border-color:hsl(var(--border))">2</span>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Instagram carousel — August promo</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-blue"><span class="pill-dot"></span>Content</span>
+              <span class="avatar h-6 w-6 text-[10px]">JA</span>
+            </div>
+          </div>
+          <div class="kanban-card p-3">
+            <p class="text-sm font-medium mb-2">Client onboarding deck, Northgate Realty</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-gray"><span class="pill-dot"></span>Client</span>
+              <span class="avatar h-6 w-6 text-[10px]">TE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Done -->
+        <div class="kanban-col p-3 space-y-2.5">
+          <div class="flex items-center justify-between px-1 mb-1">
+            <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Done</span>
+            <span class="text-xs text-muted-foreground bg-white rounded-full px-1.5 py-0.5 border" style="border-color:hsl(var(--border))">6</span>
+          </div>
+          <div class="kanban-card p-3 opacity-80">
+            <p class="text-sm font-medium mb-2 line-through decoration-muted-foreground/40">Publish July recap newsletter</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-green"><span class="pill-dot"></span>Content</span>
+              <span class="avatar h-6 w-6 text-[10px]">MO</span>
+            </div>
+          </div>
+          <div class="kanban-card p-3 opacity-80">
+            <p class="text-sm font-medium mb-2 line-through decoration-muted-foreground/40">Set up UTM tracking for all campaigns</p>
+            <div class="flex items-center justify-between">
+              <span class="pill pill-purple"><span class="pill-dot"></span>Ads</span>
+              <span class="avatar h-6 w-6 text-[10px]">JA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="tasks" data-title="Tasks"></script>
+</body>
+</html>

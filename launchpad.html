@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launchpad · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-6">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <div class="flex items-center gap-2"><i data-lucide="rocket" class="h-5 w-5" style="color:hsl(var(--primary))"></i><h1 class="text-2xl font-bold tracking-tight font-display">Launchpad</h1></div>
+          <p class="text-sm text-muted-foreground mt-1">Plan and track everything from idea to launch.</p>
+        </div>
+        <a href="launchpad-project.html" class="inline-flex items-center gap-1.5 rounded-md text-white text-sm font-medium px-3.5 py-2" style="background:hsl(var(--primary))"><i data-lucide="plus" class="h-4 w-4"></i>New Project</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="projects"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="launchpad" data-title="Launchpad"></script>
+<script src="assets/js/components.js"></script>
+<script>
+var projects = [
+  { title:'Client referral program v2', color:'#0077B5', status:'green', statusLabel:'In progress', pct:60 },
+  { title:'Agency partner portal', color:'#FFA500', status:'blue', statusLabel:'Idea', pct:10 },
+  { title:'Automated onboarding flow', color:'#0FA36B', status:'green', statusLabel:'In progress', pct:80 },
+  { title:'AI content approvals v1', color:'#1A6E9E', status:'gray', statusLabel:'Done', pct:100 },
+];
+document.getElementById('projects').innerHTML = projects.map(function (p) {
+  return '<a href="launchpad-project.html" class="eb-card eb-shadow-sm overflow-hidden hover:shadow transition-all block">' +
+    '<div class="h-20" style="background:' + p.color + '"></div>' +
+    '<div class="p-4">' +
+      '<div class="flex items-center justify-between mb-2"><h3 class="font-display font-semibold text-sm truncate">' + p.title + '</h3></div>' +
+      ebPill(p.status, p.statusLabel) +
+      '<div class="progress-track h-1.5 mt-3"><div class="progress-fill" style="width:' + p.pct + '%"></div></div>' +
+    '</div></a>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Builder · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1500px] mx-auto space-y-5">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <a href="forms.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-1"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Forms</a>
+          <h1 class="text-xl font-bold tracking-tight font-display">Client Intake Questionnaire</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md border hover:bg-muted" style="border-color:hsl(var(--border))">Preview</button>
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md text-white" style="background:hsl(var(--primary))">Publish</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-5">
+        <div class="eb-card eb-shadow-sm p-3 space-y-1 h-fit">
+          <p class="text-[11px] font-semibold text-muted-foreground uppercase px-2 pt-1 pb-2">Add field</p>
+          <button class="nav-link w-full"><i data-lucide="type" class="h-4 w-4"></i>Short text</button>
+          <button class="nav-link w-full"><i data-lucide="align-left" class="h-4 w-4"></i>Long text</button>
+          <button class="nav-link w-full"><i data-lucide="circle-dot" class="h-4 w-4"></i>Multiple choice</button>
+          <button class="nav-link w-full"><i data-lucide="check-square" class="h-4 w-4"></i>Checkboxes</button>
+          <button class="nav-link w-full"><i data-lucide="chevron-down-square" class="h-4 w-4"></i>Dropdown</button>
+          <button class="nav-link w-full"><i data-lucide="star" class="h-4 w-4"></i>Rating</button>
+          <button class="nav-link w-full"><i data-lucide="calendar" class="h-4 w-4"></i>Date</button>
+        </div>
+
+        <div class="eb-card eb-shadow-sm p-6 space-y-4 max-w-2xl">
+          <div>
+            <input class="w-full text-lg font-display font-semibold border-0 border-b focus:outline-none pb-2" style="border-color:hsl(var(--border))" value="Client Intake Questionnaire">
+            <input class="w-full text-sm text-muted-foreground border-0 focus:outline-none mt-1" value="Help us understand your business before our first call.">
+          </div>
+
+          <div class="rounded-lg border p-4" style="border-color:hsl(var(--border))">
+            <div class="flex items-center justify-between mb-2"><span class="text-xs font-medium text-muted-foreground">Question 1 · Short text</span><i data-lucide="grip-vertical" class="h-4 w-4 text-muted-foreground cursor-grab"></i></div>
+            <input class="w-full text-sm border rounded-md px-3 py-2 mb-2" style="border-color:hsl(var(--border))" value="What's your company name?">
+            <input disabled class="w-full text-sm border rounded-md px-3 py-2 bg-muted" placeholder="Short answer text">
+          </div>
+          <div class="rounded-lg border p-4" style="border-color:hsl(var(--border))">
+            <div class="flex items-center justify-between mb-2"><span class="text-xs font-medium text-muted-foreground">Question 2 · Multiple choice</span><i data-lucide="grip-vertical" class="h-4 w-4 text-muted-foreground cursor-grab"></i></div>
+            <input class="w-full text-sm border rounded-md px-3 py-2 mb-3" style="border-color:hsl(var(--border))" value="What services are you interested in?">
+            <div class="space-y-2 text-sm">
+              <label class="flex items-center gap-2"><input type="radio" name="q2">Social media management</label>
+              <label class="flex items-center gap-2"><input type="radio" name="q2">Paid advertising</label>
+              <label class="flex items-center gap-2"><input type="radio" name="q2">Content creation</label>
+            </div>
+          </div>
+          <div class="rounded-lg border-2 border-dashed p-6 flex items-center justify-center text-sm text-muted-foreground" style="border-color:hsl(var(--border))">
+            <i data-lucide="plus" class="h-4 w-4 mr-1.5"></i>Add another question
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="forms" data-title="Form Builder"></script>
+</body>
+</html>

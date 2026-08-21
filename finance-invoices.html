@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoices · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="flex items-center gap-2 text-xs border-b eb-scroll-x" style="border-color:hsl(var(--border))">
+        <a href="finance-sales.html" class="px-3 py-2 border-b-2 border-transparent text-muted-foreground whitespace-nowrap">Sales Records</a>
+        <a href="finance-expenses.html" class="px-3 py-2 border-b-2 border-transparent text-muted-foreground whitespace-nowrap">Expenses</a>
+        <a href="finance-invoices.html" class="px-3 py-2 border-b-2 font-medium whitespace-nowrap" style="border-color:hsl(var(--primary));color:hsl(var(--primary))">Invoices</a>
+      </div>
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-2 text-xs">
+          <button class="px-3 py-1.5 rounded-md" style="background:hsl(var(--sidebar-accent));color:hsl(var(--primary))">All</button>
+          <button class="px-3 py-1.5 rounded-md text-muted-foreground">Draft</button>
+          <button class="px-3 py-1.5 rounded-md text-muted-foreground">Sent</button>
+          <button class="px-3 py-1.5 rounded-md text-muted-foreground">Paid</button>
+          <button class="px-3 py-1.5 rounded-md text-muted-foreground">Overdue</button>
+        </div>
+        <a href="finance-invoice-detail.html" class="inline-flex items-center gap-1.5 rounded-md text-white text-sm font-medium px-3.5 py-2" style="background:hsl(var(--primary))"><i data-lucide="plus" class="h-4 w-4"></i>New Invoice</a>
+      </div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="inv-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="finance-invoices" data-title="Invoices"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Finance', subtitle: 'Sales, expenses, and invoicing for your organization.' });
+ebTable('inv-table', {
+  columns: ['Invoice #','Client','Issued','Due','Amount','Status',''],
+  rows: [
+    ['<a href="finance-invoice-detail.html" class="font-medium hover:underline">INV-2026-041</a>', 'Acme Retail Co.', 'Jul 28, 2026', 'Aug 11, 2026', '₦850,000', ebPill('blue','Sent'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<a href="finance-invoice-detail.html" class="font-medium hover:underline">INV-2026-040</a>', 'Bluewave Logistics', 'Jul 20, 2026', 'Aug 3, 2026', '₦420,000', ebPill('green','Paid'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<a href="finance-invoice-detail.html" class="font-medium hover:underline">INV-2026-039</a>', 'Northgate Realty', 'Jul 10, 2026', 'Jul 24, 2026', '₦300,000', ebPill('red','Overdue'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<a href="finance-invoice-detail.html" class="font-medium hover:underline">INV-2026-038</a>', 'Driftwood Coffee Co.', 'Jul 3, 2026', 'Jul 17, 2026', '₦180,000', ebPill('gray','Draft'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+  ]
+});
+</script>
+</body>
+</html>

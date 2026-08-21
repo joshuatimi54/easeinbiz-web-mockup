@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Responses · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <a href="forms.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Forms</a>
+      <div id="hdr"></div>
+      <div id="kpis"></div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="resp-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="forms" data-title="Form Responses"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Client Intake Questionnaire', subtitle: 'Responses collected since Jan 14, 2026.', actions: [{ label: 'Export CSV', icon: 'download' }] });
+ebKpi('kpis', [
+  { icon:'inbox', label:'Total responses', value:'84', iconBg:'#E8F4FA', iconFg:'#0077B5' },
+  { icon:'trending-up', label:'Completion rate', value:'92%', iconBg:'#E1F5EC', iconFg:'#0FA36B' },
+  { icon:'clock', label:'Avg. time to complete', value:'2m 40s', iconBg:'#FFF6E5', iconFg:'#7A4E00' },
+]);
+ebTable('resp-table', {
+  columns: ['Respondent','Company name','Services interested','Submitted'],
+  rows: [
+    ['sarah@vervebeauty.com', 'Verve Beauty', ebPill('blue','Social media')+' '+ebPill('orange','Paid ads'), 'Aug 1, 3:14 PM'],
+    ['daniel@freshroute.com', 'Fresh Route', ebPill('green','Content creation'), 'Jul 31, 11:02 AM'],
+    ['grace@northline.com', 'Northline Realty', ebPill('blue','Social media'), 'Jul 30, 4:45 PM'],
+    ['femi@paybridge.co', 'PayBridge', ebPill('orange','Paid ads')+' '+ebPill('green','Content creation'), 'Jul 29, 9:20 AM'],
+  ]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-6">
+      <div id="hdr"></div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center border rounded-md overflow-hidden text-xs" style="border-color:hsl(var(--border))">
+          <button class="px-3 py-1.5" style="background:hsl(var(--sidebar-accent));color:hsl(var(--primary))">7d</button>
+          <button class="px-3 py-1.5 text-muted-foreground">30d</button>
+          <button class="px-3 py-1.5 text-muted-foreground">90d</button>
+        </div>
+        <select class="text-xs border rounded-md px-2.5 py-1.5" style="border-color:hsl(var(--border))"><option>All companies</option><option>Acme Retail Co.</option><option>Bluewave Logistics</option></select>
+      </div>
+
+      <div id="kpis"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div class="eb-card eb-shadow-sm p-5 lg:col-span-2">
+          <h3 class="font-display font-semibold text-[15px] mb-4">Traffic & conversions</h3>
+          <div class="h-56 rounded-lg skeleton-chart flex items-end gap-2 p-3">
+            <div class="flex-1 rounded-t" style="height:35%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:55%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:48%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:70%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:60%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:85%;background:hsl(var(--primary))"></div>
+            <div class="flex-1 rounded-t" style="height:90%;background:hsl(var(--primary))"></div>
+            <div class="flex-1 rounded-t" style="height:72%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:65%;background:hsl(var(--primary)/.6)"></div>
+            <div class="flex-1 rounded-t" style="height:80%;background:hsl(var(--primary)/.6)"></div>
+          </div>
+        </div>
+        <div class="eb-card eb-shadow-sm p-5">
+          <h3 class="font-display font-semibold text-[15px] mb-4">Channel mix</h3>
+          <div class="space-y-3">
+            <div><div class="flex justify-between text-xs mb-1"><span>Instagram</span><span class="text-muted-foreground">42%</span></div><div class="progress-track h-1.5"><div class="progress-fill" style="width:42%"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-1"><span>Google Ads</span><span class="text-muted-foreground">28%</span></div><div class="progress-track h-1.5"><div class="progress-fill" style="width:28%;background:hsl(var(--accent))"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-1"><span>Facebook</span><span class="text-muted-foreground">18%</span></div><div class="progress-track h-1.5"><div class="progress-fill" style="width:18%;background:hsl(160 60% 45%)"></div></div></div>
+            <div><div class="flex justify-between text-xs mb-1"><span>Organic / Direct</span><span class="text-muted-foreground">12%</span></div><div class="progress-track h-1.5"><div class="progress-fill" style="width:12%;background:hsl(280 60% 55%)"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="eb-card eb-shadow-sm p-5">
+        <h3 class="font-display font-semibold text-[15px] mb-4">Campaign performance</h3>
+        <div id="perf-table"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="analytics" data-title="Analytics"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Analytics', subtitle: 'Cross-channel performance across every connected company.' });
+ebKpi('kpis', [
+  { icon:'eye', label:'Impressions', value:'312.4K', delta:'+12.6% vs last period', deltaTone:'up', iconBg:'#E8F4FA', iconFg:'#0077B5' },
+  { icon:'mouse-pointer-click', label:'Clicks', value:'8,940', delta:'+4.1% vs last period', deltaTone:'up', iconBg:'#E1F5EC', iconFg:'#0FA36B' },
+  { icon:'target', label:'Conversions', value:'605', delta:'-2.3% vs last period', deltaTone:'down', iconBg:'#FFF6E5', iconFg:'#7A4E00' },
+  { icon:'dollar-sign', label:'Ad Spend', value:'$17,750', delta:'On budget', deltaTone:'neutral', iconBg:'#FDECEC', iconFg:'#E23D3D' },
+]);
+ebTable('perf-table', {
+  columns: ['Campaign','Channel','Impressions','CTR','Conversions','ROAS'],
+  rows: [
+    ['<span class="font-medium">Q3 Brand Awareness</span>','Instagram','84.2K','2.4%','128', ebPill('green','3.8x')],
+    ['<span class="font-medium">Product Launch — Aria</span>','Google Ads','142K','1.9%','342', ebPill('green','4.6x')],
+    ['<span class="font-medium">Holiday Promo</span>','Facebook','38.9K','1.1%','44', ebPill('orange','1.2x')],
+    ['<span class="font-medium">Referral Push</span>','Organic','47K','3.2%','91', ebPill('green','5.1x')],
+  ]
+});
+</script>
+</body>
+</html>

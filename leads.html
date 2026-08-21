@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leads · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1800px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div id="kpis"></div>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4" id="pipeline"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="leads" data-title="Leads"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Leads', subtitle: 'Your CRM pipeline, from first contact to conversion.', actions: [{ label: 'Add Lead', icon: 'plus', primary: true }] });
+ebKpi('kpis', [
+  { icon:'user-plus', label:'New this week', value:'12', iconBg:'#E8F4FA', iconFg:'#0077B5' },
+  { icon:'phone-call', label:'In contact', value:'8', iconBg:'#FFF6E5', iconFg:'#7A4E00' },
+  { icon:'badge-check', label:'Qualified', value:'5', iconBg:'#E5F4FC', iconFg:'#1A6E9E' },
+  { icon:'trophy', label:'Converted (mo.)', value:'6', delta:'32% win rate', deltaTone:'up', iconBg:'#E1F5EC', iconFg:'#0FA36B' },
+]);
+
+var stages = [
+  { title:'New', tone:'gray', hue:'#F0F6F9', leads:[
+    {name:'Wale Adigun', co:'Sunroot Foods', src:'Website form'},
+    {name:'Ijeoma Bello', co:'Craftline Studio', src:'Referral'},
+    {name:'Percy Nolan', co:'Metro Fitness', src:'LinkedIn'},
+  ]},
+  { title:'Contacted', tone:'blue', hue:'#E8F4FA', leads:[
+    {name:'Sarah Kim', co:'Verve Beauty', src:'Website form'},
+    {name:'Daniel Osei', co:'Fresh Route', src:'Cold outreach'},
+  ]},
+  { title:'Qualified', tone:'purple', hue:'#E5F4FC', leads:[
+    {name:'Grace Umeh', co:'Northline Realty', src:'Referral'},
+    {name:'Femi Alabi', co:'PayBridge', src:'Event'},
+  ]},
+  { title:'Converted', tone:'green', hue:'#E1F5EC', leads:[
+    {name:'Chidi Obinna', co:'Driftwood Coffee', src:'Website form'},
+  ]},
+  { title:'Archived', tone:'gray', hue:'#F0F6F9', leads:[
+    {name:'Lara Ade', co:'Zenith Travels', src:'LinkedIn'},
+  ]},
+];
+document.getElementById('pipeline').innerHTML = stages.map(function (s) {
+  var cards = s.leads.map(function (l) {
+    return '<div class="kanban-card p-3">' +
+      '<p class="text-sm font-medium">' + l.name + '</p>' +
+      '<p class="text-xs text-muted-foreground mb-2">' + l.co + '</p>' +
+      '<div class="flex items-center justify-between"><span class="chip text-[10px] py-0.5">' + l.src + '</span>' + ebAvatar(l.name.split(' ').map(function(n){return n[0]}).join(''),6) + '</div>' +
+    '</div>';
+  }).join('');
+  return '<div class="rounded-xl border p-3 space-y-2.5" style="background:' + s.hue + ';border-color:hsl(var(--border))">' +
+    '<div class="flex items-center justify-between px-1 mb-1"><span class="text-xs font-semibold uppercase tracking-wide">' + s.title + '</span>' +
+    '<span class="text-xs bg-white rounded-full px-1.5 py-0.5 border" style="border-color:hsl(var(--border))">' + s.leads.length + '</span></div>' + cards + '</div>';
+}).join('');
+</script>
+</body>
+</html>

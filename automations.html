@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automations · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="auto-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="automations" data-title="Automations"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Automations', subtitle: 'Automate repetitive workflows across your organization.', actions: [{ label: 'New Automation', icon: 'plus', primary: true, href: 'automation-builder.html' }] });
+ebTable('auto-table', {
+  columns: ['Automation','Trigger','Action','Runs (mo.)','Status',''],
+  rows: [
+    ['<span class="font-medium">Welcome new leads</span>', 'Lead created', 'Send email + assign owner', '42', ebPill('green','Active'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Content approval reminder</span>', 'Pending 24h', 'Notify approver on Slack', '18', ebPill('green','Active'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Overdue invoice nudge</span>', 'Invoice overdue', 'Send reminder email', '6', ebPill('green','Active'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Task reassignment</span>', 'Task overdue 3d', 'Notify manager', '3', ebPill('gray','Paused'), '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+  ]
+});
+</script>
+</body>
+</html>

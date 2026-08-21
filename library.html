@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="relative w-full sm:w-64">
+          <i data-lucide="search" class="h-3.5 w-3.5 absolute left-2.5 top-2.5 text-muted-foreground"></i>
+          <input placeholder="Search files..." class="w-full text-sm border rounded-md pl-8 pr-3 py-1.5" style="border-color:hsl(var(--border))">
+        </div>
+        <button class="text-xs font-medium px-3 py-1.5 rounded-md border hover:bg-muted flex items-center gap-1.5" style="border-color:hsl(var(--border))"><i data-lucide="folder-plus" class="h-3.5 w-3.5"></i>New folder</button>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3" id="folders"></div>
+      <div>
+        <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Recent files</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3" id="files"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="library" data-title="Library"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Library', subtitle: 'Shared brand assets, media, and documents.', actions: [{ label: 'Upload', icon: 'upload', primary: true }] });
+var folders = ['Acme Retail Co.','Bluewave Logistics','Brand Assets','Northgate Realty','Contracts','Q3 Campaign'];
+document.getElementById('folders').innerHTML = folders.map(function (f) {
+  return '<div class="eb-card eb-shadow-sm p-4 hover:shadow transition-all cursor-pointer flex flex-col items-center text-center gap-2">' +
+    '<div class="h-10 w-10 rounded-lg flex items-center justify-center" style="background:#FFF6E5"><i data-lucide="folder" class="h-5 w-5" style="color:#7A4E00"></i></div>' +
+    '<p class="text-xs font-medium truncate w-full">' + f + '</p></div>';
+}).join('');
+var files = [
+  {n:'aria_collection_hero.jpg', i:'image', c:'#E8F4FA', ic:'#0077B5'},
+  {n:'brand_guidelines_v3.pdf', i:'file-text', c:'#FDECEC', ic:'#E23D3D'},
+  {n:'q3_reel_final.mp4', i:'video', c:'#E5F4FC', ic:'#1A6E9E'},
+  {n:'logo_pack.zip', i:'file-archive', c:'#F0F6F9', ic:'#374750'},
+  {n:'client_msa_signed.pdf', i:'file-text', c:'#FDECEC', ic:'#E23D3D'},
+  {n:'product_shots_batch2.zip', i:'image', c:'#E8F4FA', ic:'#0077B5'},
+];
+document.getElementById('files').innerHTML = files.map(function (f) {
+  return '<div class="eb-card eb-shadow-sm p-4 hover:shadow transition-all cursor-pointer flex flex-col items-center text-center gap-2">' +
+    '<div class="h-10 w-10 rounded-lg flex items-center justify-center" style="background:' + f.c + '"><i data-lucide="' + f.i + '" class="h-5 w-5" style="color:' + f.ic + '"></i></div>' +
+    '<p class="text-xs font-medium truncate w-full">' + f.n + '</p></div>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

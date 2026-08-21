@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shared with me · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="shared-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="library-shared" data-title="Shared with me"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Shared with me', subtitle: 'Files and folders other people have shared with you.' });
+ebTable('shared-table', {
+  columns: ['Name','Shared by','Access','Shared on',''],
+  rows: [
+    ['<i data-lucide="folder" class="h-4 w-4 inline mr-2" style="color:#7A4E00"></i><span class="font-medium">Northgate Realty — Q3 Assets</span>', ebAvatar('TE',6)+' Tunde Eze', ebPill('blue','Can view'), '2 days ago', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<i data-lucide="file-text" class="h-4 w-4 inline mr-2" style="color:#E23D3D"></i><span class="font-medium">Q3_media_kit.pdf</span>', ebAvatar('MO',6)+' Maya Okoye', ebPill('green','Can edit'), '5 days ago', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+    ['<i data-lucide="image" class="h-4 w-4 inline mr-2" style="color:#0077B5"></i><span class="font-medium">launch_visuals_final</span>', ebAvatar('RN',6)+' Rita Nwosu', ebPill('blue','Can view'), '1 week ago', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="more-horizontal" class="h-4 w-4"></i></button>'],
+  ]
+});
+</script>
+</body>
+</html>

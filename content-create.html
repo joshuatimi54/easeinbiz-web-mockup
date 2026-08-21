@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create content · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  .scrim { position:fixed; inset:0; background:rgb(11 44 61 / .45); display:flex; align-items:flex-start; justify-content:center; padding:28px 16px; overflow-y:auto; z-index:50; }
+  .sheet { background:hsl(var(--card)); border-radius:14px; box-shadow:var(--shadow-lg); width:100%; max-width:680px; }
+  @media (max-width:640px) { .scrim { padding:0; align-items:flex-end; } .sheet { border-radius:14px 14px 0 0; min-height:92vh; } }
+  .row { display:flex; align-items:center; gap:10px; }
+  .disclose { border-top:1px solid hsl(var(--border)); }
+  .disclose > button { width:100%; display:flex; align-items:center; gap:10px; padding:12px 20px; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; }
+  .disclose > button:hover { background:#F6FAFC; }
+  .disclose .body { padding:0 20px 16px; display:none; }
+  .disclose.open .body { display:block; }
+  .disclose.open .chev { transform:rotate(180deg); }
+  .chev { transition:transform var(--dur-fast) var(--ease-out); margin-left:auto; }
+  .seg { display:inline-flex; background:hsl(var(--muted)); border-radius:var(--radius); padding:3px; width:100%; }
+  .seg button { flex:1; padding:9px 10px; font-size:12.5px; font-weight:500; border:none; background:transparent; color:hsl(var(--muted-foreground)); border-radius:8px; cursor:pointer; font-family:inherit; transition:background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+  .seg button.on { background:hsl(var(--card)); color:hsl(var(--primary)); font-weight:600; box-shadow:var(--shadow-sm); }
+  .acct { display:flex; align-items:center; gap:9px; padding:9px 11px; border-radius:var(--radius); background:#F9FCFE; border:1px solid hsl(var(--input)); cursor:pointer; transition:border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out); }
+  .acct.on { border-color:#93CCE9; background:hsl(var(--sidebar-accent)); }
+  .acct input { accent-color:hsl(var(--primary)); width:15px; height:15px; }
+  .ai-chip { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:4px 10px; font-size:11.5px; font-weight:500; background:hsl(var(--sidebar-accent)); color:hsl(205 100% 27%); border:none; cursor:pointer; font-family:inherit; transition:background var(--dur-fast) var(--ease-out); }
+  .ai-chip:hover { background:#C7E5F4; }
+  .saved { display:inline-flex; align-items:center; gap:5px; font-size:11px; color:hsl(var(--muted-foreground)); }
+</style>
+</head>
+<body class="font-body antialiased">
+
+<div class="p-3 sm:p-6 max-w-[900px] mx-auto">
+  <p class="text-sm text-muted-foreground mb-3">Mockup — the redesigned create-content popup. Everything below is interactive.</p>
+  <button class="btn btn-primary" onclick="document.getElementById('scrim').style.display='flex'">
+    <i data-lucide="plus" class="h-4 w-4"></i>New content
+  </button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="sheet eb-enter">
+
+    <!-- ══ header: draft safety is visible, not hidden ══ -->
+    <div class="flex items-center gap-3 px-5 py-3.5 flex-wrap" style="border-bottom:1px solid hsl(var(--border))">
+      <span class="font-display text-[15px] font-semibold" style="color:hsl(var(--ink))">New content</span>
+      <span class="saved" id="save-state"><i data-lucide="check" class="h-3 w-3" style="color:#0FA36B"></i>Draft saved on this device</span>
+      <span class="flex-1"></span>
+      <button class="topbar-icon" onclick="document.getElementById('scrim').style.display='none'"><i data-lucide="x" class="h-4 w-4"></i></button>
+    </div>
+
+    <!-- ══ restore banner — the mistake helper ══ -->
+    <div id="restore" class="px-5 py-3 flex items-center gap-3 flex-wrap" style="background:hsl(var(--sidebar-accent))">
+      <i data-lucide="rotate-ccw" class="h-4 w-4" style="color:hsl(205 100% 27%)"></i>
+      <span class="text-[12.5px] flex-1" style="color:hsl(205 100% 27%)">You have an unsaved draft from 14 minutes ago — “Ramadan campaign teaser”.</span>
+      <button class="btn btn-primary" style="padding:5px 11px;font-size:11.5px">Restore it</button>
+      <button class="btn btn-ghost" style="padding:5px 11px;font-size:11.5px" onclick="this.parentElement.remove()">Start fresh</button>
+    </div>
+
+    <!-- ══ the essentials — visible on open ══ -->
+    <div class="p-5 space-y-4">
+      <div>
+        <label class="eb-label">What are you posting?</label>
+        <input class="eb-input w-full" id="title" placeholder="Give it a name you'll recognise later" oninput="touch()">
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="eb-label" style="margin:0">Caption</label>
+          <!-- AI lives HERE — at the blank page, where it's needed most -->
+          <div class="flex gap-1.5 flex-wrap">
+            <button class="ai-chip" onclick="aiWrite()"><i data-lucide="sparkles" class="h-3 w-3"></i>Write it for me</button>
+            <button class="ai-chip" onclick="aiImprove()"><i data-lucide="wand-2" class="h-3 w-3"></i>Improve</button>
+          </div>
+        </div>
+        <textarea class="eb-input w-full" id="caption" rows="5" placeholder="Write the post, or let AI draft it from your brand voice" oninput="touch()"></textarea>
+        <div id="ai-out" class="hidden mt-2 rounded-[10px] p-3" style="background:hsl(var(--sidebar-accent))">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="sparkles" class="h-3.5 w-3.5" style="color:hsl(205 100% 27%)"></i>
+            <span class="text-[11.5px] font-semibold" style="color:hsl(205 100% 27%)">Audit AI wrote this from your last 12 posts</span>
+          </div>
+          <p class="text-[12.5px]" id="ai-text" style="color:hsl(var(--foreground))"></p>
+          <div class="flex gap-2 mt-2.5">
+            <button class="btn btn-primary" style="padding:5px 11px;font-size:11.5px" onclick="useAi()">Use this</button>
+            <button class="btn btn-ghost" style="padding:5px 11px;font-size:11.5px" onclick="aiWrite()">Try again</button>
+            <button class="btn btn-ghost" style="padding:5px 11px;font-size:11.5px" onclick="document.getElementById('ai-out').classList.add('hidden')">Dismiss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2">
+        <div>
+          <label class="eb-label">Company</label>
+          <select class="eb-input w-full"><option>Acme Retail Co.</option><option>Bluewave Logistics</option><option>No company</option></select>
+        </div>
+        <div>
+          <label class="eb-label">When</label>
+          <input type="datetime-local" class="eb-input w-full" value="2026-08-28T09:00">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ONE publishing block — replaces the three scattered controls ══ -->
+    <div class="px-5 pb-5">
+      <div class="rounded-[10px] p-4" style="background:hsl(var(--background))">
+        <p class="font-display text-[13.5px] font-semibold mb-1" style="color:hsl(var(--ink))">What happens at that time?</p>
+        <p class="text-[11.5px] text-muted-foreground mb-3">One choice decides everything about publishing.</p>
+
+        <div class="seg mb-3">
+          <button id="m-plan" class="on" onclick="setMode('plan')">Just plan it</button>
+          <button id="m-auto" onclick="setMode('auto')">Post it for me</button>
+        </div>
+
+        <p id="mode-plan-note" class="text-[12px] text-muted-foreground">
+          It sits on the calendar as a reminder. Nothing is posted anywhere — you publish manually when you're ready.
+        </p>
+
+        <div id="mode-auto" class="hidden">
+          <p class="eb-label">Post to</p>
+          <div class="grid gap-2 sm:grid-cols-2" id="accounts"></div>
+
+          <!-- the sentence that makes the whole thing legible -->
+          <div class="mt-3 rounded-[10px] px-3.5 py-3 flex items-start gap-2.5" id="summary" style="background:hsl(var(--sidebar-accent))">
+            <i data-lucide="send" class="h-4 w-4 mt-0.5 shrink-0" style="color:hsl(205 100% 27%)"></i>
+            <p class="text-[12.5px]" id="summary-text" style="color:hsl(205 100% 27%)"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ everything else is folded away until asked for ══ -->
+    <div class="disclose" id="d-media">
+      <button onclick="toggle('d-media')">
+        <i data-lucide="image" class="h-4 w-4" style="color:hsl(var(--primary))"></i>
+        <span class="text-[13px] font-medium">Media</span>
+        <span class="text-[11.5px] text-muted-foreground">Upload, pick from library, or generate</span>
+        <i data-lucide="chevron-down" class="h-4 w-4 chev text-muted-foreground"></i>
+      </button>
+      <div class="body">
+        <div class="grid gap-2 sm:grid-cols-3">
+          <button class="btn btn-secondary" style="padding:14px 10px;flex-direction:column;gap:6px;height:auto"><i data-lucide="upload" class="h-4 w-4"></i><span class="text-[12px]">Upload</span></button>
+          <button class="btn btn-secondary" style="padding:14px 10px;flex-direction:column;gap:6px;height:auto"><i data-lucide="folder-open" class="h-4 w-4"></i><span class="text-[12px]">From library</span></button>
+          <button class="btn btn-secondary" style="padding:14px 10px;flex-direction:column;gap:6px;height:auto"><i data-lucide="sparkles" class="h-4 w-4"></i><span class="text-[12px]">Generate with AI</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclose" id="d-more">
+      <button onclick="toggle('d-more')">
+        <i data-lucide="sliders-horizontal" class="h-4 w-4" style="color:hsl(var(--primary))"></i>
+        <span class="text-[13px] font-medium">More details</span>
+        <span class="text-[11.5px] text-muted-foreground">Campaign, hashtags, CTA, content type</span>
+        <i data-lucide="chevron-down" class="h-4 w-4 chev text-muted-foreground"></i>
+      </button>
+      <div class="body space-y-3">
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div><label class="eb-label">Campaign</label><select class="eb-input w-full"><option>None</option><option>Q3 Brand Awareness</option></select></div>
+          <div><label class="eb-label">Content type</label><select class="eb-input w-full"><option>Post</option><option>Reel</option><option>Story</option><option>Carousel</option></select></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="eb-label" style="margin:0">Hashtags</label>
+            <button class="ai-chip" onclick="aiTags()"><i data-lucide="sparkles" class="h-3 w-3"></i>Suggest</button>
+          </div>
+          <input class="eb-input w-full" id="tags" placeholder="leatherbags, madeinlagos">
+        </div>
+        <div><label class="eb-label">Call to action</label><input class="eb-input w-full" placeholder="Shop now, DM us, Link in bio"></div>
+      </div>
+    </div>
+
+    <!-- ══ footer ══ -->
+    <div class="flex items-center gap-2 px-5 py-4 flex-wrap" style="border-top:1px solid hsl(var(--border))">
+      <span class="saved"><i data-lucide="shield-check" class="h-3.5 w-3.5" style="color:#0FA36B"></i>Safe to close — your draft stays on this device</span>
+      <span class="flex-1"></span>
+      <button class="btn btn-ghost" onclick="document.getElementById('scrim').style.display='none'">Cancel</button>
+      <button class="btn btn-primary" id="save-btn">Schedule it</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var ACCOUNTS = [
+  ['instagram','Instagram','@acmeretail',true],
+  ['facebook','Facebook','Acme Retail Co.',false],
+  ['linkedin','LinkedIn','Acme Retail',false],
+  ['twitter','X','@acmeretail',false],
+];
+function renderAccounts(){
+  document.getElementById('accounts').innerHTML = ACCOUNTS.map(function(a,i){
+    return '<label class="acct' + (a[3] ? ' on' : '') + '" onclick="setTimeout(sync,0)">' +
+      '<input type="checkbox" ' + (a[3] ? 'checked' : '') + ' onchange="ACCOUNTS[' + i + '][3]=this.checked;this.closest(\'.acct\').classList.toggle(\'on\',this.checked)">' +
+      '<span class="min-w-0"><span class="block text-[12.5px] font-medium truncate">' + a[1] + '</span>' +
+      '<span class="block text-[11px] text-muted-foreground truncate">' + a[2] + '</span></span></label>';
+  }).join('');
+}
+function sync(){
+  var on = ACCOUNTS.filter(function(a){ return a[3]; });
+  var names = on.map(function(a){ return a[1]; });
+  var el = document.getElementById('summary-text');
+  var box = document.getElementById('summary');
+  if (!on.length) {
+    box.style.background = '#FFF6E5';
+    el.style.color = '#7A4E00';
+    el.innerHTML = '<strong>Pick at least one account.</strong> Nothing will be posted until you do.';
+  } else {
+    box.style.background = 'hsl(var(--sidebar-accent))';
+    el.style.color = 'hsl(205 100% 27%)';
+    var list = names.length === 1 ? names[0]
+      : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+    el.innerHTML = 'On <strong>28 August at 9:00 AM</strong>, this posts automatically to <strong>' + list + '</strong>. You can still change or cancel it before then.';
+  }
+  document.getElementById('save-btn').textContent = on.length && mode === 'auto' ? 'Schedule and post' : 'Schedule it';
+}
+var mode = 'plan';
+function setMode(m){
+  mode = m;
+  document.getElementById('m-plan').classList.toggle('on', m === 'plan');
+  document.getElementById('m-auto').classList.toggle('on', m === 'auto');
+  document.getElementById('mode-plan-note').classList.toggle('hidden', m !== 'plan');
+  document.getElementById('mode-auto').classList.toggle('hidden', m !== 'auto');
+  sync();
+}
+function toggle(id){ document.getElementById(id).classList.toggle('open'); if(window.lucide) lucide.createIcons(); }
+
+/* AI — placed at the blank page and at the hashtag field, the two moments it earns its keep */
+var DRAFTS = [
+  'New in: the Lagos tote, hand-cut from full-grain leather and stitched in our Yaba workshop. 14 made this month — when they\'re gone, they\'re gone.',
+  'Every bag we make takes two days and one pair of hands. Meet the Lagos tote — full-grain leather, built to outlive the trend.',
+  'You asked, we made more. The Lagos tote is back in stock today — 14 pieces, hand-stitched in Yaba, ready to ship nationwide.',
+];
+var di = 0;
+function aiWrite(){
+  var out = document.getElementById('ai-out');
+  out.classList.remove('hidden');
+  document.getElementById('ai-text').textContent = DRAFTS[di % DRAFTS.length];
+  di++;
+  if(window.lucide) lucide.createIcons();
+}
+function aiImprove(){
+  var cur = document.getElementById('caption').value.trim();
+  if (!cur) { aiWrite(); return; }
+  var out = document.getElementById('ai-out');
+  out.classList.remove('hidden');
+  document.getElementById('ai-text').textContent = cur + ' — hand-stitched in Yaba, shipping nationwide.';
+  if(window.lucide) lucide.createIcons();
+}
+function useAi(){
+  document.getElementById('caption').value = document.getElementById('ai-text').textContent;
+  document.getElementById('ai-out').classList.add('hidden');
+  touch();
+}
+function aiTags(){ document.getElementById('tags').value = 'leatherbags, madeinlagos, handmadenigeria, totebag, slowfashion'; }
+
+/* draft safety — saves as you type, survives refresh */
+var t;
+function touch(){
+  var s = document.getElementById('save-state');
+  s.innerHTML = '<i data-lucide="loader" class="h-3 w-3"></i>Saving…';
+  if(window.lucide) lucide.createIcons();
+  clearTimeout(t);
+  t = setTimeout(function(){
+    s.innerHTML = '<i data-lucide="check" class="h-3 w-3" style="color:#0FA36B"></i>Draft saved on this device';
+    if(window.lucide) lucide.createIcons();
+  }, 700);
+}
+
+renderAccounts(); setMode('plan');
+if(window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

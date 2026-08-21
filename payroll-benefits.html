@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benefits · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1400px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="benefits"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="payroll-benefits" data-title="Benefits"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Benefits', subtitle: 'Statutory and supplementary benefits applied to payroll.', actions: [{ label: 'Add Benefit', icon: 'plus', primary: true }] });
+var items = [
+  { name:'Pension (8%)', desc:'Statutory employee contribution', icon:'shield-check', color:'#0077B5', tone:'blue', status:'Active' },
+  { name:'NHF (2.5%)', desc:'National Housing Fund contribution', icon:'home', color:'#0FA36B', tone:'green', status:'Active' },
+  { name:'HMO — Premium', desc:'Health cover for all full-time staff', icon:'heart-pulse', color:'#E23D3D', tone:'red', status:'Active' },
+  { name:'13th Month Bonus', desc:'Paid every December', icon:'gift', color:'#7A4E00', tone:'orange', status:'Scheduled' },
+  { name:'Leave Allowance', desc:'10% of annual basic salary', icon:'calendar', color:'#1A6E9E', tone:'purple', status:'Active' },
+];
+document.getElementById('benefits').innerHTML = items.map(function (b) {
+  return '<div class="eb-card eb-shadow-sm p-5">' +
+    '<div class="flex items-start justify-between mb-3"><div class="h-9 w-9 rounded-lg flex items-center justify-center" style="background:' + b.color + '18"><i data-lucide="' + b.icon + '" class="h-4 w-4" style="color:' + b.color + '"></i></div>' + ebPill(b.tone, b.status) + '</div>' +
+    '<p class="font-display font-semibold text-sm mb-1">' + b.name + '</p><p class="text-xs text-muted-foreground">' + b.desc + '</p></div>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

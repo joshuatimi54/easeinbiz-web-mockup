@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrations · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="flex items-center gap-2 text-xs border-b eb-scroll-x" style="border-color:hsl(var(--border))">
+        <button class="px-3 py-2 border-b-2 font-medium whitespace-nowrap" style="border-color:hsl(var(--primary));color:hsl(var(--primary))">Channels</button>
+        <button class="px-3 py-2 border-b-2 border-transparent text-muted-foreground whitespace-nowrap">Ecosystem</button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="channels"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="integrations" data-title="Integrations"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Integrations', subtitle: 'Connect social channels and third-party tools.' });
+var channels = [
+  { name:'Instagram', icon:'instagram', color:'#E1306C', connected:true, detail:'@acmeretailco · connected Jan 12' },
+  { name:'Facebook', icon:'facebook', color:'#1877F2', connected:true, detail:'Acme Retail Co. Page · connected Jan 12' },
+  { name:'LinkedIn', icon:'linkedin', color:'#0A66C2', connected:true, detail:'Company page · connected Feb 3' },
+  { name:'TikTok', icon:'music-2', color:'#000000', connected:false, detail:'Not connected' },
+  { name:'Google Ads', icon:'chrome', color:'#4285F4', connected:true, detail:'Account 421-889-2201' },
+  { name:'X (Twitter)', icon:'twitter', color:'#000000', connected:false, detail:'Not connected' },
+];
+document.getElementById('channels').innerHTML = channels.map(function (c) {
+  return '<div class="eb-card eb-shadow-sm p-5">' +
+    '<div class="flex items-center gap-3 mb-3"><div class="h-10 w-10 rounded-lg flex items-center justify-center" style="background:' + c.color + '18"><i data-lucide="' + c.icon + '" class="h-5 w-5" style="color:' + c.color + '"></i></div>' +
+    '<div class="flex-1 min-w-0"><p class="font-display font-semibold text-sm">' + c.name + '</p><p class="text-xs text-muted-foreground truncate">' + c.detail + '</p></div></div>' +
+    (c.connected
+      ? '<div class="flex items-center justify-between"><span class="pill pill-green"><span class="pill-dot"></span>Connected</span><button class="text-xs text-muted-foreground hover:text-foreground">Disconnect</button></div>'
+      : '<button class="w-full text-sm font-medium rounded-md border py-2 hover:bg-muted" style="border-color:hsl(var(--border))">Connect</button>') +
+    '</div>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

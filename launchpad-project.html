@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client referral program v2 · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <a href="launchpad.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Launchpad</a>
+      <h1 class="text-xl font-bold tracking-tight font-display">Client referral program v2</h1>
+      <div id="board"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="launchpad" data-title="Project"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebKanban('board', [
+  { title:'Idea', cards:[
+    {title:'Define reward tiers', tag:'Planning', tagTone:'purple', assignee:'JA'},
+    {title:'Name the program', tag:'Planning', tagTone:'purple', assignee:'MO'},
+  ]},
+  { title:'To Do', cards:[
+    {title:'Set up referral tracking table', tag:'Eng', tagTone:'blue', assignee:'JA'},
+    {title:'Design referral landing page', tag:'Design', tagTone:'orange', assignee:'TE'},
+  ]},
+  { title:'In Progress', cards:[
+    {title:'Build double-sided reward logic', tag:'Eng', tagTone:'blue', assignee:'JA', meta:'Due Aug 9', metaIcon:'calendar'},
+  ]},
+  { title:'Done', cards:[
+    {title:'Competitor research', tag:'Research', tagTone:'gray', assignee:'MO', done:true},
+    {title:'Stakeholder alignment', tag:'Planning', tagTone:'purple', assignee:'JA', done:true},
+  ]},
+  { title:'Blocked', cards:[
+    {title:'Legal review of terms', tag:'Legal', tagTone:'red', assignee:'RN', meta:'Waiting on counsel', metaIcon:'clock', metaColor:'#E23D3D'},
+  ]},
+]);
+</script>
+</body>
+</html>

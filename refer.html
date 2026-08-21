@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refer & Earn · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1200px] mx-auto space-y-6">
+      <div class="rounded-2xl p-8 text-white relative overflow-hidden" style="background:linear-gradient(135deg,hsl(var(--primary)),hsl(199 100% 25%))">
+        <div class="relative z-10">
+          <span class="pill" style="background:rgba(255,255,255,.15);color:white"><span class="pill-dot" style="background:#FFA500"></span>Refer & Earn</span>
+          <h1 class="font-display text-2xl font-bold mt-3 mb-2">Give 20%, get ₦25,000</h1>
+          <p class="text-sm opacity-90 max-w-md">Invite another business to Easeinbiz. They get 20% off their first 3 months, you earn ₦25,000 in wallet credit per conversion.</p>
+        </div>
+      </div>
+
+      <div id="kpis"></div>
+
+      <div class="eb-card eb-shadow-sm p-6">
+        <h3 class="font-display font-semibold text-sm mb-3">Your referral link</h3>
+        <div class="flex items-center gap-2">
+          <input readonly class="flex-1 text-sm border rounded-md px-3 py-2 font-mono" style="border-color:hsl(var(--border))" value="https://easeinbiz.com/signup?ref=JOSHUA25">
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md text-white flex items-center gap-1.5" style="background:hsl(var(--primary))"><i data-lucide="copy" class="h-4 w-4"></i>Copy</button>
+        </div>
+      </div>
+
+      <div class="eb-card eb-shadow-sm p-0"><div id="ref-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="refer" data-title="Refer & Earn"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebKpi('kpis', [
+  { icon:'users', label:'Total referrals', value:'9', iconBg:'#E8F4FA', iconFg:'#0077B5' },
+  { icon:'check-circle', label:'Converted', value:'4', iconBg:'#E1F5EC', iconFg:'#0FA36B' },
+  { icon:'wallet', label:'Wallet credit earned', value:'₦100,000', iconBg:'#FFF6E5', iconFg:'#7A4E00' },
+]);
+ebTable('ref-table', {
+  columns: ['Business','Status','Signed up','Reward'],
+  rows: [
+    ['Studio Nine Media', ebPill('green','Converted'), 'Jul 2, 2026', '₦25,000'],
+    ['Pixel & Co.', ebPill('green','Converted'), 'Jun 18, 2026', '₦25,000'],
+    ['GrowthLoop Agency', ebPill('blue','Trial'), 'Jul 29, 2026', '—'],
+    ['Northline Media', ebPill('gray','Signed up'), 'Aug 1, 2026', '—'],
+  ]
+});
+</script>
+</body>
+</html>

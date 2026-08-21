@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My payslip · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  .line { display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-bottom:1px solid hsl(var(--border)); font-size:13px; }
+  .line:last-child { border-bottom:none; }
+  .line .lbl { color:hsl(var(--muted-foreground)); }
+  .line .val { font-weight:500; }
+  .hist { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid hsl(var(--border)); }
+  .hist:last-child { border-bottom:none; }
+  .mini-select { font-size:13px; border:1px solid hsl(var(--border)); border-radius:10px; padding:8px 11px; background:#F9FCFE; color:hsl(var(--foreground)); }
+</style>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[900px] mx-auto space-y-5">
+
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 class="font-display text-2xl font-bold tracking-tight">Your payslip</h1>
+          <p class="text-sm text-muted-foreground mt-1">Everything you earned, and where the rest of it went.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select class="mini-select"><option>July 2026</option><option>June 2026</option><option>May 2026</option></select>
+          <button class="btn btn-secondary"><i data-lucide="download" class="h-4 w-4"></i>Download PDF</button>
+        </div>
+      </div>
+
+      <!-- ══ the number that matters, plainly ══ -->
+      <div class="rounded-[14px] p-6 sm:p-7" style="background:linear-gradient(135deg,hsl(var(--primary)),hsl(200 70% 22%))">
+        <p class="text-[13px]" style="color:#C7E5F4">Paid into GTB ····4471 on 28 July 2026</p>
+        <p class="font-display text-[38px] font-bold text-white mt-1 leading-none">₦523,350</p>
+        <p class="text-[13px] mt-2" style="color:#C7E5F4">Your take-home for July · you earned ₦650,000 before deductions</p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <span class="pill" style="background:rgba(255,255,255,.16);color:#fff"><span class="pill-dot" style="background:#4ADE9C"></span>Paid on time</span>
+          <span class="pill" style="background:rgba(255,255,255,.16);color:#fff">13th payslip from Easeinbiz</span>
+        </div>
+      </div>
+
+      <div class="grid gap-4 lg:grid-cols-2">
+        <!-- earned -->
+        <div class="eb-card p-5">
+          <div class="flex items-center gap-2 mb-1">
+            <span style="width:26px;height:26px;border-radius:8px;background:#E1F5EC;color:#0F6E56;display:flex;align-items:center;justify-content:center"><i data-lucide="plus" class="h-3.5 w-3.5"></i></span>
+            <h3 class="font-display font-semibold text-[15px]">What you earned</h3>
+          </div>
+          <p class="text-[11.5px] text-muted-foreground mb-3">Your gross pay for the month.</p>
+          <div id="earnings"></div>
+          <div class="flex justify-between items-baseline pt-3 mt-1" style="border-top:2px solid hsl(var(--border))">
+            <span class="text-[13px] font-semibold">Gross pay</span>
+            <span class="font-display text-[17px] font-bold">₦650,000</span>
+          </div>
+        </div>
+
+        <!-- deducted -->
+        <div class="eb-card p-5">
+          <div class="flex items-center gap-2 mb-1">
+            <span style="width:26px;height:26px;border-radius:8px;background:#FFF6E5;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i data-lucide="minus" class="h-3.5 w-3.5"></i></span>
+            <h3 class="font-display font-semibold text-[15px]">What was deducted</h3>
+          </div>
+          <p class="text-[11.5px] text-muted-foreground mb-3">Where it went, and what it's for.</p>
+          <div id="deductions"></div>
+          <div class="flex justify-between items-baseline pt-3 mt-1" style="border-top:2px solid hsl(var(--border))">
+            <span class="text-[13px] font-semibold">Total deducted</span>
+            <span class="font-display text-[17px] font-bold">₦126,650</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ what your employer added on top ══ -->
+      <div class="eb-card p-5">
+        <div class="flex items-center gap-2 mb-1">
+          <span style="width:26px;height:26px;border-radius:8px;background:hsl(var(--sidebar-accent));color:hsl(var(--primary));display:flex;align-items:center;justify-content:center"><i data-lucide="heart-handshake" class="h-3.5 w-3.5"></i></span>
+          <h3 class="font-display font-semibold text-[15px]">What your employer paid on top</h3>
+        </div>
+        <p class="text-[11.5px] text-muted-foreground mb-3">These don't come out of your salary — they're paid for you, in addition to it.</p>
+        <div id="employer"></div>
+        <div class="rounded-[10px] px-4 py-3 mt-4" style="background:hsl(var(--sidebar-accent))">
+          <p class="text-[12.5px]" style="color:hsl(205 100% 27%)">
+            <strong>Total cost of employing you this month: ₦787,000.</strong>
+            You see ₦523,350 of it — the rest goes to your pension, your health cover, and the taxes that fund public services.
+          </p>
+        </div>
+      </div>
+
+      <!-- ══ year so far ══ -->
+      <div class="grid gap-4 lg:grid-cols-3">
+        <div class="eb-card p-5 lg:col-span-2">
+          <h3 class="font-display font-semibold text-[15px] mb-1">Your year so far</h3>
+          <p class="text-[11.5px] text-muted-foreground mb-4">Take-home pay, month by month.</p>
+          <div id="year" class="flex items-end gap-2" style="height:120px"></div>
+          <div class="flex justify-between mt-2 text-[10px] text-muted-foreground" id="year-axis"></div>
+        </div>
+        <div class="eb-card p-5">
+          <h3 class="font-display font-semibold text-[15px] mb-3">Totals for 2026</h3>
+          <div class="line"><span class="lbl">Earned</span><span class="val">₦4,550,000</span></div>
+          <div class="line"><span class="lbl">Taken home</span><span class="val">₦3,663,450</span></div>
+          <div class="line"><span class="lbl">Tax paid</span><span class="val">₦408,800</span></div>
+          <div class="line"><span class="lbl">Pension saved</span><span class="val">₦364,000</span></div>
+          <p class="text-[11.5px] text-muted-foreground mt-3">Your pension pot is money that stays yours.</p>
+        </div>
+      </div>
+
+      <!-- ══ past payslips ══ -->
+      <div class="eb-card p-5">
+        <h3 class="font-display font-semibold text-[15px] mb-3">Past payslips</h3>
+        <div id="history"></div>
+      </div>
+
+      <p class="text-[11.5px] text-muted-foreground text-center pb-4">
+        Something look wrong? <a href="#" style="color:hsl(var(--primary));font-weight:500">Ask your HR team</a> — they can see this same payslip.
+      </p>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/shell.js" data-active="payslip" data-title="My payslip"></script>
+<script src="assets/js/components.js"></script>
+<script>
+function line(label, value, note){
+  return '<div class="line"><span class="lbl">' + label +
+    (note ? '<span class="block text-[11px]" style="color:hsl(var(--muted-foreground))">' + note + '</span>' : '') +
+    '</span><span class="val">' + value + '</span></div>';
+}
+
+document.getElementById('earnings').innerHTML =
+  line('Basic salary', '₦420,000') +
+  line('Housing allowance', '₦130,000') +
+  line('Transport allowance', '₦70,000') +
+  line('Learning allowance', '₦30,000', 'Use it for a course or a book');
+
+document.getElementById('deductions').innerHTML =
+  line('PAYE tax', '₦58,400', 'Federal Inland Revenue') +
+  line('Pension — your share', '₦52,000', '8% · goes into your retirement pot') +
+  line('NHF', '₦16,250', 'National Housing Fund');
+
+document.getElementById('employer').innerHTML =
+  line('Pension — employer share', '₦65,000', '10% on top of yours, into the same pot') +
+  line('HMO health cover', '₦42,000', 'Reliance HMO · family plan') +
+  line('Life insurance', '₦12,000', '3× annual salary');
+
+var YEAR = [498,505,512,512,518,520,523];
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+(function(){
+  var max = Math.max.apply(null, YEAR) * 1.1;
+  document.getElementById('year').innerHTML = YEAR.map(function(v,i){
+    var now = i === YEAR.length - 1;
+    return '<div class="flex-1 flex flex-col items-center justify-end h-full gap-1">' +
+      (now ? '<span class="text-[10px] font-semibold" style="color:hsl(var(--ink))">₦' + v + 'k</span>' : '') +
+      '<div title="₦' + v + ',000" style="width:100%;border-radius:5px 5px 0 0;height:' + Math.round(v/max*100) + '%;background:' + (now ? 'hsl(var(--primary))' : 'hsl(var(--primary)/.35)') + '"></div></div>';
+  }).join('');
+  document.getElementById('year-axis').innerHTML = MONTHS.map(function(m){ return '<span>' + m + '</span>'; }).join('');
+})();
+
+document.getElementById('history').innerHTML = [
+  ['June 2026','₦520,100','Paid 28 June'],
+  ['May 2026','₦518,400','Paid 28 May'],
+  ['April 2026','₦512,000','Paid 28 April'],
+].map(function(h){
+  return '<div class="hist">' +
+    '<span style="width:32px;height:32px;border-radius:9px;background:hsl(var(--muted));color:hsl(var(--muted-foreground));display:flex;align-items:center;justify-content:center"><i data-lucide="file-text" class="h-4 w-4"></i></span>' +
+    '<div class="flex-1 min-w-0"><p class="text-[13px] font-medium">' + h[0] + '</p>' +
+    '<p class="text-[11.5px] text-muted-foreground">' + h[2] + '</p></div>' +
+    '<span class="text-[13px] font-semibold">' + h[1] + '</span>' +
+    '<button class="btn btn-ghost" style="padding:5px 10px;font-size:11px"><i data-lucide="download" class="h-3.5 w-3.5"></i>PDF</button></div>';
+}).join('');
+
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

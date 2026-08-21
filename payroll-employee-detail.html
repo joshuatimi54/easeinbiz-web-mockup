@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya Okoye · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-4xl mx-auto space-y-5">
+      <a href="payroll-employees.html" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Employees</a>
+
+      <div class="eb-card eb-shadow-sm p-6 flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-4">
+          <span class="avatar h-14 w-14 text-lg">MO</span>
+          <div>
+            <h1 class="font-display text-xl font-bold">Maya Okoye</h1>
+            <p class="text-sm text-muted-foreground">Head of Marketing · Marketing dept.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="pill pill-green"><span class="pill-dot"></span>Active</span>
+          <button class="text-sm font-medium px-3.5 py-2 rounded-md border hover:bg-muted" style="border-color:hsl(var(--border))">Edit</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div class="eb-card eb-shadow-sm p-5 space-y-3 lg:col-span-2">
+          <h3 class="font-display font-semibold text-sm mb-2">Compensation</h3>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div><p class="text-xs text-muted-foreground mb-1">Monthly gross</p><p class="font-medium">₦650,000</p></div>
+            <div><p class="text-xs text-muted-foreground mb-1">Employment type</p><p class="font-medium">Full-time</p></div>
+            <div><p class="text-xs text-muted-foreground mb-1">Bank</p><p class="font-medium">GTBank •••• 4471</p></div>
+            <div><p class="text-xs text-muted-foreground mb-1">Start date</p><p class="font-medium">Jan 10, 2025</p></div>
+          </div>
+          <div class="pt-3 border-t" style="border-color:hsl(var(--border))">
+            <p class="text-xs font-medium text-muted-foreground mb-2">Pay breakdown</p>
+            <div class="space-y-1.5 text-sm">
+              <div class="flex justify-between"><span class="text-muted-foreground">Basic salary</span><span>₦390,000</span></div>
+              <div class="flex justify-between"><span class="text-muted-foreground">Housing allowance</span><span>₦130,000</span></div>
+              <div class="flex justify-between"><span class="text-muted-foreground">Transport allowance</span><span>₦65,000</span></div>
+              <div class="flex justify-between"><span class="text-muted-foreground">Other allowance</span><span>₦65,000</span></div>
+              <div class="flex justify-between border-t pt-1.5 mt-1.5 font-medium" style="border-color:hsl(var(--border))"><span>Gross pay</span><span>₦650,000</span></div>
+              <div class="flex justify-between" style="color:#E23D3D"><span>PAYE tax</span><span>-₦58,400</span></div>
+              <div class="flex justify-between" style="color:#E23D3D"><span>Pension (8%)</span><span>-₦52,000</span></div>
+              <div class="flex justify-between border-t pt-1.5 mt-1.5 font-semibold" style="border-color:hsl(var(--border))"><span>Net pay</span><span>₦539,600</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="eb-card eb-shadow-sm p-5">
+          <h3 class="font-display font-semibold text-sm mb-3">Payslip history</h3>
+          <div class="space-y-2">
+            <a href="payslip.html" class="flex items-center justify-between text-sm py-2 border-b" style="border-color:hsl(var(--border))"><span>July 2026</span><span class="text-muted-foreground text-xs">₦539,600</span></a>
+            <a href="payslip.html" class="flex items-center justify-between text-sm py-2 border-b" style="border-color:hsl(var(--border))"><span>June 2026</span><span class="text-muted-foreground text-xs">₦539,600</span></a>
+            <a href="payslip.html" class="flex items-center justify-between text-sm py-2"><span>May 2026</span><span class="text-muted-foreground text-xs">₦539,600</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="payroll-employees" data-title="Employee"></script>
+</body>
+</html>

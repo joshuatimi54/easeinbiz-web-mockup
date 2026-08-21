@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easeinbiz — Audit AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: {
+      border: "hsl(var(--border))", background: "hsl(var(--background))", foreground: "hsl(var(--foreground))",
+      primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+      muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+      accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+      card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+    },
+    fontFamily: { display: ["Sora","sans-serif"], body: ["Inter","sans-serif"] },
+  } } }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* ══ Hero audit frame — spec 08 · motion locked Round 13 ══ */
+  .frame {
+    background: hsl(var(--card)); border-radius: 14px; box-shadow: var(--shadow-md);
+    overflow: hidden; transition: height var(--dur-slow) var(--ease-spring), box-shadow var(--dur-slow) var(--ease-spring);
+    height: 132px;
+  }
+  .frame.is-open { height: 640px; box-shadow: var(--shadow-lg); }
+  @media (max-width: 640px) { .frame { height: 156px; } .frame.is-open { height: calc(100vh - 120px); } }
+  .frame-rest { padding: 22px; }
+  .frame-run { display: none; flex-direction: column; height: 100%; min-height: 0; }
+  .frame.is-open .frame-rest { display: none; }
+  .frame.is-open .frame-run { display: flex; }
+  .run-body { flex: 1; overflow-y: auto; padding: 24px; min-height: 0; }
+
+  /* page follows the frame, 60ms later — ratified Round 15 */
+  .page-rest { transition: opacity var(--dur-base) var(--ease-out) 60ms, transform var(--dur-base) var(--ease-out) 60ms; }
+  .page-rest.is-hidden { opacity: 0; transform: translateY(16px); pointer-events: none; }
+
+  .stage { display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 7px 0; color: hsl(var(--muted-foreground)); }
+  .stage .ico { width: 18px; height: 18px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; background: #E9EFF3; color: #64757F; }
+  .stage.on { color: hsl(var(--foreground)); }
+  .stage.on .ico { background: #E8F4FA; }
+  .stage.done { color: hsl(var(--foreground)); }
+  .stage.done .ico { background: #E1F5EC; color: #0F6E56; }
+  .stage-note { font-size: 11px; color: hsl(var(--primary)); margin: -2px 0 6px 28px; }
+  .spin { width: 11px; height: 11px; border: 2px solid #C7E5F4; border-top-color: #0077B5; border-radius: 999px; animation: btn-spin .8s linear infinite; }
+
+  .blurred { filter: blur(5px); user-select: none; pointer-events: none; opacity: .85; }
+  .gate { background: hsl(var(--sidebar-accent)); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .hero-input { height: 52px; font-size: 14px; }
+  .navlink { font-size: 13px; color: hsl(var(--muted-foreground)); }
+  .navlink:hover { color: hsl(var(--foreground)); }
+</style>
+</head>
+<body class="font-body antialiased" style="background:hsl(var(--background))">
+
+<!-- ══════════ NAV ══════════ -->
+<header class="border-b" style="border-color:#E9EFF3;background:#fff">
+  <div class="max-w-[1180px] mx-auto px-5 h-16 flex items-center gap-8">
+    <img src="assets/img/logo.png" alt="Easeinbiz" class="h-7 object-contain">
+    <nav class="hidden md:flex items-center gap-6 flex-1">
+      <a href="#" class="navlink">Product</a>
+      <a href="#" class="navlink">Pricing</a>
+      <a href="#" class="navlink">Agencies</a>
+      <a href="#" class="navlink">Resources</a>
+    </nav>
+    <div class="flex items-center gap-2 ml-auto">
+      <a href="login.html" class="btn btn-ghost">Log in</a>
+      <a href="signup.html" class="btn btn-primary">Start free</a>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[1180px] mx-auto px-5 py-10 sm:py-16">
+
+  <!-- ══════════ HERO ══════════ -->
+  <section class="text-center mb-8 page-rest" id="hero-copy">
+    <span class="pill pill-orange mb-4"><span class="pill-dot"></span>New · Audit AI</span>
+    <h1 class="font-display font-extrabold tracking-tight mt-4" style="font-size:clamp(30px,5vw,50px);line-height:1.1;color:hsl(var(--ink))">
+      Your business has problems<br>you can't see.
+    </h1>
+    <p class="mt-4 text-[15px] sm:text-[17px] max-w-[560px] mx-auto" style="color:hsl(var(--muted-foreground))">
+      Audit AI reads your website and socials, scores your market position, and hands you a ranked list of what to fix. In about a minute.
+    </p>
+  </section>
+
+  <section id="frame" class="frame max-w-[860px] mx-auto">
+
+    <!-- resting -->
+    <div class="frame-rest">
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input id="hero-input" class="eb-input hero-input flex-1" placeholder="yourbusiness.com  or  @yourhandle">
+        <button class="btn btn-primary" style="height:52px;padding:0 22px" onclick="runAudit()">Audit my business</button>
+      </div>
+      <p class="text-[12px] mt-3 text-center sm:text-left" style="color:hsl(var(--muted-foreground))">
+        Free · No account needed · Results in about a minute
+      </p>
+    </div>
+
+    <!-- running / results -->
+    <div class="frame-run">
+      <div class="flex items-center gap-3 px-6 py-3 flex-shrink-0" style="border-bottom:1px solid #E9EFF3">
+        <span class="font-display text-[14px] font-semibold" style="color:hsl(var(--ink))">Audit AI</span>
+        <span id="target" class="text-[12px]" style="color:hsl(var(--muted-foreground))"></span>
+        <span class="flex-1"></span>
+        <button class="btn btn-ghost" style="padding:5px 11px;font-size:12px" onclick="resetHero()">Start over</button>
+      </div>
+      <div id="run" class="run-body"></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════ MARKETING BELOW (fades on engage) ══════════ -->
+  <div id="page-rest" class="page-rest">
+
+    <section class="mt-16 grid sm:grid-cols-3 gap-4">
+      <div class="eb-card p-5">
+        <p class="font-display text-[15px] font-semibold mb-1" style="color:hsl(var(--ink))">See what's broken</p>
+        <p class="text-[13px]" style="color:hsl(var(--muted-foreground))">Website clarity, conversion path, trust signals, social cadence — scored with the evidence behind every number.</p>
+      </div>
+      <div class="eb-card p-5">
+        <p class="font-display text-[15px] font-semibold mb-1" style="color:hsl(var(--ink))">Know your competitors</p>
+        <p class="text-[13px]" style="color:hsl(var(--muted-foreground))">Who else sells to your customers, what they promise, and the gap you can take.</p>
+      </div>
+      <div class="eb-card p-5">
+        <p class="font-display text-[15px] font-semibold mb-1" style="color:hsl(var(--ink))">Then actually fix it</p>
+        <p class="text-[13px]" style="color:hsl(var(--muted-foreground))">Every finding ends in a button — content plan, campaign, task, capture form. Not a PDF you close.</p>
+      </div>
+    </section>
+
+    <section class="mt-8 eb-card p-6 sm:p-8">
+      <p class="text-[12px] font-semibold tracking-wide uppercase mb-2" style="color:hsl(var(--primary))">Then run the whole business</p>
+      <p class="font-display text-[20px] font-bold mb-4" style="color:hsl(var(--ink))">Clients, invoices, payroll, content, campaigns — one login</p>
+      <div class="grid sm:grid-cols-4 gap-3">
+        <div class="rounded-[10px] p-3" style="background:hsl(var(--background))"><p class="text-[13px] font-medium">Finance</p><p class="text-[11px] mt-0.5" style="color:hsl(var(--muted-foreground))">Invoices, expenses, sales</p></div>
+        <div class="rounded-[10px] p-3" style="background:hsl(var(--background))"><p class="text-[13px] font-medium">Payroll</p><p class="text-[11px] mt-0.5" style="color:hsl(var(--muted-foreground))">Runs, payslips, benefits</p></div>
+        <div class="rounded-[10px] p-3" style="background:hsl(var(--background))"><p class="text-[13px] font-medium">Marketing</p><p class="text-[11px] mt-0.5" style="color:hsl(var(--muted-foreground))">Content, campaigns, leads</p></div>
+        <div class="rounded-[10px] p-3" style="background:hsl(var(--background))"><p class="text-[13px] font-medium">Operations</p><p class="text-[11px] mt-0.5" style="color:hsl(var(--muted-foreground))">Tasks, forms, automations</p></div>
+      </div>
+    </section>
+
+    <section class="mt-8 text-center py-10">
+      <p class="font-display text-[22px] font-bold" style="color:hsl(var(--ink))">Start with an audit. It's free.</p>
+      <p class="text-[13px] mt-2 mb-5" style="color:hsl(var(--muted-foreground))">No card, no sales call — just paste your link above.</p>
+      <button class="btn btn-primary" onclick="window.scrollTo({top:0,behavior:'smooth'});document.getElementById('hero-input').focus()">Audit my business</button>
+    </section>
+
+  </div>
+</main>
+
+<script>
+/* ══ demo data — in production this streams from /v1/public/audits ══ */
+var STAGES = [
+  { label: 'Reading %TARGET%',                 note: 'Found 24 pages · 12 products' },
+  { label: 'Understanding the business',       note: 'Handmade leather bags · direct to consumer' },
+  { label: 'Checking how you show up socially', note: 'Instagram: 4.2k followers · last post 9 days ago' },
+  { label: 'Scoring your site',                note: 'Mobile, speed, clarity, trust signals' },
+  { label: 'Finding what to fix',              note: '14 findings · 6 opportunities' },
+];
+
+function runAudit(){
+  var v = document.getElementById('hero-input').value.trim();
+  if(!v){ document.getElementById('hero-input').focus(); return; }
+  open_(v);
+}
+function open_(target){
+  var f = document.getElementById('frame'), p = document.getElementById('page-rest'), c = document.getElementById('hero-copy');
+  f.classList.add('is-open');
+  p.classList.add('is-hidden'); p.setAttribute('aria-hidden','true');
+  c.classList.add('is-hidden');
+  document.getElementById('target').textContent = target;
+  var run = document.getElementById('run');
+  run.innerHTML = '<div id="stages"></div>';
+  STAGES.forEach(function(s,i){
+    document.getElementById('stages').insertAdjacentHTML('beforeend',
+      '<div class="stage" id="st'+i+'"><span class="ico">○</span><span>'+s.label.replace('%TARGET%', target)+'</span></div>' +
+      '<div class="stage-note" id="nt'+i+'" style="display:none"></div>');
+  });
+  STAGES.forEach(function(s,i){
+    setTimeout(function(){
+      var el = document.getElementById('st'+i);
+      if(el){ el.className = 'stage on'; el.querySelector('.ico').innerHTML = '<span class="spin"></span>'; }
+    }, 300 + i*1400);
+    setTimeout(function(){
+      var el = document.getElementById('st'+i), nt = document.getElementById('nt'+i);
+      if(el){ el.className = 'stage done'; el.querySelector('.ico').innerHTML = '&#10003;'; }
+      if(nt){ nt.textContent = s.note.replace('%TARGET%', target); nt.style.display = 'block'; nt.classList.add('eb-enter'); }
+    }, 300 + i*1400 + 1000);
+  });
+  setTimeout(function(){ confirmProfile(target); }, 300 + STAGES.length*1400 + 400);
+}
+
+/* profile confirmation — spec 08 §4.3 */
+function confirmProfile(target){
+  var run = document.getElementById('run');
+  run.insertAdjacentHTML('beforeend',
+  '<div class="eb-card p-5 mt-5 eb-enter" id="confirm">' +
+    '<p class="font-display text-[15px] font-semibold mb-3" style="color:hsl(var(--ink))">Here\'s what we understand about your business</p>' +
+    '<div class="space-y-2 mb-4">' +
+      row('What you sell','Handmade leather bags, direct to consumer') +
+      row('Who you serve','Women 25–40, urban, mid-to-premium') +
+      row('Where','Lagos, Nigeria · ships nationwide') +
+    '</div>' +
+    '<button class="btn btn-primary" onclick="showTeaser()">That\'s right — keep going</button>' +
+    '<button class="btn btn-ghost" onclick="alert(\'Opens three inline fields, not a form page.\')">Let me fix this</button>' +
+  '</div>');
+  run.scrollTop = run.scrollHeight;
+}
+function row(k,v){
+  return '<div class="flex gap-3 text-[13px]"><span style="color:hsl(var(--muted-foreground));min-width:110px">'+k+'</span><span style="color:hsl(var(--foreground))">'+v+'</span></div>';
+}
+
+/* teaser + gate — spec 08 §4.4 / §4.5 */
+function showTeaser(){
+  var cf = document.getElementById('confirm'); if(cf) cf.remove();
+  var run = document.getElementById('run');
+  run.insertAdjacentHTML('beforeend',
+  '<div class="mt-5 space-y-4 eb-enter">' +
+
+    /* score */
+    '<div class="stat-card stat-card-hero" style="text-align:center;padding:22px">' +
+      '<p class="stat-label">Your business score</p>' +
+      '<p class="font-display font-bold" style="font-size:44px;line-height:1.1;color:#fff" id="score">0</p>' +
+      '<p class="stat-delta" style="color:#C7E5F4">Grade C+ · most businesses in your category score 71</p>' +
+    '</div>' +
+
+    /* findings — lead with the good one */
+    '<div class="space-y-2">' +
+      '<p class="font-display text-[14px] font-semibold" style="color:hsl(var(--ink))">What we found</p>' +
+      find('good','Your product photography is genuinely strong','Consistent lighting and styling across 12 products — better than 2 of your 3 closest competitors.','tolulopebags.com/shop') +
+      find('warning','Nothing tells a first-time visitor what makes you different','Your homepage headline is your business name. Visitors leave without a reason to stay.','Homepage · above the fold') +
+      find('critical','There is no way to capture an interested visitor','No newsletter, no WhatsApp link, no enquiry form. Every visitor who isn\'t ready to buy is lost forever.','Site-wide · all 24 pages') +
+    '</div>' +
+
+    /* gate */
+    '<div class="relative">' +
+      '<div class="space-y-2 blurred" aria-hidden="true">' +
+        find('warning','Checkout drops customers at the delivery step','Three fields ask for information you already have.','Checkout · step 2') +
+        find('critical','Your Instagram sends traffic nowhere','Bio link points to a dead page.','Instagram · bio') +
+      '</div>' +
+      '<div class="gate mt-3">' +
+        '<p class="font-display text-[16px] font-bold" style="color:hsl(205 100% 27%)">11 more findings · 6 opportunities</p>' +
+        '<p class="text-[12px] mt-1 mb-4" style="color:hsl(205 40% 35%)">Plus 3 competitors analysed and a ranked plan of what to fix first.</p>' +
+        '<a href="signup.html" class="btn btn-primary">Create free account to see all</a>' +
+        '<p class="text-[11px] mt-3" style="color:hsl(205 40% 35%)">Free forever · No card required · Your audit comes with you</p>' +
+      '</div>' +
+    '</div>' +
+
+  '</div>');
+
+  /* count-up — the one flourish, spec 08 §5 */
+  var n = 0, target = 58, el = document.getElementById('score');
+  var timer = setInterval(function(){ n += 2; if(n >= target){ n = target; clearInterval(timer); } el.textContent = n; }, 22);
+  run.scrollTop = run.scrollHeight;
+}
+
+function find(sev, title, detail, evidence){
+  var tone = sev === 'critical' ? 'red' : sev === 'warning' ? 'orange' : 'green';
+  var label = sev === 'critical' ? 'Critical' : sev === 'warning' ? 'Warning' : 'Good';
+  return '<div class="rounded-[10px] p-3.5" style="background:hsl(var(--background))"><div class="flex items-start gap-2.5">' +
+    '<span class="pill pill-'+tone+'"><span class="pill-dot"></span>'+label+'</span>' +
+    '<div class="flex-1">' +
+      '<p class="text-[13px] font-medium" style="color:hsl(var(--ink))">'+title+'</p>' +
+      '<p class="text-[12px] mt-0.5" style="color:hsl(var(--muted-foreground))">'+detail+'</p>' +
+      '<p class="text-[11px] mt-1" style="color:hsl(var(--primary))">'+evidence+'</p>' +
+    '</div></div></div>';
+}
+
+function resetHero(){
+  var f = document.getElementById('frame'), p = document.getElementById('page-rest'), c = document.getElementById('hero-copy');
+  f.classList.remove('is-open');
+  p.classList.remove('is-hidden'); p.removeAttribute('aria-hidden');
+  c.classList.remove('is-hidden');
+  Array.prototype.forEach.call(p.children, function(el,i){ el.style.setProperty('--i', i); });
+  p.classList.add('eb-enter-stagger');
+  setTimeout(function(){ p.classList.remove('eb-enter-stagger'); document.getElementById('run').innerHTML=''; }, 900);
+}
+
+document.getElementById('hero-input').addEventListener('keydown', function(e){ if(e.key === 'Enter') runAudit(); });
+</script>
+</body>
+</html>

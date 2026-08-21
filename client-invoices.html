@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoices · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1400px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="inv-table"></div></div>
+    </div>
+  </main>
+</div>
+<!-- Client-role view: sidebar renders the flatter client nav in the real app; shown here on the shared shell for consistency -->
+<script src="assets/js/shell.js" data-active="overview" data-title="Invoices"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Invoices', subtitle: 'Invoices issued to your company by your agency.' });
+ebTable('inv-table', {
+  columns: ['Invoice #','Issued','Due','Amount','Status',''],
+  rows: [
+    ['<a href="client-invoice-detail.html" class="font-medium hover:underline">INV-2026-041</a>', 'Jul 28, 2026', 'Aug 11, 2026', '₦850,000', ebPill('blue','Sent'), '<a href="client-invoice-detail.html" class="text-xs font-medium" style="color:hsl(var(--primary))">View</a>'],
+    ['<a href="client-invoice-detail.html" class="font-medium hover:underline">INV-2026-032</a>', 'Jun 28, 2026', 'Jul 11, 2026', '₦850,000', ebPill('green','Paid'), '<a href="client-invoice-detail.html" class="text-xs font-medium" style="color:hsl(var(--primary))">View</a>'],
+    ['<a href="client-invoice-detail.html" class="font-medium hover:underline">INV-2026-021</a>', 'May 28, 2026', 'Jun 11, 2026', '₦850,000', ebPill('green','Paid'), '<a href="client-invoice-detail.html" class="text-xs font-medium" style="color:hsl(var(--primary))">View</a>'],
+  ]
+});
+</script>
+</body>
+</html>

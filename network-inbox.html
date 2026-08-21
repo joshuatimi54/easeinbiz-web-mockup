@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2B Network · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div id="kpis"></div>
+      <div class="eb-card eb-shadow-sm p-0"><div id="net-table"></div></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="finance-sales" data-title="B2B Network"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'B2B Network', subtitle: 'Wallet settlements with other Easeinbiz organizations.' });
+ebKpi('kpis', [
+  { icon:'wallet', label:'Wallet balance', value:'₦2,180,000', iconBg:'#E8F4FA', iconFg:'#0077B5' },
+  { icon:'arrow-down-left', label:'Incoming (pending)', value:'₦340,000', iconBg:'#E1F5EC', iconFg:'#0FA36B' },
+  { icon:'arrow-up-right', label:'Outgoing (pending)', value:'₦120,000', iconBg:'#FDECEC', iconFg:'#E23D3D' },
+]);
+ebTable('net-table', {
+  columns: ['From / To','Description','Amount','Status','Date',''],
+  rows: [
+    ['<span class="font-medium">Studio Nine Media</span>', 'Referral commission — Q3 handoff', '<span style="color:#0FA36B" class="font-medium">+₦180,000</span>', ebPill('green','Settled'), 'Jul 30, 2026', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="chevron-right" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">Pixel & Co.</span>', 'Sub-contracted design work', '<span style="color:#E23D3D" class="font-medium">-₦120,000</span>', ebPill('blue','Pending'), 'Aug 1, 2026', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="chevron-right" class="h-4 w-4"></i></button>'],
+    ['<span class="font-medium">GrowthLoop Agency</span>', 'Shared client — Northgate Realty split', '<span style="color:#0FA36B" class="font-medium">+₦160,000</span>', ebPill('blue','Pending'), 'Aug 1, 2026', '<button class="text-muted-foreground hover:text-foreground"><i data-lucide="chevron-right" class="h-4 w-4"></i></button>'],
+  ]
+});
+</script>
+</body>
+</html>

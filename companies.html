@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Companies · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+      <div id="hdr"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="company-cards"></div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="companies" data-title="Companies"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Companies', subtitle: 'Client organizations you manage campaigns and content for.', actions: [{ label: 'Add Company', icon: 'plus', primary: true }] });
+var companies = [
+  { name: 'Acme Retail Co.', industry: 'E-commerce · Retail', color: '#0077B5', campaigns: 3, content: 42, status: 'green', statusLabel: 'Active' },
+  { name: 'Bluewave Logistics', industry: 'Logistics & Supply Chain', color: '#0FA36B', campaigns: 2, content: 28, status: 'green', statusLabel: 'Active' },
+  { name: 'Northgate Realty', industry: 'Real Estate', color: '#7A4E00', campaigns: 1, content: 15, status: 'gray', statusLabel: 'Paused' },
+  { name: 'Driftwood Coffee Co.', industry: 'Food & Beverage', color: '#E23D3D', campaigns: 1, content: 9, status: 'green', statusLabel: 'Active' },
+  { name: 'Solace Wellness', industry: 'Health & Wellness', color: '#1A6E9E', campaigns: 2, content: 22, status: 'green', statusLabel: 'Active' },
+];
+document.getElementById('company-cards').innerHTML = companies.map(function (c) {
+  return '' +
+  '<div class="eb-card eb-shadow-sm p-5 hover:shadow transition-all">' +
+    '<div class="flex items-center gap-3 mb-4">' +
+      '<div class="h-10 w-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style="background:' + c.color + '">' + c.name[0] + '</div>' +
+      '<div class="flex-1 min-w-0"><p class="font-display font-semibold text-sm truncate">' + c.name + '</p><p class="text-xs text-muted-foreground truncate">' + c.industry + '</p></div>' +
+      ebPill(c.status, c.statusLabel) +
+    '</div>' +
+    '<div class="grid grid-cols-2 gap-3 text-center border-t pt-3" style="border-color:hsl(var(--border))">' +
+      '<div><p class="font-display text-lg font-semibold">' + c.campaigns + '</p><p class="text-[11px] text-muted-foreground">Campaigns</p></div>' +
+      '<div><p class="font-display text-lg font-semibold">' + c.content + '</p><p class="text-[11px] text-muted-foreground">Content items</p></div>' +
+    '</div>' +
+  '</div>';
+}).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easeinbiz — Design Mockup Index</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+  <div class="max-w-6xl mx-auto px-6 py-10 space-y-10">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-base">E</span></div>
+      <div>
+        <h1 class="font-display text-2xl font-bold">Easeinbiz — Design Mockup</h1>
+        <p class="text-sm text-muted-foreground">Static HTML recreation of the full app, for design review and Figma import. All data shown is placeholder.</p>
+      </div>
+    </div>
+
+    <div id="groups" class="space-y-10"></div>
+  </div>
+
+<script>
+var groups = [
+  { title: 'Audit AI', items: [
+    ['home.html','Home page — public audit funnel (no auth)'],
+    ['dashboard-overview.html','Dashboard — audit console + analytics'],
+    ['audit-dashboard.html','Audit console — standalone reference'],
+    ['design-system.html','Design system'],
+  ]},
+  { title: 'Auth & Onboarding', items: [
+    ['login.html','Log in'], ['signup.html','Sign up'], ['forgot-password.html','Forgot password'],
+    ['reset-password.html','Reset password'], ['create-org.html','Create organization'], ['accept-invite.html','Accept invite'],
+  ]},
+  { title: 'Core', items: [
+    ['dashboard-overview.html','Dashboard Overview'], ['tasks.html','Tasks (Kanban)'], ['task-add.html','New Task'], ['analytics.html','Analytics'],
+  ]},
+  { title: 'Content Planner', items: [
+    ['content-calendar.html','Calendar'], ['content-create.html','Create content — redesigned popup'], ['content-queue.html','Publishing Queue'], ['content-detail.html','Content Detail'],
+  ]},
+  { title: 'People', items: [
+    ['clients.html','Clients'], ['companies.html','Companies'], ['leads.html','Leads (CRM Pipeline)'],
+  ]},
+  { title: 'Forms', items: [
+    ['forms.html','Forms List'], ['forms-builder.html','Form Builder'], ['forms-responses.html','Form Responses'], ['public-form.html','Public Form (no auth)'],
+  ]},
+  { title: 'Library', items: [
+    ['library.html','My Library'], ['library-shared.html','Shared with me'], ['library-approvals.html','Approvals'], ['public-library-share.html','Public Shared Folder (no auth)'],
+  ]},
+  { title: 'Finance', items: [
+    ['finance-sales.html','Sales Records'], ['finance-expenses.html','Expenses'], ['finance-invoices.html','Invoices'],
+    ['finance-invoice-detail.html','Invoice Detail'], ['network-inbox.html','B2B Network'],
+  ]},
+  { title: 'Payroll', items: [
+    ['payroll-overview.html','Overview'], ['payroll-dashboard.html','Dashboard'], ['payroll-employees.html','Employees'],
+    ['payroll-employee-detail.html','Employee Detail'], ['payroll-run.html','Run Payroll'], ['payroll-structure.html','Org Structure'],
+    ['payroll-benefits.html','Benefits'], ['payroll-config.html','Configure Payroll'], ['payslip.html','My Payslip'],
+  ]},
+  { title: 'Workshop', items: [
+    ['lab.html','The Lab'], ['lab-notebook.html','Notebook'], ['launchpad.html','Launchpad'], ['launchpad-project.html','Project Board'],
+  ]},
+  { title: 'Growth & Ops', items: [
+    ['integrations.html','Integrations'], ['automations.html','Automations'], ['automation-builder.html','Automation Builder'],
+    ['campaign-studio.html','Campaign Studio'], ['refer.html','Refer & Earn'],
+  ]},
+  { title: 'Settings', items: [
+    ['settings.html','Settings (Account / Org / Team / Billing / Usage / API / Activity)'],
+  ]},
+  { title: 'Client Portal', items: [
+    ['client-invoices.html','Client — Invoices'], ['client-invoice-detail.html','Client — Invoice Detail'],
+  ]},
+  { title: 'Public', items: [
+    ['public-rating.html','Ticket Rating'],
+  ]},
+];
+
+document.getElementById('groups').innerHTML = groups.map(function (g) {
+  var links = g.items.map(function (it) {
+    return '<a href="' + it[0] + '" class="eb-card eb-shadow-sm p-4 hover:shadow transition-all flex items-center justify-between group">' +
+      '<span class="text-sm font-medium">' + it[1] + '</span>' +
+      '<i data-lucide="arrow-up-right" class="h-4 w-4 text-muted-foreground group-hover:text-foreground"></i></a>';
+  }).join('');
+  return '<div><h2 class="font-display font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-3">' + g.title + '</h2>' +
+    '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">' + links + '</div></div>';
+}).join('');
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create organization · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+  <div class="min-h-screen flex flex-col items-center justify-center px-6">
+    <div class="w-full max-w-md space-y-6">
+      <div class="flex items-center gap-2 justify-center mb-2"><div class="h-8 w-8 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-sm">E</span></div><span class="font-display font-extrabold text-base">Easeinbiz</span></div>
+      <div class="eb-card eb-shadow p-8 space-y-5">
+        <div><h1 class="font-display text-xl font-bold">Set up your organization</h1><p class="text-sm text-muted-foreground mt-1">This is your workspace — you can invite your team next.</p></div>
+        <div><label class="text-xs font-medium mb-1.5 block">Organization name</label><input class="w-full text-sm border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))" placeholder="e.g. Acme Growth Agency"></div>
+        <div><label class="text-xs font-medium mb-1.5 block">What do you do?</label>
+          <select class="w-full text-sm border rounded-md px-3 py-2.5" style="border-color:hsl(var(--border))"><option>Digital marketing agency</option><option>Creative studio</option><option>Freelancer / consultant</option><option>In-house marketing team</option></select>
+        </div>
+        <div><label class="text-xs font-medium mb-1.5 block">Team size</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button class="text-xs font-medium border rounded-md py-2" style="border-color:hsl(var(--primary));background:hsl(var(--sidebar-accent));color:hsl(var(--primary))">1-5</button>
+            <button class="text-xs font-medium border rounded-md py-2" style="border-color:hsl(var(--border))">6-15</button>
+            <button class="text-xs font-medium border rounded-md py-2" style="border-color:hsl(var(--border))">16-50</button>
+            <button class="text-xs font-medium border rounded-md py-2" style="border-color:hsl(var(--border))">50+</button>
+          </div>
+        </div>
+        <a href="dashboard-overview.html" class="w-full text-sm font-medium rounded-md text-white py-2.5 flex items-center justify-center" style="background:hsl(var(--primary))">Continue</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

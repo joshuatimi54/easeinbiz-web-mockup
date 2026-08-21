@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shared folder · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+  <div class="min-h-screen">
+    <header class="border-b" style="border-color:hsl(var(--border))">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex items-center gap-2">
+        <div class="h-8 w-8 rounded-lg flex items-center justify-center" style="background:hsl(var(--primary))"><span class="text-white font-extrabold text-sm">E</span></div>
+        <span class="font-display font-extrabold text-base">Easeinbiz</span>
+      </div>
+    </header>
+    <div class="max-w-4xl mx-auto px-6 py-8 space-y-5">
+      <div>
+        <p class="text-xs text-muted-foreground mb-1">Shared by Josh Adesoba · Acme Growth Agency</p>
+        <h1 class="font-display text-xl font-bold">Q3 Campaign Assets</h1>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="files"></div>
+    </div>
+  </div>
+  <script>
+  var files = [
+    {n:'aria_collection_hero.jpg', i:'image', c:'#E8F4FA', ic:'#0077B5'},
+    {n:'brand_guidelines_v3.pdf', i:'file-text', c:'#FDECEC', ic:'#E23D3D'},
+    {n:'q3_reel_final.mp4', i:'video', c:'#E5F4FC', ic:'#1A6E9E'},
+    {n:'product_shots_batch2.zip', i:'file-archive', c:'#F0F6F9', ic:'#374750'},
+  ];
+  document.getElementById('files').innerHTML = files.map(function (f) {
+    return '<div class="eb-card eb-shadow-sm p-4 hover:shadow transition-all cursor-pointer flex flex-col items-center text-center gap-2">' +
+      '<div class="h-10 w-10 rounded-lg flex items-center justify-center" style="background:' + f.c + '"><i data-lucide="' + f.i + '" class="h-5 w-5" style="color:' + f.ic + '"></i></div>' +
+      '<p class="text-xs font-medium truncate w-full">' + f.n + '</p>' +
+      '<button class="text-[11px] font-medium" style="color:hsl(var(--primary))">Download</button></div>';
+  }).join('');
+  if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+</html>

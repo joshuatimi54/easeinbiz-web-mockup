@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employees · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  .seg { display:inline-flex; border-radius:var(--radius); background:hsl(var(--muted)); padding:2px; }
+  .seg button { padding:5px 12px; font-size:12px; font-weight:500; border:none; background:transparent; color:hsl(var(--muted-foreground)); border-radius:8px; cursor:pointer; transition:background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+  .seg button.on { background:hsl(var(--card)); color:hsl(var(--primary)); box-shadow:var(--shadow-sm); }
+  .emp { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid hsl(var(--border)); cursor:pointer; transition:background var(--dur-fast) var(--ease-out); }
+  .emp:hover { background:#F6FAFC; }
+  .emp:last-child { border-bottom:none; }
+  .p-card { background:hsl(var(--card)); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-md); transition:box-shadow var(--dur-base) var(--ease-spring), transform var(--dur-base) var(--ease-spring); cursor:pointer; }
+  .p-card:hover { box-shadow:0 8px 20px rgb(11 44 61 / .14); transform:translateY(-3px); }
+  .mini-select { font-size:12px; border:1px solid hsl(var(--border)); border-radius:8px; padding:6px 9px; background:#F9FCFE; color:hsl(var(--foreground)); }
+</style>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 class="font-display text-2xl font-bold tracking-tight">Your team</h1>
+          <p class="text-sm text-muted-foreground mt-1">8 people across 4 departments · 2 need attention before payday.</p>
+        </div>
+        <button class="btn btn-primary"><i data-lucide="user-plus" class="h-4 w-4"></i>Add employee</button>
+      </div>
+
+      <!-- ══ what blocks payday, first ══ -->
+      <div class="rounded-[10px] p-4" style="background:#FEF7F7;border:1px solid hsl(var(--destructive)/.25)">
+        <div class="flex items-start gap-3 flex-wrap">
+          <i data-lucide="alert-circle" class="h-4 w-4 mt-0.5 shrink-0" style="color:#B02A2A"></i>
+          <div class="flex-1 min-w-[240px]">
+            <p class="text-[13px] font-semibold" style="color:#B02A2A">2 people can't be paid on 28 August</p>
+            <p class="text-[12px] mt-0.5" style="color:#8A3A3A">Add their bank details and they'll be included in the run automatically.</p>
+          </div>
+        </div>
+        <div class="mt-3 grid gap-2 sm:grid-cols-2" id="attention"></div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="relative flex-1 min-w-[220px] max-w-[320px]">
+          <i data-lucide="search" class="h-3.5 w-3.5 absolute left-3 top-3 text-muted-foreground"></i>
+          <input placeholder="Search by name, role, or department" class="eb-input w-full" style="padding-left:32px">
+        </div>
+        <select class="mini-select"><option>All departments</option><option>Marketing</option><option>Design</option><option>Operations</option><option>Engineering</option></select>
+        <select class="mini-select"><option>All statuses</option><option>Ready to pay</option><option>Needs bank details</option><option>On leave</option></select>
+        <div class="seg ml-auto">
+          <button id="seg-cards" class="on" onclick="setView('cards')">Cards</button>
+          <button id="seg-list" onclick="setView('list')">List</button>
+        </div>
+      </div>
+
+      <div id="team"></div>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/shell.js" data-active="payroll-employees" data-title="Employees" data-action="Add employee" data-action-href="#"></script>
+<script src="assets/js/components.js"></script>
+<script>
+var TEAM = [
+  { dept:'Marketing', people:[
+    { i:'MO', n:'Maya Okoye',       r:'Head of Marketing',  t:'Full-time', pay:'₦650,000', st:'ready',   since:'3 years',  note:'' },
+    { i:'KP', n:'Kunle Peters',     r:'Growth Analyst',     t:'Contract',  pay:'₦350,000', st:'ready',   since:'8 months', note:'' },
+  ]},
+  { dept:'Design', people:[
+    { i:'TE', n:'Tunde Eze',        r:'Senior Designer',    t:'Full-time', pay:'₦480,000', st:'blocked', since:'2 years',  note:'Bank details missing' },
+    { i:'IS', n:'Ibrahim Suleiman', r:'Video Editor',       t:'Contract',  pay:'₦300,000', st:'leave',   since:'1 year',   note:'Back 12 September' },
+  ]},
+  { dept:'Operations', people:[
+    { i:'RN', n:'Rita Nwosu',       r:'Account Manager',    t:'Full-time', pay:'₦420,000', st:'ready',   since:'4 years',  note:'5-year milestone in 11 months' },
+    { i:'AO', n:'Amaka Okafor',     r:'Head of Operations', t:'Full-time', pay:'₦520,000', st:'blocked', since:'2 years',  note:'Bank details missing' },
+  ]},
+  { dept:'Engineering', people:[
+    { i:'SA', n:'Samuel Adeyemi',   r:'Engineering Lead',   t:'Full-time', pay:'₦560,000', st:'ready',   since:'5 years',  note:'5 years on 22 August' },
+    { i:'GO', n:'Grace Obi',        r:'Backend Engineer',   t:'Full-time', pay:'₦440,000', st:'ready',   since:'6 months', note:'Salary review due' },
+  ]},
+];
+
+var STATE = {
+  ready:   { pill:'green', label:'Ready to pay' },
+  blocked: { pill:'red',   label:'Needs bank details' },
+  leave:   { pill:'blue',  label:'On leave' },
+};
+
+var blocked = [];
+TEAM.forEach(function(d){ d.people.forEach(function(p){ if (p.st === 'blocked') blocked.push(p); }); });
+document.getElementById('attention').innerHTML = blocked.map(function(p){
+  return '<div class="flex items-center gap-3 rounded-[10px] px-3 py-2.5" style="background:#fff">' +
+    '<span class="avatar" style="width:32px;height:32px">' + p.i + '</span>' +
+    '<div class="flex-1 min-w-0"><p class="text-[13px] font-medium truncate">' + p.n + '</p>' +
+    '<p class="text-[11px] text-muted-foreground truncate">' + p.r + '</p></div>' +
+    '<button class="btn btn-primary" style="padding:5px 11px;font-size:11px">Add details</button></div>';
+}).join('');
+
+var view = 'cards';
+function setView(v){
+  view = v;
+  document.getElementById('seg-cards').classList.toggle('on', v === 'cards');
+  document.getElementById('seg-list').classList.toggle('on', v === 'list');
+  render();
+}
+
+function render(){
+  document.getElementById('team').innerHTML = TEAM.map(function(d){
+    var body = view === 'cards'
+      ? '<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">' + d.people.map(card).join('') + '</div>'
+      : '<div class="eb-card overflow-hidden">' + d.people.map(row).join('') + '</div>';
+    return '<div class="mb-6">' +
+      '<div class="flex items-center gap-2 mb-3">' +
+        '<h3 class="font-display font-semibold text-[15px]">' + d.dept + '</h3>' +
+        '<span class="pill pill-gray">' + d.people.length + '</span>' +
+      '</div>' + body + '</div>';
+  }).join('');
+  if (window.lucide) lucide.createIcons();
+}
+
+function card(p){
+  var s = STATE[p.st];
+  return '<a href="payroll-employee-detail.html" class="p-card block">' +
+    '<div class="flex items-start gap-3">' +
+      '<span class="avatar" style="width:40px;height:40px;font-size:13px">' + p.i + '</span>' +
+      '<div class="min-w-0 flex-1">' +
+        '<p class="text-[13.5px] font-semibold truncate">' + p.n + '</p>' +
+        '<p class="text-[11.5px] text-muted-foreground truncate">' + p.r + '</p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="flex items-center justify-between mt-3">' +
+      '<span class="font-display text-[15px] font-bold">' + p.pay + '</span>' +
+      '<span class="text-[11px] text-muted-foreground">' + p.t + '</span>' +
+    '</div>' +
+    '<div class="mt-2.5 pt-2.5" style="border-top:1px solid hsl(var(--border))">' +
+      ebPill(s.pill, s.label) +
+      '<p class="text-[11px] text-muted-foreground mt-1.5">' + (p.note || p.since + ' with the company') + '</p>' +
+    '</div></a>';
+}
+
+function row(p){
+  var s = STATE[p.st];
+  return '<a href="payroll-employee-detail.html" class="emp">' +
+    '<span class="avatar" style="width:34px;height:34px">' + p.i + '</span>' +
+    '<div class="flex-1 min-w-0"><p class="text-[13px] font-medium truncate">' + p.n + '</p>' +
+    '<p class="text-[11.5px] text-muted-foreground truncate">' + p.r + ' · ' + p.t + ' · ' + p.since + '</p></div>' +
+    '<div class="text-right shrink-0"><p class="text-[13px] font-semibold">' + p.pay + '</p>' +
+    '<div class="mt-1">' + ebPill(s.pill, s.label) + '</div></div>' +
+    '<i data-lucide="chevron-right" class="h-4 w-4 text-muted-foreground shrink-0"></i></a>';
+}
+
+render();
+</script>
+</body>
+</html>

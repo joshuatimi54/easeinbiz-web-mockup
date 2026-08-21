@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Planner · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1700px] mx-auto space-y-5">
+      <div id="hdr"></div>
+
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+          <button class="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-muted" style="border-color:hsl(var(--border))"><i data-lucide="chevron-left" class="h-4 w-4"></i></button>
+          <h2 class="font-display font-semibold text-base w-32 text-center">August 2026</h2>
+          <button class="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-muted" style="border-color:hsl(var(--border))"><i data-lucide="chevron-right" class="h-4 w-4"></i></button>
+          <button class="text-xs font-medium px-3 py-1.5 rounded-md border hover:bg-muted" style="border-color:hsl(var(--border))">Today</button>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <select class="text-xs border rounded-md px-2.5 py-1.5" style="border-color:hsl(var(--border))"><option>All companies</option><option>Acme Retail Co.</option><option>Bluewave Logistics</option></select>
+          <select class="text-xs border rounded-md px-2.5 py-1.5" style="border-color:hsl(var(--border))"><option>All platforms</option><option>Instagram</option><option>Facebook</option><option>LinkedIn</option><option>TikTok</option></select>
+          <a href="content-detail.html" class="inline-flex items-center gap-1.5 rounded-md text-white text-sm font-medium px-3.5 py-2" style="background:hsl(var(--primary))"><i data-lucide="plus" class="h-4 w-4"></i>New Content</a>
+        </div>
+      </div>
+
+      <!-- calendar -->
+      <div class="eb-card eb-shadow-sm overflow-hidden">
+       <div class="cal-scroll">
+        <div class="grid grid-cols-7 border-b cal-headrow" style="border-color:hsl(var(--border))">
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">SUN</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">MON</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">TUE</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">WED</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">THU</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">FRI</div>
+          <div class="text-center text-[11px] font-semibold text-muted-foreground py-2">SAT</div>
+        </div>
+        <div class="cal-grid" id="cal"></div>
+       </div>
+      </div>
+
+      <div class="flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
+        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full" style="background:#0077B5"></span>Instagram</span>
+        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full" style="background:#FFA500"></span>Facebook</span>
+        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full" style="background:#0FA36B"></span>LinkedIn</span>
+        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full" style="background:#E23D3D"></span>Needs approval</span>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="content-calendar" data-title="Content Planner"></script>
+<script src="assets/js/components.js"></script>
+<script>
+ebPageHeader('hdr', { title: 'Content Planner', subtitle: 'Plan, schedule, and track approvals across every channel.' });
+
+var cal = document.getElementById('cal');
+var days = [];
+for (var i = 0; i < 3; i++) days.push({ blank: true });
+var posts = {
+  4: [{ p: '#0077B5', t: 'Product teaser reel' }],
+  6: [{ p: '#FFA500', t: 'Weekend sale post' }, { p: '#0FA36B', t: 'Founder spotlight' }],
+  8: [{ p: '#E23D3D', t: 'Launch carousel — needs approval' }],
+  12: [{ p: '#0077B5', t: 'Customer testimonial' }],
+  14: [{ p: '#FFA500', t: 'Flash promo story' }],
+  18: [{ p: '#0077B5', t: 'Behind the scenes reel' }, { p: '#0FA36B', t: 'Case study post' }],
+  21: [{ p: '#E23D3D', t: 'Influencer collab — needs approval' }],
+  25: [{ p: '#FFA500', t: 'Product restock alert' }],
+  28: [{ p: '#0077B5', t: 'Month recap carousel' }],
+};
+for (var d = 1; d <= 31; d++) days.push({ day: d, items: posts[d] || [] });
+cal.innerHTML = days.map(function (c) {
+  if (c.blank) return '<div class="cal-cell" style="background:hsl(var(--muted)/.4)"></div>';
+  var items = (c.items || []).map(function (p) {
+    return '<a href="content-detail.html" class="block text-[10px] font-medium rounded px-1.5 py-1 mb-1 truncate" style="background:' + p.p + '18;color:' + p.p + '"><span class="inline-block h-1.5 w-1.5 rounded-full mr-1" style="background:' + p.p + '"></span>' + p.t + '</a>';
+  }).join('');
+  return '<div class="cal-cell"><p class="text-xs font-medium mb-1' + (c.day === 2 ? ' text-white rounded-full h-5 w-5 flex items-center justify-center' : '') + '" style="' + (c.day === 2 ? 'background:hsl(var(--primary))' : '') + '">' + c.day + '</p>' + items + '</div>';
+}).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Run payroll · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  .step { display:flex; align-items:center; gap:8px; font-size:12.5px; white-space:nowrap; flex-shrink:0; }
+  .step .num { width:24px; height:24px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; flex-shrink:0; }
+  .step.done .num { background:hsl(var(--success)); color:#fff; }
+  .step.now  .num { background:hsl(var(--primary)); color:#fff; }
+  .step.todo .num { background:hsl(var(--muted)); color:hsl(var(--muted-foreground)); }
+  .step.now  { color:hsl(var(--primary)); font-weight:600; }
+  .step.todo { color:hsl(var(--muted-foreground)); }
+  .bar { flex:1; height:1px; background:hsl(var(--border)); min-width:16px; }
+  .prow { display:flex; align-items:center; gap:12px; padding:11px 16px; border-bottom:1px solid hsl(var(--border)); }
+  .prow:last-child { border-bottom:none; }
+  .prow.excluded { opacity:.55; }
+</style>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1200px] mx-auto space-y-5">
+
+      <div>
+        <a href="payroll-overview.html" class="text-[12px] font-medium inline-flex items-center gap-1 mb-1" style="color:hsl(var(--primary))"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>Payroll</a>
+        <h1 class="font-display text-2xl font-bold tracking-tight">Run payroll — August 2026</h1>
+        <p class="text-sm text-muted-foreground mt-1">Nothing leaves your account until you confirm on the last step.</p>
+      </div>
+
+      <div class="eb-card p-4">
+        <div class="flex items-center gap-3 eb-scroll-x">
+          <span class="step now"  id="s1"><span class="num">1</span>Check the team</span>
+          <span class="bar"></span>
+          <span class="step todo" id="s2"><span class="num">2</span>Review the numbers</span>
+          <span class="bar"></span>
+          <span class="step todo" id="s3"><span class="num">3</span>Confirm and pay</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 1 ══ -->
+      <section id="step1" class="space-y-4">
+        <div class="eb-card p-5">
+          <h3 class="font-display font-semibold text-[15px]">Who gets paid this month</h3>
+          <p class="text-[12px] text-muted-foreground mt-0.5 mb-4">6 of 8 people are ready. Anyone not ready is left out of this run and stays for next time — nobody is removed from your team.</p>
+          <div id="people"></div>
+        </div>
+
+        <div class="rounded-[10px] p-4" style="background:#FEF7F7;border:1px solid hsl(var(--destructive)/.25)">
+          <p class="text-[13px] font-semibold" style="color:#B02A2A">2 people will be skipped</p>
+          <p class="text-[12px] mt-0.5" style="color:#8A3A3A">Tunde Eze and Amaka Okafor have no bank details on file. Add them now and they'll join this run.</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button class="btn btn-primary" style="padding:6px 13px;font-size:12px">Add bank details</button>
+            <button class="btn btn-ghost" style="padding:6px 13px;font-size:12px">Skip them this month</button>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2">
+          <button class="btn btn-ghost">Save draft</button>
+          <button class="btn btn-primary" onclick="goStep(2)">Review the numbers<i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+        </div>
+      </section>
+
+      <!-- ══ STEP 2 ══ -->
+      <section id="step2" class="space-y-4 hidden">
+        <div id="kpis"></div>
+
+        <div class="eb-card overflow-hidden">
+          <div class="px-5 py-3 flex items-center justify-between" style="border-bottom:1px solid hsl(var(--border))">
+            <div>
+              <h3 class="font-display font-semibold text-[15px]">The numbers, per person</h3>
+              <p class="text-[11.5px] text-muted-foreground mt-0.5">Tap any row to see how it was calculated.</p>
+            </div>
+            <button class="btn btn-ghost" style="padding:6px 11px;font-size:12px"><i data-lucide="download" class="h-3.5 w-3.5"></i>Export</button>
+          </div>
+          <div id="run-table"></div>
+        </div>
+
+        <div class="eb-card p-5">
+          <h3 class="font-display font-semibold text-[15px] mb-3">Where the deductions go</h3>
+          <div id="deductions" class="space-y-3"></div>
+          <p class="text-[11.5px] text-muted-foreground mt-4">Remittance to FIRS and your pension administrator is scheduled automatically after payment.</p>
+        </div>
+
+        <div class="flex justify-between gap-2">
+          <button class="btn btn-ghost" onclick="goStep(1)"><i data-lucide="arrow-left" class="h-4 w-4"></i>Back</button>
+          <div class="flex gap-2">
+            <button class="btn btn-ghost">Save draft</button>
+            <button class="btn btn-primary" onclick="goStep(3)">Continue<i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ STEP 3 ══ -->
+      <section id="step3" class="space-y-4 hidden">
+        <div class="rounded-[14px] p-6" style="background:linear-gradient(135deg,hsl(var(--primary)),hsl(200 70% 22%))">
+          <p class="text-[13px]" style="color:#C7E5F4">You are about to pay</p>
+          <p class="font-display text-[34px] font-bold text-white mt-1">₦3,890,000</p>
+          <p class="text-[13px] mt-1" style="color:#C7E5F4">to 6 people on 28 August 2026</p>
+          <div class="mt-5 grid gap-3 sm:grid-cols-3">
+            <div class="rounded-[10px] px-4 py-3" style="background:rgba(255,255,255,.12)">
+              <p class="text-[11px]" style="color:#93CCE9">Gross</p>
+              <p class="font-display text-[16px] font-bold text-white">₦4,590,000</p>
+            </div>
+            <div class="rounded-[10px] px-4 py-3" style="background:rgba(255,255,255,.12)">
+              <p class="text-[11px]" style="color:#93CCE9">Deductions</p>
+              <p class="font-display text-[16px] font-bold text-white">₦700,000</p>
+            </div>
+            <div class="rounded-[10px] px-4 py-3" style="background:rgba(255,255,255,.12)">
+              <p class="text-[11px]" style="color:#93CCE9">Paying from</p>
+              <p class="font-display text-[16px] font-bold text-white">GTB ····4471</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="eb-card p-5">
+          <h3 class="font-display font-semibold text-[15px] mb-3">Before you confirm</h3>
+          <div id="checks"></div>
+        </div>
+
+        <div class="eb-card p-5">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" onchange="document.getElementById('pay-btn').disabled = !this.checked" style="margin-top:3px;width:16px;height:16px;accent-color:hsl(var(--primary))">
+            <span class="text-[13px]">I've checked the amounts and I'm authorising this payment. Everyone listed will be paid on 28 August, and payslips will be sent the same day.</span>
+          </label>
+        </div>
+
+        <div class="flex justify-between gap-2">
+          <button class="btn btn-ghost" onclick="goStep(2)"><i data-lucide="arrow-left" class="h-4 w-4"></i>Back</button>
+          <button id="pay-btn" class="btn btn-primary" disabled onclick="paid()"><i data-lucide="check" class="h-4 w-4"></i>Pay 6 people</button>
+        </div>
+      </section>
+
+      <!-- ══ DONE ══ -->
+      <section id="done" class="hidden">
+        <div class="eb-card p-8 text-center">
+          <span class="inline-flex items-center justify-center mb-3" style="width:52px;height:52px;border-radius:999px;background:#E1F5EC;color:#0F6E56"><i data-lucide="check" class="h-6 w-6"></i></span>
+          <h2 class="font-display text-[20px] font-bold">6 people have been paid</h2>
+          <p class="text-[13px] text-muted-foreground mt-1 max-w-md mx-auto">₦3,890,000 sent on 28 August. Payslips are on their way, and pension and PAYE remittance is scheduled.</p>
+          <p class="text-[12px] mt-3" style="color:hsl(var(--primary))">That's 19 months running without a late payday.</p>
+          <div class="flex gap-2 justify-center mt-5">
+            <a href="payslip.html" class="btn btn-secondary">View payslips</a>
+            <a href="payroll-overview.html" class="btn btn-primary">Back to payroll</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/shell.js" data-active="payroll-run" data-title="Run payroll"></script>
+<script src="assets/js/components.js"></script>
+<script>
+var PEOPLE = [
+  ['MO','Maya Okoye','Head of Marketing','₦650,000',true],
+  ['KP','Kunle Peters','Growth Analyst','₦350,000',true],
+  ['TE','Tunde Eze','Senior Designer','—',false],
+  ['RN','Rita Nwosu','Account Manager','₦420,000',true],
+  ['AO','Amaka Okafor','Head of Operations','—',false],
+  ['SA','Samuel Adeyemi','Engineering Lead','₦560,000',true],
+  ['GO','Grace Obi','Backend Engineer','₦440,000',true],
+  ['IS','Ibrahim Suleiman','Video Editor','₦300,000',true],
+];
+document.getElementById('people').innerHTML = PEOPLE.map(function(p){
+  return '<div class="prow' + (p[4] ? '' : ' excluded') + '">' +
+    '<span class="avatar" style="width:32px;height:32px">' + p[0] + '</span>' +
+    '<div class="flex-1 min-w-0"><p class="text-[13px] font-medium truncate">' + p[1] + '</p>' +
+    '<p class="text-[11.5px] text-muted-foreground truncate">' + p[2] + '</p></div>' +
+    '<span class="text-[13px] font-semibold shrink-0">' + p[3] + '</span>' +
+    '<span class="shrink-0">' + (p[4] ? ebPill('green','Included') : ebPill('red','Skipped')) + '</span></div>';
+}).join('');
+
+ebKpi('kpis', [
+  { label:'People in this run', value:'6', delta:'2 skipped', hero:true },
+  { label:'Gross pay',   value:'₦4,590,000', delta:'Before deductions' },
+  { label:'Deductions',  value:'₦700,000',  delta:'PAYE, pension, NHF' },
+  { label:'Net to pay',  value:'₦3,890,000', delta:'Lands 28 August' },
+]);
+document.getElementById('kpis').className = 'grid gap-[10px] grid-cols-2 lg:grid-cols-4';
+
+ebTable('run-table', {
+  columns: ['Employee','Basic','Allowances','Gross','PAYE','Pension','Net pay'],
+  rows: [
+    ['Maya Okoye','₦420,000','₦230,000','₦650,000','₦78,000','₦33,600','<span class="font-semibold">₦538,400</span>'],
+    ['Kunle Peters','₦240,000','₦110,000','₦350,000','₦34,000','₦19,200','<span class="font-semibold">₦296,800</span>'],
+    ['Rita Nwosu','₦280,000','₦140,000','₦420,000','₦44,000','₦22,400','<span class="font-semibold">₦353,600</span>'],
+    ['Samuel Adeyemi','₦360,000','₦200,000','₦560,000','₦64,000','₦28,800','<span class="font-semibold">₦467,200</span>'],
+    ['Grace Obi','₦290,000','₦150,000','₦440,000','₦47,000','₦23,200','<span class="font-semibold">₦369,800</span>'],
+    ['Ibrahim Suleiman','₦200,000','₦100,000','₦300,000','₦28,000','₦16,000','<span class="font-semibold">₦256,000</span>'],
+  ]
+});
+
+document.getElementById('deductions').innerHTML = [
+  ['PAYE — Federal Inland Revenue','₦295,000',42],
+  ['Pension — employee contribution','₦143,200',20],
+  ['Pension — employer contribution','₦171,900',25],
+  ['NHF — National Housing Fund','₦89,900',13],
+].map(function(d){
+  return '<div><div class="flex justify-between text-[12.5px] mb-1"><span>' + d[0] + '</span>' +
+    '<span class="font-medium">' + d[1] + '</span></div>' +
+    '<div class="progress-track" style="height:7px"><div class="progress-fill" style="width:' + d[2] + '%"></div></div></div>';
+}).join('');
+
+document.getElementById('checks').innerHTML = [
+  ['check','Everyone in this run has valid bank details','green'],
+  ['check','PAYE calculated using the 2026 Finance Act bands','green'],
+  ['check','Pension at 8% employee, 10% employer','green'],
+  ['alert-circle','2 people are excluded and will not be paid this month','orange'],
+].map(function(c){
+  var col = c[2] === 'green' ? '#0F6E56' : '#7A4E00';
+  var bg  = c[2] === 'green' ? '#E1F5EC' : '#FFF6E5';
+  return '<div class="flex items-start gap-2.5 py-2">' +
+    '<span class="shrink-0 mt-0.5" style="width:20px;height:20px;border-radius:999px;background:' + bg + ';color:' + col + ';display:flex;align-items:center;justify-content:center"><i data-lucide="' + c[0] + '" class="h-3 w-3"></i></span>' +
+    '<span class="text-[12.5px]">' + c[1] + '</span></div>';
+}).join('');
+
+function goStep(n){
+  ['step1','step2','step3'].forEach(function(id,i){
+    var el = document.getElementById(id);
+    el.classList.toggle('hidden', i !== n - 1);
+    if (i === n - 1) { el.classList.remove('eb-enter'); void el.offsetWidth; el.classList.add('eb-enter'); }
+  });
+  [1,2,3].forEach(function(i){
+    var s = document.getElementById('s' + i);
+    s.className = 'step ' + (i < n ? 'done' : i === n ? 'now' : 'todo');
+    s.querySelector('.num').textContent = i < n ? '✓' : i;
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (window.lucide) lucide.createIcons();
+}
+
+function paid(){
+  ['step1','step2','step3'].forEach(function(id){ document.getElementById(id).classList.add('hidden'); });
+  var d = document.getElementById('done');
+  d.classList.remove('hidden'); d.classList.add('eb-enter');
+  [1,2,3].forEach(function(i){
+    var s = document.getElementById('s' + i);
+    s.className = 'step done';
+    s.querySelector('.num').textContent = '✓';
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (window.lucide) lucide.createIcons();
+}
+
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

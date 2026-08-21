@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance · Easeinbiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{border:"hsl(var(--border))",background:"hsl(var(--background))",foreground:"hsl(var(--foreground))",primary:{DEFAULT:"hsl(var(--primary))",foreground:"hsl(var(--primary-foreground))"},muted:{DEFAULT:"hsl(var(--muted))",foreground:"hsl(var(--muted-foreground))"},card:{DEFAULT:"hsl(var(--card))",foreground:"hsl(var(--card-foreground))"}},fontFamily:{display:["Sora","sans-serif"],body:["Inter","sans-serif"]}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  .tab-link { padding: 8px 12px; font-size: 13px; font-weight: 500; color: hsl(var(--muted-foreground)); border-bottom: 2px solid transparent; transition: color var(--dur-fast) var(--ease-out); }
+  .tab-link:hover { color: hsl(var(--foreground)); }
+  .tab-link.active { color: hsl(var(--primary)); border-bottom-color: hsl(var(--primary)); font-weight: 600; }
+  .seg { display: inline-flex; border-radius: var(--radius); overflow: hidden; background: hsl(var(--muted)); padding: 2px; }
+  .seg button { padding: 4px 10px; font-size: 11px; font-weight: 500; border: none; background: transparent; color: hsl(var(--muted-foreground)); border-radius: 7px; cursor: pointer; transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+  .seg button.on { background: hsl(var(--card)); color: hsl(var(--primary)); box-shadow: var(--shadow-sm); }
+  .series-pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid; border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 500; cursor: pointer; background: transparent; transition: opacity var(--dur-fast) var(--ease-out); }
+  .series-pill.off { opacity: .4; }
+  .mini-select { font-size: 11px; border: 1px solid hsl(var(--border)); border-radius: 8px; padding: 4px 8px; background: #F9FCFE; color: hsl(var(--foreground)); }
+</style>
+</head>
+<body class="font-body antialiased">
+<div class="flex h-screen overflow-hidden">
+  <div id="sidebar-mount"></div>
+  <main class="flex-1 overflow-y-auto min-w-0">
+    <div id="topbar-mount"></div>
+    <div class="p-3 sm:p-6 max-w-[1600px] mx-auto space-y-5">
+
+      <!-- header: one primary action -->
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 class="font-display text-2xl font-bold tracking-tight">Finance</h1>
+          <p class="text-sm text-muted-foreground mt-1">Sales, expenses, and invoicing for your organization.</p>
+        </div>
+        <button class="btn btn-primary"><i data-lucide="plus" class="h-4 w-4"></i>Record Sales</button>
+      </div>
+
+      <!-- section nav + secondary actions -->
+      <div class="flex flex-wrap items-center gap-2 border-b" style="border-color:hsl(var(--border))">
+        <a href="#" class="tab-link active">Overview</a>
+        <a href="finance-sales.html" class="tab-link">Sales Records</a>
+        <a href="finance-expenses.html" class="tab-link">Expenses</a>
+        <a href="finance-invoices.html" class="tab-link">Invoices</a>
+        <div class="ml-auto flex items-center gap-2 pb-1">
+          <button class="btn btn-secondary" style="padding:7px 12px;font-size:12px"><i data-lucide="file-text" class="h-3.5 w-3.5"></i>New Invoice</button>
+          <button class="btn btn-ghost" style="padding:7px 12px;font-size:12px"><i data-lucide="receipt" class="h-3.5 w-3.5"></i>Add Expense</button>
+          <button id="filter-btn" class="btn btn-ghost" style="padding:7px 12px;font-size:12px" onclick="toggleFilter()"><i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i>Filter</button>
+        </div>
+      </div>
+
+      <!-- date filter (collapsible) -->
+      <div id="filter-panel" class="eb-card p-4 hidden">
+        <div class="flex flex-wrap gap-3 items-end">
+          <div class="flex-1 min-w-[140px]">
+            <label class="eb-label">From</label>
+            <input type="date" class="eb-input w-full" value="2026-07-01">
+          </div>
+          <div class="flex-1 min-w-[140px]">
+            <label class="eb-label">To</label>
+            <input type="date" class="eb-input w-full" value="2026-07-31">
+          </div>
+          <button class="btn btn-ghost" style="padding:8px 12px;font-size:12px" onclick="toggleFilter()"><i data-lucide="x" class="h-3.5 w-3.5"></i>Clear</button>
+        </div>
+        <p class="text-xs text-muted-foreground mt-2">Showing: <strong>01 Jul 2026 – 31 Jul 2026</strong></p>
+      </div>
+
+      <!-- KPIs: 6 finance metrics + monthly payroll cost, one hero -->
+      <div id="kpis"></div>
+
+      <!-- Revenue vs Expenses -->
+      <div class="eb-card p-5">
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between mb-3">
+          <div>
+            <h3 class="font-display font-semibold text-[15px]">Revenue vs Expenses</h3>
+            <p class="text-[11px] text-muted-foreground mt-0.5">₦48,200,000 revenue · ₦14,900,000 expenses in 2026 · peak: Nov</p>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <select class="mini-select"><option>2026</option><option>2025</option></select>
+            <select class="mini-select"><option>All Months</option><option>January</option><option>February</option></select>
+            <div class="seg">
+              <button id="seg-bar" onclick="setChart('bar')">Bar</button>
+              <button id="seg-area" class="on" onclick="setChart('area')">Area</button>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          <button class="series-pill" data-key="revenue"  style="border-color:#0FA36B;color:#0FA36B" onclick="toggleSeries(this)"><span style="width:6px;height:6px;border-radius:999px;background:#0FA36B"></span>Revenue</button>
+          <button class="series-pill" data-key="expenses" style="border-color:#E23D3D;color:#E23D3D" onclick="toggleSeries(this)"><span style="width:6px;height:6px;border-radius:999px;background:#E23D3D"></span>Expenses</button>
+          <button class="series-pill off" data-key="net"  style="border-color:#0077B5;color:#0077B5" onclick="toggleSeries(this)"><span style="width:6px;height:6px;border-radius:999px;background:#0077B5"></span>Net</button>
+        </div>
+        <div id="chart" class="flex items-end gap-1.5 sm:gap-2" style="height:190px"></div>
+        <div class="flex justify-between mt-2 text-[10px] text-muted-foreground" id="chart-axis"></div>
+      </div>
+
+      <!-- Recent sales + recent expenses -->
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div class="eb-card overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-3" style="border-bottom:1px solid hsl(var(--border))">
+            <h3 class="font-display font-semibold text-[15px]">Recent sales</h3>
+            <a href="#" class="text-xs font-medium" style="color:hsl(var(--primary))">View all →</a>
+          </div>
+          <div id="sales-list"></div>
+        </div>
+
+        <div class="eb-card overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-3" style="border-bottom:1px solid hsl(var(--border))">
+            <h3 class="font-display font-semibold text-[15px]">Recent expenses</h3>
+            <a href="finance-expenses.html" class="text-xs font-medium" style="color:hsl(var(--primary))">View all →</a>
+          </div>
+          <div id="expenses-list"></div>
+        </div>
+      </div>
+
+      <!-- Full sales table -->
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <h3 class="font-display font-semibold text-[15px]">All sales records</h3>
+        <button class="btn btn-secondary" style="padding:7px 13px;font-size:12px"><i data-lucide="plus" class="h-3.5 w-3.5"></i>Record Sale</button>
+      </div>
+      <div class="eb-table-card"><div id="sales-table"></div></div>
+
+    </div>
+  </main>
+</div>
+<script src="assets/js/shell.js" data-active="finance-sales" data-title="Finance" data-action="Record Sales" data-action-href="#"></script>
+<script src="assets/js/components.js"></script>
+<script>
+/* KPIs — mirrors the real page: 6 finance metrics + monthly payroll cost.
+   Exactly one hero card (net profit), per the locked hero rule. */
+ebKpi('kpis', [
+  { label:'Monthly Revenue',  value:'₦4,820,000',  delta:'August 2026',        deltaTone:'up' },
+  { label:'YTD Revenue',      value:'₦48,200,000', delta:'Year to date 2026' },
+  { label:'Monthly Expenses', value:'₦1,240,000',  delta:'August 2026',        deltaTone:'down' },
+  { label:'YTD Expenses',     value:'₦14,900,000', delta:'Year to date 2026' },
+  { label:'Net Profit (Month)', value:'₦3,580,000', delta:'Profit · August 2026', hero:true },
+  { label:'YTD Net Profit',   value:'₦33,300,000', delta:'Year to date 2026' },
+  { label:'Monthly Payroll Cost', value:'₦2,150,000', delta:'Net salaries paid August 2026' },
+]);
+document.getElementById('kpis').className = 'grid gap-[10px] grid-cols-2 lg:grid-cols-4';
+
+/* Payroll card keeps its drill-in link, exactly like the real page */
+(function () {
+  var cards = document.querySelectorAll('#kpis .stat-card');
+  var payroll = cards[cards.length - 1];
+  if (payroll) payroll.insertAdjacentHTML('beforeend',
+    '<a href="payroll-overview.html" class="inline-block mt-1 text-[11px] font-medium" style="color:hsl(var(--primary))">View Payroll →</a>');
+})();
+
+/* ── chart ── */
+var SERIES = {
+  revenue:  { on:true,  color:'#0FA36B', data:[3.1,3.4,2.9,3.8,3.6,4.2,4.0,4.8,4.4,4.9,5.2,5.4] },
+  expenses: { on:true,  color:'#E23D3D', data:[1.0,1.1,0.9,1.2,1.1,1.3,1.2,1.24,1.3,1.4,1.5,1.6] },
+  net:      { on:false, color:'#0077B5', data:[2.1,2.3,2.0,2.6,2.5,2.9,2.8,3.58,3.1,3.5,3.7,3.8] },
+};
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var chartType = 'area';
+
+function renderChart(){
+  var on = Object.keys(SERIES).filter(function(k){ return SERIES[k].on; });
+  var max = Math.max.apply(null, on.map(function(k){ return Math.max.apply(null, SERIES[k].data); })) * 1.15;
+  var html = '';
+  for (var i = 0; i < 12; i++) {
+    if (chartType === 'bar') {
+      html += '<div class="flex-1 flex items-end justify-center gap-[2px] h-full">';
+      on.forEach(function(k){
+        html += '<div title="' + k + ': ₦' + SERIES[k].data[i] + 'M" style="width:' + (100/on.length) + '%;max-width:14px;background:' + SERIES[k].color + ';border-radius:5px 5px 0 0;height:' + Math.round(SERIES[k].data[i]/max*100) + '%;transition:height var(--dur-fast) var(--ease-out)"></div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="flex-1 flex flex-col justify-end h-full relative">';
+      on.forEach(function(k){
+        html += '<div title="' + k + ': ₦' + SERIES[k].data[i] + 'M" style="position:absolute;bottom:0;left:0;right:0;background:' + SERIES[k].color + ';opacity:.22;height:' + Math.round(SERIES[k].data[i]/max*100) + '%;border-radius:4px 4px 0 0;border-top:2px solid ' + SERIES[k].color + ';transition:height var(--dur-fast) var(--ease-out)"></div>';
+      });
+      html += '</div>';
+    }
+  }
+  document.getElementById('chart').innerHTML = html;
+  document.getElementById('chart-axis').innerHTML = MONTHS.map(function(m){ return '<span>' + m + '</span>'; }).join('');
+}
+function setChart(t){
+  chartType = t;
+  document.getElementById('seg-bar').classList.toggle('on', t === 'bar');
+  document.getElementById('seg-area').classList.toggle('on', t === 'area');
+  renderChart();
+}
+function toggleSeries(el){
+  var k = el.getAttribute('data-key');
+  var onCount = Object.keys(SERIES).filter(function(x){ return SERIES[x].on; }).length;
+  if (SERIES[k].on && onCount === 1) return;   /* never leave the chart empty */
+  SERIES[k].on = !SERIES[k].on;
+  el.classList.toggle('off', !SERIES[k].on);
+  renderChart();
+}
+function toggleFilter(){
+  var p = document.getElementById('filter-panel');
+  p.classList.toggle('hidden');
+  if (!p.classList.contains('hidden')) p.classList.add('eb-enter');
+}
+
+/* ── recent lists (mirror the real page's two-column split) ── */
+function row(title, meta, amount, tone, pill){
+  return '<div class="grid grid-cols-[1fr_auto] gap-3 items-center px-5 py-3" style="border-bottom:1px solid hsl(var(--border))">' +
+    '<div class="min-w-0"><p class="text-[13px] font-medium truncate">' + title + '</p>' +
+    '<p class="text-[11px] text-muted-foreground truncate">' + meta + '</p></div>' +
+    '<div class="flex flex-col items-end gap-1 shrink-0">' +
+      '<span class="text-[13px] font-semibold whitespace-nowrap" style="color:' + tone + '">' + amount + '</span>' +
+      (pill ? pill : '') +
+    '</div></div>';
+}
+document.getElementById('sales-list').innerHTML =
+  row('Monthly retainer — August', 'Aug 1, 2026 · Acme Retail Co.', '₦850,000', '#0FA36B', ebPill('blue','Transfer')) +
+  row('Campaign management fee', 'Jul 29, 2026 · Bluewave Logistics', '₦420,000', '#0FA36B', ebPill('green','POS')) +
+  row('Content package — Q3', 'Jul 26, 2026 · Northgate Realty', '₦300,000', '#0FA36B', ebPill('gray','Cash'));
+
+document.getElementById('expenses-list').innerHTML =
+  row('Facebook Ads — August', 'Aug 2, 2026 · Advertising', '₦480,000', '#E23D3D') +
+  row('Office rent', 'Aug 1, 2026 · Overheads', '₦350,000', '#E23D3D') +
+  row('Design software licences', 'Jul 28, 2026 · Software', '₦120,000', '#E23D3D');
+
+ebTable('sales-table', {
+  columns: ['Date','Description','Client','Payment method','Reference','Amount'],
+  rows: [
+    ['Aug 1, 2026', 'Monthly retainer — August', 'Acme Retail Co.', ebPill('blue','Transfer'), 'TX-88213', '<span class="font-medium">₦850,000</span>'],
+    ['Jul 29, 2026', 'Campaign management fee', 'Bluewave Logistics', ebPill('green','POS'), 'TX-88190', '<span class="font-medium">₦420,000</span>'],
+    ['Jul 26, 2026', 'Content package — Q3', 'Northgate Realty', ebPill('gray','Cash'), 'TX-88144', '<span class="font-medium">₦300,000</span>'],
+    ['Jul 22, 2026', 'Monthly retainer — July', 'Acme Retail Co.', ebPill('blue','Transfer'), 'TX-88087', '<span class="font-medium">₦850,000</span>'],
+  ]
+});
+
+renderChart();
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>
